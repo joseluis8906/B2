@@ -8,16 +8,35 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\GraphQL;
-use LessQL\Database;
+use GraphQL\Utils\Utils;
 
-$pdo = new \PDO( 'sqlite:db/Db.sqlite' );
-$db = new Database( $pdo );
+class Usuario {
+  public $Codigo;
+  public $Nombre;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
 
 try {
+    $db = new \PDO( 'sqlite:db/Db.sqlite' );
+
+    $Usuario = new ObjectType([
+      'name' => 'Usuario',
+      'description' => 'Objeto que describe un usuario',
+      'fields' => [
+          'Codigo' => [
+              'type' => Type::string(),
+          ],
+          'Nombre' => Type::string()
+      ]
+    ]);
+
     $queryType = new ObjectType([
         'name' => 'Query',
         'fields' => [
-            'echo' => [
+            'test' => [
                 'type' => Type::string(),
                 'args' => [
                     'message' => ['type' => Type::string()],
@@ -27,12 +46,15 @@ try {
                 }
             ],
             'Usuarios' => [
-                'type' => Type::string(),
+                'type' => $Usuario,
                 'args' => [
-                    'message' => ['type' => Type::string()],
+                    'Codigo' => ['type' => Type::string()],
+                    'Nombre' => ['type' => Type::string()],
                 ],
-                'resolve' => function ($root, $args) {
-                    return 'Muchos Usuarios';
+                'resolve' => function ($db, $args) {
+                  $result = $db->query('SELECT "Codigo", "Nombre" FROM "Proveedor"');
+                  $R = new Usuario(["Codigo" => '0001', "Nombre" => 'Jose']);
+                  return $R;
                 }
             ],
         ],
