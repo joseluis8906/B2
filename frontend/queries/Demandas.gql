@@ -1,0 +1,21 @@
+query Demandas (
+  $Id: Int,
+  $LocalidadId: Int,
+  $ProductoId: Int,
+  $ConsumoPromedio: Float,
+  $Fecha: String
+){
+  Demandas (
+    Id: $Id,
+    LocalidadId: $LocalidadId,
+    ProductoId: $ProductoId,
+    ConsumoPromedio: $ConsumoPromedio,
+    Fecha: $Fecha
+  ) {
+    Id
+    LocalidadId
+    ProductoId
+    ConsumoPromedio
+    Fecha
+  }
+}

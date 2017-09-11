@@ -1,0 +1,15 @@
+query Productos (
+  $Id: Int,
+  $Codigo: String,
+  $Nombre: String
+){
+  Productos (
+    Id: $Id,
+    Codigo: $Codigo,
+    Nombre: $Nombre
+  ) {
+    Id
+    Codigo
+    Nombre
+  }
+}

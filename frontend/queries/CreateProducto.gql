@@ -1,0 +1,13 @@
+mutation CreateProducto (
+  $Codigo: String,
+  $Nombre: String,
+){
+  CreateProducto (
+    Codigo: $Codigo,
+    Nombre: $Nombre,
+  ) {
+    Id
+    Codigo
+    Nombre
+  }
+}

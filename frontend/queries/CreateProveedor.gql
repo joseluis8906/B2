@@ -1,0 +1,16 @@
+mutation CreateProveedor (
+  $Codigo: String,
+  $Nombre: String,
+  $Origen: String
+){
+  CreateProveedor (
+    Codigo: $Codigo,
+    Nombre: $Nombre,
+    Origen: $Origen
+  ) {
+    Id
+    Codigo
+    Nombre
+    Origen
+  }
+}

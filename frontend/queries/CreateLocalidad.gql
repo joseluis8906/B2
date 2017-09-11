@@ -1,0 +1,22 @@
+mutation CreateLocalidad (
+  $Codigo: String,
+  $Nombre: String,
+  $Poblacion: Int,
+  $Altitud: Float,
+  $Temperatura: Float
+){
+  CreateLocalidad (
+    Codigo: $Codigo,
+    Nombre: $Nombre,
+    Poblacion: $Poblacion,
+    Altitud: $Altitud,
+    Temperatura: $Temperatura
+  ) {
+    Id
+    Codigo
+    Nombre
+    Poblacion
+    Altitud
+    Temperatura
+  }
+}

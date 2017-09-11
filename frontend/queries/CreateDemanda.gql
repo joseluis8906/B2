@@ -1,0 +1,19 @@
+mutation CreateDemanda (
+  $LocalidadId: Int,
+  $ProductoId: Int,
+  $ConsumoPromedio: Float,
+  $Fecha: String
+){
+  CreateDemanda (
+    LocalidadId: $LocalidadId,
+    ProductoId: $ProductoId,
+    ConsumoPromedio: $ConsumoPromedio,
+    Fecha: $Fecha
+  ) {
+    Id
+    LocalidadId
+    ProductoId
+    ConsumoPromedio
+    Fecha
+  }
+}

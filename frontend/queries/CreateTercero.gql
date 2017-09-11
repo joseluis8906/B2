@@ -1,0 +1,43 @@
+mutation CreateTercero (
+  $TipoDeIdentificacion: String,
+  $NumeroDeIdentificacion: String,
+  $DigitoDeVerificacion: String,
+  $PrimerApellido: String,
+  $SegundoApellido: String,
+  $PrimerNombre: String,
+  $OtrosNombres: String,
+  $RazonSocial: String,
+  $Direccion: String,
+  $CodigoDepartamento: String,
+  $CodigoMunicipio: String,
+  $PaisDeResidencia: String,
+) {
+  CreateTercero (
+    TipoDeIdentificacion: $TipoDeIdentificacion,
+    NumeroDeIdentificacion: $NumeroDeIdentificacion,
+    DigitoDeVerificacion: $DigitoDeVerificacion,
+    PrimerApellido: $PrimerApellido,
+    SegundoApellido: $SegundoApellido,
+    PrimerNombre: $PrimerNombre,
+    OtrosNombres: $OtrosNombres,
+    RazonSocial: $RazonSocial,
+    Direccion: $Direccion,
+    CodigoDepartamento: $CodigoDepartamento,
+    CodigoMunicipio: $CodigoMunicipio,
+    PaisDeResidencia: $PaisDeResidencia
+  ){
+    Id
+    TipoDeIdentificacion
+    NumeroDeIdentificacion
+    DigitoDeVerificacion
+    PrimerApellido
+    SegundoApellido
+    PrimerNombre
+    OtrosNombres
+    RazonSocial
+    Direccion
+    CodigoDepartamento
+    CodigoMunicipio
+    PaisDeResidencia
+  }
+}

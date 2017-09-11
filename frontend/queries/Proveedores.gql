@@ -1,0 +1,18 @@
+query Proveedores (
+  $Id: Int,
+  $Codigo: String,
+  $Nombre: String,
+  $Origen: String
+){
+  Proveedores (
+    Id: $Id,
+    Codigo: $Codigo,
+    Nombre: $Nombre
+    Origen: $Origen
+  ) {
+    Id
+    Codigo
+    Nombre
+    Origen
+  }
+}
