@@ -52,14 +52,17 @@ try {
                     'Nombre' => ['type' => Type::string()],
                 ],
                 'resolve' => function ($db, $args) {
-                  $result = $db->query('SELECT "Codigo", "Nombre" FROM "Proveedor"');
+                  /*$result = $db->query('SELECT "Codigo", "Nombre" FROM "Proveedor"');
                   $R = [];
                   while($row = $result->fetch(\PDO::FETCH_ASSOC)){
                     $R[] = new Usuario([
                       "Codigo" => $row["Codigo"],
                       "Nombre" => $row["Nombre"]
                     ]);
-                  }
+                  }*/
+                  $R = new Usuario([
+                    "Codigo" => $row["Codigo"],
+                    "Nombre" => $row["Nombre"]);
                   return $R;
                 }
             ],
