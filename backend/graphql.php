@@ -46,14 +46,20 @@ try {
                 }
             ],
             'Usuarios' => [
-                'type' => $Usuario,
+                'type' => Type::listOf($Usuario),
                 'args' => [
                     'Codigo' => ['type' => Type::string()],
                     'Nombre' => ['type' => Type::string()],
                 ],
                 'resolve' => function ($db, $args) {
                   $result = $db->query('SELECT "Codigo", "Nombre" FROM "Proveedor"');
-                  $R = new Usuario(["Codigo" => '0001', "Nombre" => 'Jose']);
+                  $R = [];
+                  while($row = $result->fetch(\PDO::FETCH_ASSOC)){
+                    $R[] = new Usuario([
+                      "Codigo" => $row["Codigo"],
+                      "Nombre" => $row["Nombre"]
+                    ]);
+                  }
                   return $R;
                 }
             ],
