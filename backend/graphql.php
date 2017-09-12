@@ -107,6 +107,8 @@ try {
                 $usuario->setOrigen($args['Origen']);
                 $usuario->save();
 
+                $usuario = ProveedorQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
                 $R = new Usuario([
                   'Id' => $usuario->getId(),
                   "Codigo" => $usuario->getCodigo(),
