@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="Db">
+                    <adapter>sqlite</adapter>
+                    <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+                    <dsn>sqlite:db/Db.sqlite</dsn>
+                    <user></user>
+                    <password></password>
+                    <attributes></attributes>
+                    <settings>
+                      <charset>utf8</charset>
+                    </settings>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>Db</defaultConnection>
+            <connection>Db</connection>
+        </runtime>
+        <generator>
+            <defaultConnection>Db</defaultConnection>
+            <connection>Db</connection>
+        </generator>
+    </propel>
+</config>
