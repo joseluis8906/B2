@@ -6,10 +6,11 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/generated-conf/config.php';
 
+use GraphQL\GraphQL;
+use GraphQL\Type\Schema;
+use GraphQL\Server\StandardServer;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Schema;
-use GraphQL\GraphQL;
 use GraphQL\Utils\Utils;
 
 class Usuario {
@@ -101,16 +102,16 @@ try {
               ],
               'resolve' => function ($root, $args) {
                 $usuario = new Proveedor();
-                $usuario->setCodigo('0002');
-                $usuario->setNombre('Pepo');
-                $usuario->setOrigen('Bogota');
+                $usuario->setCodigo($args['Codigo']);
+                $usuario->setNombre($args['Nombre']);
+                $usuario->setOrigen($args['Origen']);
                 $usuario->save();
 
                 $R = new Usuario([
-                  'Id' => 2,
-                  "Codigo" => $args['Codigo'],
-                  "Nombre" => $args['Nombre'],
-                  'Origen' => $args['Origen'],
+                  'Id' => $usuario->getId(),
+                  "Codigo" => $usuario->getCodigo(),
+                  "Nombre" => $usuario->getNombre(),
+                  'Origen' => $usuario->getOrigen(),
                 ]);
 
                 return $R;
@@ -124,19 +125,27 @@ try {
         'query' => $queryType,
         'mutation' => $mutationType,
     ]);
-    $rawInput = file_get_contents('php://input');
+    /*$rawInput = file_get_contents('php://input');
     $input = json_decode($rawInput, true);
     $query = $input['query'];
     $variableValues = isset($input['variables']) ? $input['variables'] : null;
     $rootValue = ['prefix' => 'You said: '];
     $result = GraphQL::executeQuery($schema, $query, $rootValue, null, $variableValues);
-    $output = $result->toArray();
+    $output = $result->toArray();*/
+    $server = new StandardServer([
+        'schema' => $schema
+    ]);
+
+    $server->handleRequest();
+
 } catch (\Exception $e) {
-    $output = [
+    /*$output = [
         'error' => [
             'message' => $e->getMessage()
         ]
-    ];
+    ];*/
+    echo $e->getMessage();
+    StandardServer::send500Error($e);
 }
-header('Content-Type: application/json; charset=UTF-8');
-echo json_encode($output);
+/*header('Content-Type: application/json; charset=UTF-8');
+echo json_encode($output);*/
