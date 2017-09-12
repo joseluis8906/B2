@@ -3,13 +3,12 @@
     <propel>
         <database>
             <connections>
-                <connection id="Db">
+                <connection id="default">
                     <adapter>sqlite</adapter>
                     <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
-                    <dsn>sqlite:db/Db.sqlite</dsn>
+                    <dsn>sqlite:db_name=db/Db.sqlite</dsn>
                     <user></user>
                     <password></password>
-                    <attributes></attributes>
                     <settings>
                       <charset>utf8</charset>
                     </settings>
@@ -17,12 +16,12 @@
             </connections>
         </database>
         <runtime>
-            <defaultConnection>Db</defaultConnection>
-            <connection>Db</connection>
+            <defaultConnection>default</defaultConnection>
+            <connection>default</connection>
         </runtime>
         <generator>
-            <defaultConnection>Db</defaultConnection>
-            <connection>Db</connection>
+            <defaultConnection>default</defaultConnection>
+            <connection>default</connection>
         </generator>
     </propel>
 </config>
