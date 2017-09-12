@@ -13,8 +13,10 @@ use GraphQL\GraphQL;
 use GraphQL\Utils\Utils;
 
 class Usuario {
+  public $Id;
   public $Codigo;
   public $Nombre;
+  public $Origen;
   public function __construct(array $data)
   {
       Utils::assign($this, $data);
@@ -28,10 +30,10 @@ try {
       'name' => 'Usuario',
       'description' => 'Objeto que describe un usuario',
       'fields' => [
-          'Codigo' => [
-              'type' => Type::string(),
-          ],
-          'Nombre' => Type::string()
+          'Id' => ['type' => Type::int()],
+          'Codigo' => ['type' => Type::string()],
+          'Nombre' => ['type' => Type::string()],
+          'Origen' => ['type' => Type::string()],
       ]
     ]);
 
@@ -48,37 +50,72 @@ try {
                 }
             ],
             'Usuarios' => [
-                'type' => $Usuario,
+                'type' => Type::listOf($Usuario),
                 'args' => [
+                    'Id' => ['type' => Type::int()],
                     'Codigo' => ['type' => Type::string()],
                     'Nombre' => ['type' => Type::string()],
+                    'Origen' => ['type' => Type::string()],
                 ],
                 'resolve' => function ($db, $args) {
-                  $q = new ProveedorQuery();
-                  $firstAuthor = $q->findPK(1);
+                  $usuarios = ProveedorQuery::create();
+                  if($args['Codigo']) {$usuarios->filterByCodigo($args['Codigo']);}
+                  if($args['Nombre']) {$usuarios->filterByNombre($args['Nombre']);}
+                  if($args['Origen']) {$usuarios->filterByOrigen($args['Origen']);}
+                  $usuarios->find();
 
-                  $R = new Usuario([
-                    "Codigo" => $firstAuthor->getCodigo(),
-                    "Nombre" => $firstAuthor->getNombre(),
-                  ]);
+                  $R = [];
 
-                  return $R ;
+                  foreach ($usuarios as $usuario) {
+                      $R[] = new Usuario([
+                        'Id' => $usuario->getId(),
+                        "Codigo" => $usuario->getCodigo(),
+                        "Nombre" => $usuario->getNombre(),
+                        'Origen' => $usuario->getOrigen(),
+                      ]);
+                  }
+
+                  return $R;
                 }
             ],
         ],
     ]);
     $mutationType = new ObjectType([
-        'name' => 'Calc',
+        'name' => 'Mutation',
         'fields' => [
             'sum' => [
-                'type' => Type::int(),
-                'args' => [
-                    'x' => ['type' => Type::int()],
-                    'y' => ['type' => Type::int()],
-                ],
-                'resolve' => function ($root, $args) {
-                    return $args['x'] + $args['y'];
-                },
+              'type' => Type::int(),
+              'args' => [
+                  'x' => ['type' => Type::int()],
+                  'y' => ['type' => Type::int()],
+              ],
+              'resolve' => function ($root, $args) {
+                  return $args['x'] + $args['y'];
+              },
+            ],
+            'CreateUsuario' => [
+              'type' => $Usuario,
+              'args' => [
+                'Codigo' => ['type' => Type::string()],
+                'Nombre' => ['type' => Type::string()],
+                'Origen' => ['type' => Type::string()],
+              ],
+              'resolve' => function ($root, $args) {
+                $usuario = new Proveedor();
+                $usuario->setCodigo($args['Codigo']);
+                $usuario->setNombre($args['Nombre']);
+                $usuario->setOrigen($args['Origen']);
+                $usuario->save();
+
+                $R = new Usuario([
+                  'Id' => $usuario->getId(),
+                  "Codigo" => $usuario->getCodigo(),
+                  "Nombre" => $usuario->getNombre(),
+                  'Origen' => $usuario->getOrigen(),
+                ]);
+
+                return $R;
+              }
             ],
         ],
     ]);
