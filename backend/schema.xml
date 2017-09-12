@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
   <table name="Proveedor" idMethod="native" phpName="Proveedor">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
     <column name="Origen" phpName="Origen" type="LONGVARCHAR"/>
