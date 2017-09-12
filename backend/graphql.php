@@ -144,7 +144,7 @@ try {
             'message' => $e->getMessage()
         ]
     ];*/
-    echo $e->getMessage();
+    print $e->getMessage();
     StandardServer::send500Error($e);
 }
 /*header('Content-Type: application/json; charset=UTF-8');
