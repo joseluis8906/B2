@@ -46,7 +46,7 @@ try {
                 }
             ],
             'Usuarios' => [
-                'type' => Type::listOf($Usuario),
+                'type' => $Usuario,
                 'args' => [
                     'Codigo' => ['type' => Type::string()],
                     'Nombre' => ['type' => Type::string()],
@@ -61,9 +61,10 @@ try {
                     ]);
                   }*/
                   $R = new Usuario([
-                    "Codigo" => $row["Codigo"],
-                    "Nombre" => $row["Nombre"]);
-                  return $R;
+                    "Codigo" => "0001",
+                    "Nombre" => "Pepo",
+                  ]);
+                  return $R ;
                 }
             ],
         ],
