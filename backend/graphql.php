@@ -4,6 +4,8 @@
 // curl http://localhost:8080 -d '{"query": "query { echo(message: \"Hello World\") }" }'
 // curl http://localhost:8080 -d '{"query": "mutation { sum(x: 2, y: 2) }" }'
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/generated-conf/config.php';
+
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -52,18 +54,14 @@ try {
                     'Nombre' => ['type' => Type::string()],
                 ],
                 'resolve' => function ($db, $args) {
-                  /*$result = $db->query('SELECT "Codigo", "Nombre" FROM "Proveedor"');
-                  $R = [];
-                  while($row = $result->fetch(\PDO::FETCH_ASSOC)){
-                    $R[] = new Usuario([
-                      "Codigo" => $row["Codigo"],
-                      "Nombre" => $row["Nombre"]
-                    ]);
-                  }*/
+                  $q = new ProveedorQuery();
+                  $firstAuthor = $q->findPK(1);
+
                   $R = new Usuario([
-                    "Codigo" => "0001",
-                    "Nombre" => "Pepo",
+                    "Codigo" => $firstAuthor->getCodigo(),
+                    "Nombre" => $firstAuthor->getNombre(),
                   ]);
+
                   return $R ;
                 }
             ],
