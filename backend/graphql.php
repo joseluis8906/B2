@@ -24,7 +24,6 @@ class Usuario {
 }
 
 try {
-    $db = new \PDO( 'sqlite:db/Db.sqlite' );
 
     $Usuario = new ObjectType([
       'name' => 'Usuario',
@@ -59,9 +58,9 @@ try {
                 ],
                 'resolve' => function ($db, $args) {
                   $usuarios = ProveedorQuery::create();
-                  if($args['Codigo']) {$usuarios->filterByCodigo($args['Codigo']);}
-                  if($args['Nombre']) {$usuarios->filterByNombre($args['Nombre']);}
-                  if($args['Origen']) {$usuarios->filterByOrigen($args['Origen']);}
+                  if(isset($args['Codigo'])) {$usuarios->filterByCodigo($args['Codigo']);}
+                  if(isset($args['Nombre'])) {$usuarios->filterByNombre($args['Nombre']);}
+                  if(isset($args['Origen'])) {$usuarios->filterByOrigen($args['Origen']);}
                   $usuarios->find();
 
                   $R = [];
@@ -102,16 +101,16 @@ try {
               ],
               'resolve' => function ($root, $args) {
                 $usuario = new Proveedor();
-                $usuario->setCodigo($args['Codigo']);
-                $usuario->setNombre($args['Nombre']);
-                $usuario->setOrigen($args['Origen']);
+                $usuario->setCodigo('0002');
+                $usuario->setNombre('Pepo');
+                $usuario->setOrigen('Bogota');
                 $usuario->save();
 
                 $R = new Usuario([
-                  'Id' => $usuario->getId(),
-                  "Codigo" => $usuario->getCodigo(),
-                  "Nombre" => $usuario->getNombre(),
-                  'Origen' => $usuario->getOrigen(),
+                  'Id' => 2,
+                  "Codigo" => $args['Codigo'],
+                  "Nombre" => $args['Nombre'],
+                  'Origen' => $args['Origen'],
                 ]);
 
                 return $R;

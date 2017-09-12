@@ -5,7 +5,7 @@ propel:
                 adapter: sqlite
                 classname: Propel\Runtime\Connection\DebugPDO
                 dsn: sqlite:/home/jose/Developments/b2/backend/db/Db.sqlite
-                user: jose
-                password: joseluis890609
+                user: 
+                password:
                 settings:
                     charset: utf8

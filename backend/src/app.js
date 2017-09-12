@@ -33,10 +33,8 @@ app.use('/graphql', function(req, res, next) {
         },
         function(err, output, phpErrors)
         {
-            if (err == 99) console.error('PHPFPM server error');
+            if(err){console.log(phpErrors)}
             res.send(output);
-
-            if (phpErrors) console.error('Error:'+phpErrors);
 
             next();
     });
