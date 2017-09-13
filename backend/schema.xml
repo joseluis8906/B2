@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
-  <table name="Proveedor" idMethod="native" phpName="Proveedor">
+  <table name="Usuario" idMethod="native" phpName="Usuario">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
-    <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
+    <column name="Cedula" phpName="Cedula" type="LONGVARCHAR"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
-    <column name="Origen" phpName="Origen" type="LONGVARCHAR"/>
-    <unique name="Proveedor_u_44b826">
-      <unique-column name="Codigo"/>
-    </unique>
-  </table>
-  <table name="User" idMethod="native" phpName="User">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
-    <column name="UserName" phpName="Username" type="LONGVARCHAR"/>
-    <column name="Password" phpName="Password" type="LONGVARCHAR"/>
-    <unique name="User_u_f86ef3">
-      <unique-column name="UserName"/>
+    <column name="Apellido" phpName="Apellido" type="LONGVARCHAR"/>
+    <column name="Activo" phpName="Activo" type="LONGVARCHAR"/>
+    <unique name="Usuario_u_a0f30c">
+      <unique-column name="Cedula"/>
     </unique>
   </table>
 </database>

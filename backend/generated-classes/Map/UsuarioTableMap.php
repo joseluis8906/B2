@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Proveedor;
-use \ProveedorQuery;
+use \Usuario;
+use \UsuarioQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'Proveedor' table.
+ * This class defines the structure of the 'Usuario' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class ProveedorTableMap extends TableMap
+class UsuarioTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class ProveedorTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.ProveedorTableMap';
+    const CLASS_NAME = '.Map.UsuarioTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class ProveedorTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'Proveedor';
+    const TABLE_NAME = 'Usuario';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Proveedor';
+    const OM_CLASS = '\\Usuario';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Proveedor';
+    const CLASS_DEFAULT = 'Usuario';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +69,32 @@ class ProveedorTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the Id field
      */
-    const COL_ID = 'Proveedor.Id';
+    const COL_ID = 'Usuario.Id';
 
     /**
-     * the column name for the Codigo field
+     * the column name for the Cedula field
      */
-    const COL_CODIGO = 'Proveedor.Codigo';
+    const COL_CEDULA = 'Usuario.Cedula';
 
     /**
      * the column name for the Nombre field
      */
-    const COL_NOMBRE = 'Proveedor.Nombre';
+    const COL_NOMBRE = 'Usuario.Nombre';
 
     /**
-     * the column name for the Origen field
+     * the column name for the Apellido field
      */
-    const COL_ORIGEN = 'Proveedor.Origen';
+    const COL_APELLIDO = 'Usuario.Apellido';
+
+    /**
+     * the column name for the Activo field
+     */
+    const COL_ACTIVO = 'Usuario.Activo';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +108,11 @@ class ProveedorTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Nombre', 'Origen', ),
-        self::TYPE_CAMELNAME     => array('id', 'codigo', 'nombre', 'origen', ),
-        self::TYPE_COLNAME       => array(ProveedorTableMap::COL_ID, ProveedorTableMap::COL_CODIGO, ProveedorTableMap::COL_NOMBRE, ProveedorTableMap::COL_ORIGEN, ),
-        self::TYPE_FIELDNAME     => array('Id', 'Codigo', 'Nombre', 'Origen', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Cedula', 'Nombre', 'Apellido', 'Activo', ),
+        self::TYPE_CAMELNAME     => array('id', 'cedula', 'nombre', 'apellido', 'activo', ),
+        self::TYPE_COLNAME       => array(UsuarioTableMap::COL_ID, UsuarioTableMap::COL_CEDULA, UsuarioTableMap::COL_NOMBRE, UsuarioTableMap::COL_APELLIDO, UsuarioTableMap::COL_ACTIVO, ),
+        self::TYPE_FIELDNAME     => array('Id', 'Cedula', 'Nombre', 'Apellido', 'Activo', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class ProveedorTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Nombre' => 2, 'Origen' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'nombre' => 2, 'origen' => 3, ),
-        self::TYPE_COLNAME       => array(ProveedorTableMap::COL_ID => 0, ProveedorTableMap::COL_CODIGO => 1, ProveedorTableMap::COL_NOMBRE => 2, ProveedorTableMap::COL_ORIGEN => 3, ),
-        self::TYPE_FIELDNAME     => array('Id' => 0, 'Codigo' => 1, 'Nombre' => 2, 'Origen' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Cedula' => 1, 'Nombre' => 2, 'Apellido' => 3, 'Activo' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'cedula' => 1, 'nombre' => 2, 'apellido' => 3, 'activo' => 4, ),
+        self::TYPE_COLNAME       => array(UsuarioTableMap::COL_ID => 0, UsuarioTableMap::COL_CEDULA => 1, UsuarioTableMap::COL_NOMBRE => 2, UsuarioTableMap::COL_APELLIDO => 3, UsuarioTableMap::COL_ACTIVO => 4, ),
+        self::TYPE_FIELDNAME     => array('Id' => 0, 'Cedula' => 1, 'Nombre' => 2, 'Apellido' => 3, 'Activo' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -134,17 +139,18 @@ class ProveedorTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('Proveedor');
-        $this->setPhpName('Proveedor');
+        $this->setName('Usuario');
+        $this->setPhpName('Usuario');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Proveedor');
+        $this->setClassName('\\Usuario');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('Codigo', 'Codigo', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Cedula', 'Cedula', 'LONGVARCHAR', false, null, null);
         $this->addColumn('Nombre', 'Nombre', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Origen', 'Origen', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Apellido', 'Apellido', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Activo', 'Activo', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
     /**
@@ -211,7 +217,7 @@ class ProveedorTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? ProveedorTableMap::CLASS_DEFAULT : ProveedorTableMap::OM_CLASS;
+        return $withPrefix ? UsuarioTableMap::CLASS_DEFAULT : UsuarioTableMap::OM_CLASS;
     }
 
     /**
@@ -225,22 +231,22 @@ class ProveedorTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Proveedor object, last column rank)
+     * @return array           (Usuario object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = ProveedorTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = ProveedorTableMap::getInstanceFromPool($key))) {
+        $key = UsuarioTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = UsuarioTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + ProveedorTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + UsuarioTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ProveedorTableMap::OM_CLASS;
-            /** @var Proveedor $obj */
+            $cls = UsuarioTableMap::OM_CLASS;
+            /** @var Usuario $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            ProveedorTableMap::addInstanceToPool($obj, $key);
+            UsuarioTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -263,18 +269,18 @@ class ProveedorTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = ProveedorTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = ProveedorTableMap::getInstanceFromPool($key))) {
+            $key = UsuarioTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = UsuarioTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Proveedor $obj */
+                /** @var Usuario $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ProveedorTableMap::addInstanceToPool($obj, $key);
+                UsuarioTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -295,15 +301,17 @@ class ProveedorTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ProveedorTableMap::COL_ID);
-            $criteria->addSelectColumn(ProveedorTableMap::COL_CODIGO);
-            $criteria->addSelectColumn(ProveedorTableMap::COL_NOMBRE);
-            $criteria->addSelectColumn(ProveedorTableMap::COL_ORIGEN);
+            $criteria->addSelectColumn(UsuarioTableMap::COL_ID);
+            $criteria->addSelectColumn(UsuarioTableMap::COL_CEDULA);
+            $criteria->addSelectColumn(UsuarioTableMap::COL_NOMBRE);
+            $criteria->addSelectColumn(UsuarioTableMap::COL_APELLIDO);
+            $criteria->addSelectColumn(UsuarioTableMap::COL_ACTIVO);
         } else {
             $criteria->addSelectColumn($alias . '.Id');
-            $criteria->addSelectColumn($alias . '.Codigo');
+            $criteria->addSelectColumn($alias . '.Cedula');
             $criteria->addSelectColumn($alias . '.Nombre');
-            $criteria->addSelectColumn($alias . '.Origen');
+            $criteria->addSelectColumn($alias . '.Apellido');
+            $criteria->addSelectColumn($alias . '.Activo');
         }
     }
 
@@ -316,7 +324,7 @@ class ProveedorTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(ProveedorTableMap::DATABASE_NAME)->getTable(ProveedorTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(UsuarioTableMap::DATABASE_NAME)->getTable(UsuarioTableMap::TABLE_NAME);
     }
 
     /**
@@ -324,16 +332,16 @@ class ProveedorTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(ProveedorTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(ProveedorTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new ProveedorTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UsuarioTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(UsuarioTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new UsuarioTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Proveedor or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Usuario or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Proveedor object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Usuario object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -344,27 +352,27 @@ class ProveedorTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ProveedorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Proveedor) { // it's a model object
+        } elseif ($values instanceof \Usuario) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ProveedorTableMap::DATABASE_NAME);
-            $criteria->add(ProveedorTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(UsuarioTableMap::DATABASE_NAME);
+            $criteria->add(UsuarioTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = ProveedorQuery::create()->mergeWith($criteria);
+        $query = UsuarioQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            ProveedorTableMap::clearInstancePool();
+            UsuarioTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                ProveedorTableMap::removeInstanceFromPool($singleval);
+                UsuarioTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -372,20 +380,20 @@ class ProveedorTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the Proveedor table.
+     * Deletes all rows from the Usuario table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return ProveedorQuery::create()->doDeleteAll($con);
+        return UsuarioQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Proveedor or Criteria object.
+     * Performs an INSERT on the database, given a Usuario or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Proveedor object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Usuario object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -394,18 +402,18 @@ class ProveedorTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ProveedorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Proveedor object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Usuario object
         }
 
 
         // Set the correct dbName
-        $query = ProveedorQuery::create()->mergeWith($criteria);
+        $query = UsuarioQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -414,7 +422,7 @@ class ProveedorTableMap extends TableMap
         });
     }
 
-} // ProveedorTableMap
+} // UsuarioTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-ProveedorTableMap::buildTableMap();
+UsuarioTableMap::buildTableMap();

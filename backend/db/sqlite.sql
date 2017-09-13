@@ -1,17 +1,10 @@
 /*basic and test*/
 PRAGMA foreign_key=ON;
-CREATE TABLE IF NOT EXISTS "User" (
-  "Id" INTEGER PRIMARY KEY,
-  "UserName" TEXT UNIQUE,
-  "Password" TEXT,
-  "Active" BOOLEAN
-);
-
-
-CREATE TABLE IF NOT EXISTS "Proveedor"
+CREATE TABLE IF NOT EXISTS "Usuario"
 (
   "Id" INTEGER PRIMARY KEY,
-  "Codigo" TEXT UNIQUE,
+  "Cedula" TEXT UNIQUE,
   "Nombre" TEXT,
-  "Origen" TEXT
+  "Apellido" TEXT,
+  "Activo" TEXT
 );

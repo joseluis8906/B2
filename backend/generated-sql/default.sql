@@ -1,32 +1,18 @@
 
 -----------------------------------------------------------------------
--- Proveedor
+-- Usuario
 -----------------------------------------------------------------------
 
-DROP TABLE IF EXISTS [Proveedor];
+DROP TABLE IF EXISTS [Usuario];
 
-CREATE TABLE [Proveedor]
+CREATE TABLE [Usuario]
 (
     [Id] INTEGER NOT NULL,
-    [Codigo] MEDIUMTEXT,
+    [Cedula] MEDIUMTEXT,
     [Nombre] MEDIUMTEXT,
-    [Origen] MEDIUMTEXT,
+    [Apellido] MEDIUMTEXT,
+    [Activo] MEDIUMTEXT,
     PRIMARY KEY ([Id]),
-    UNIQUE ([Codigo]),
-    UNIQUE ([Id])
-);
-
------------------------------------------------------------------------
--- User
------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS [User];
-
-CREATE TABLE [User]
-(
-    [Id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    [UserName] MEDIUMTEXT,
-    [Password] MEDIUMTEXT,
-    UNIQUE ([UserName]),
+    UNIQUE ([Cedula]),
     UNIQUE ([Id])
 );

@@ -1,9 +1,9 @@
 <?php
 
-use Base\Proveedor as BaseProveedor;
+use Base\Usuario as BaseUsuario;
 
 /**
- * Skeleton subclass for representing a row from the 'Proveedor' table.
+ * Skeleton subclass for representing a row from the 'Usuario' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\Proveedor as BaseProveedor;
  * long as it does not already exist in the output directory.
  *
  */
-class Proveedor extends BaseProveedor
+class Usuario extends BaseUsuario
 {
 
 }

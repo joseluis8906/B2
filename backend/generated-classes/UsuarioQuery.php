@@ -1,9 +1,9 @@
 <?php
 
-use Base\ProveedorQuery as BaseProveedorQuery;
+use Base\UsuarioQuery as BaseUsuarioQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'Proveedor' table.
+ * Skeleton subclass for performing query and update operations on the 'Usuario' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\ProveedorQuery as BaseProveedorQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class ProveedorQuery extends BaseProveedorQuery
+class UsuarioQuery extends BaseUsuarioQuery
 {
 
 }
