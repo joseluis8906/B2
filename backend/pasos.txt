@@ -1,0 +1,12 @@
+definición de schemas
+
+1). Agregar/modificar el sql a db/sqlite.sql.
+2). Volcal los cambios a la base de datos (borrar las tablas antiguas y crear las nuevas).
+3). Ejecutar ./propel reserve "sqlite:/ruta hasta la base de datos.sqlite".
+4). Mover el archivo schema.xml que se genera en la carpeta reverse... al directorio backend/
+5). Ejecutar ./propel sql:build --overwrite.
+6). Ejecutar ./propel model:build.
+7). Ejecutar php composer.phar dump-autoload.
+8). Crear la clase GQNombreDeLaTablaNueva o editar la existente agregando los nuevos campos.
+9). Agregar o modificar el ObjectType en GraphQL.
+10). Agregar o modificar la queryType y los mutationType de la tabla.

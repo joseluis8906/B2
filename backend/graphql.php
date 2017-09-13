@@ -25,15 +25,6 @@ class GQUsuario {
   }
 }
 
-class GQLibro {
-  public $Id;
-  public $Isbn;
-  public $Editorial;
-  public function __construct(array $data)
-  {
-      Utils::assign($this, $data);
-  }
-}
 
 try {
   $Usuario = new ObjectType([
@@ -45,16 +36,6 @@ try {
         'Nombre' => ['type' => Type::string()],
         'Apellido' => ['type' => Type::string()],
         'Activo' => ['type' => Type::string()],
-    ]
-  ]);
-
-  $Libro = new ObjectType([
-    'name' => 'Libro',
-    'description' => 'Objeto que describe un libro',
-    'fields' => [
-        'Id' => ['type' => Type::int()],
-        'Isbn' => ['type' => Type::string()],
-        'Editorial' => ['type' => Type::string()],
     ]
   ]);
 
@@ -85,7 +66,7 @@ try {
                 if(isset($args['Cedula'])) {$usuarios->filterByCedula($args['Cedula']);}
                 if(isset($args['Nombre'])) {$usuarios->filterByNombre($args['Nombre']);}
                 if(isset($args['Apellido'])) {$usuarios->filterByApellido($args['Apellido']);}
-                if(isset($args['Activo'])) {$usuarios->filterByApellido($args['Activo']);}
+                if(isset($args['Activo'])) {$usuarios->filterByActivo($args['Activo']);}
                 $usuarios->find();
 
                 $R = [];
