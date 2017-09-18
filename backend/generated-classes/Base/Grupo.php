@@ -2,13 +2,13 @@
 
 namespace Base;
 
-use \Usuario as ChildUsuario;
-use \UsuarioQuery as ChildUsuarioQuery;
+use \Grupo as ChildGrupo;
+use \GrupoQuery as ChildGrupoQuery;
 use \Usuariogrupo as ChildUsuariogrupo;
 use \UsuariogrupoQuery as ChildUsuariogrupoQuery;
 use \Exception;
 use \PDO;
-use Map\UsuarioTableMap;
+use Map\GrupoTableMap;
 use Map\UsuariogrupoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -24,18 +24,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'Usuario' table.
+ * Base class that represents a row from the 'Grupo' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class Usuario implements ActiveRecordInterface
+abstract class Grupo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\UsuarioTableMap';
+    const TABLE_MAP = '\\Map\\GrupoTableMap';
 
 
     /**
@@ -72,74 +72,11 @@ abstract class Usuario implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the username field.
-     *
-     * @var        string
-     */
-    protected $username;
-
-    /**
-     * The value for the password field.
-     *
-     * @var        string
-     */
-    protected $password;
-
-    /**
-     * The value for the cedula field.
-     *
-     * @var        string
-     */
-    protected $cedula;
-
-    /**
      * The value for the nombre field.
      *
      * @var        string
      */
     protected $nombre;
-
-    /**
-     * The value for the apellido field.
-     *
-     * @var        string
-     */
-    protected $apellido;
-
-    /**
-     * The value for the ocupacion field.
-     *
-     * @var        string
-     */
-    protected $ocupacion;
-
-    /**
-     * The value for the email field.
-     *
-     * @var        string
-     */
-    protected $email;
-
-    /**
-     * The value for the direccion field.
-     *
-     * @var        string
-     */
-    protected $direccion;
-
-    /**
-     * The value for the telefono field.
-     *
-     * @var        string
-     */
-    protected $telefono;
-
-    /**
-     * The value for the activo field.
-     *
-     * @var        string
-     */
-    protected $activo;
 
     /**
      * @var        ObjectCollection|ChildUsuariogrupo[] Collection to store aggregation of ChildUsuariogrupo objects.
@@ -162,7 +99,7 @@ abstract class Usuario implements ActiveRecordInterface
     protected $usuariogruposScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Base\Usuario object.
+     * Initializes internal state of Base\Grupo object.
      */
     public function __construct()
     {
@@ -257,9 +194,9 @@ abstract class Usuario implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Usuario</code> instance.  If
-     * <code>obj</code> is an instance of <code>Usuario</code>, delegates to
-     * <code>equals(Usuario)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Grupo</code> instance.  If
+     * <code>obj</code> is an instance of <code>Grupo</code>, delegates to
+     * <code>equals(Grupo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -325,7 +262,7 @@ abstract class Usuario implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Usuario The current object, for fluid interface
+     * @return $this|Grupo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -397,36 +334,6 @@ abstract class Usuario implements ActiveRecordInterface
     }
 
     /**
-     * Get the [username] column value.
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Get the [password] column value.
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Get the [cedula] column value.
-     *
-     * @return string
-     */
-    public function getCedula()
-    {
-        return $this->cedula;
-    }
-
-    /**
      * Get the [nombre] column value.
      *
      * @return string
@@ -437,70 +344,10 @@ abstract class Usuario implements ActiveRecordInterface
     }
 
     /**
-     * Get the [apellido] column value.
-     *
-     * @return string
-     */
-    public function getApellido()
-    {
-        return $this->apellido;
-    }
-
-    /**
-     * Get the [ocupacion] column value.
-     *
-     * @return string
-     */
-    public function getOcupacion()
-    {
-        return $this->ocupacion;
-    }
-
-    /**
-     * Get the [email] column value.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Get the [direccion] column value.
-     *
-     * @return string
-     */
-    public function getDireccion()
-    {
-        return $this->direccion;
-    }
-
-    /**
-     * Get the [telefono] column value.
-     *
-     * @return string
-     */
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    /**
-     * Get the [activo] column value.
-     *
-     * @return string
-     */
-    public function getActivo()
-    {
-        return $this->activo;
-    }
-
-    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
+     * @return $this|\Grupo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -510,77 +357,17 @@ abstract class Usuario implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_ID] = true;
+            $this->modifiedColumns[GrupoTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [username] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setUsername($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->username !== $v) {
-            $this->username = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_USERNAME] = true;
-        }
-
-        return $this;
-    } // setUsername()
-
-    /**
-     * Set the value of [password] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setPassword($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->password !== $v) {
-            $this->password = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_PASSWORD] = true;
-        }
-
-        return $this;
-    } // setPassword()
-
-    /**
-     * Set the value of [cedula] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setCedula($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->cedula !== $v) {
-            $this->cedula = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_CEDULA] = true;
-        }
-
-        return $this;
-    } // setCedula()
-
-    /**
      * Set the value of [nombre] column.
      *
      * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
+     * @return $this|\Grupo The current object (for fluent API support)
      */
     public function setNombre($v)
     {
@@ -590,131 +377,11 @@ abstract class Usuario implements ActiveRecordInterface
 
         if ($this->nombre !== $v) {
             $this->nombre = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_NOMBRE] = true;
+            $this->modifiedColumns[GrupoTableMap::COL_NOMBRE] = true;
         }
 
         return $this;
     } // setNombre()
-
-    /**
-     * Set the value of [apellido] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setApellido($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->apellido !== $v) {
-            $this->apellido = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_APELLIDO] = true;
-        }
-
-        return $this;
-    } // setApellido()
-
-    /**
-     * Set the value of [ocupacion] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setOcupacion($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->ocupacion !== $v) {
-            $this->ocupacion = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_OCUPACION] = true;
-        }
-
-        return $this;
-    } // setOcupacion()
-
-    /**
-     * Set the value of [email] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setEmail($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_EMAIL] = true;
-        }
-
-        return $this;
-    } // setEmail()
-
-    /**
-     * Set the value of [direccion] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setDireccion($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->direccion !== $v) {
-            $this->direccion = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_DIRECCION] = true;
-        }
-
-        return $this;
-    } // setDireccion()
-
-    /**
-     * Set the value of [telefono] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setTelefono($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->telefono !== $v) {
-            $this->telefono = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_TELEFONO] = true;
-        }
-
-        return $this;
-    } // setTelefono()
-
-    /**
-     * Set the value of [activo] column.
-     *
-     * @param string $v new value
-     * @return $this|\Usuario The current object (for fluent API support)
-     */
-    public function setActivo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->activo !== $v) {
-            $this->activo = $v;
-            $this->modifiedColumns[UsuarioTableMap::COL_ACTIVO] = true;
-        }
-
-        return $this;
-    } // setActivo()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -752,38 +419,11 @@ abstract class Usuario implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuarioTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : GrupoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuarioTableMap::translateFieldName('Username', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->username = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuarioTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->password = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuarioTableMap::translateFieldName('Cedula', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->cedula = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuarioTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : GrupoTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuarioTableMap::translateFieldName('Apellido', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->apellido = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuarioTableMap::translateFieldName('Ocupacion', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->ocupacion = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuarioTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UsuarioTableMap::translateFieldName('Direccion', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->direccion = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : UsuarioTableMap::translateFieldName('Telefono', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->telefono = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : UsuarioTableMap::translateFieldName('Activo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->activo = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -792,10 +432,10 @@ abstract class Usuario implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = UsuarioTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = GrupoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Usuario'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Grupo'), 0, $e);
         }
     }
 
@@ -837,13 +477,13 @@ abstract class Usuario implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(UsuarioTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(GrupoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildUsuarioQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildGrupoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -864,8 +504,8 @@ abstract class Usuario implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Usuario::setDeleted()
-     * @see Usuario::isDeleted()
+     * @see Grupo::setDeleted()
+     * @see Grupo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -874,11 +514,11 @@ abstract class Usuario implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(GrupoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildUsuarioQuery::create()
+            $deleteQuery = ChildGrupoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -913,7 +553,7 @@ abstract class Usuario implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(GrupoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -932,7 +572,7 @@ abstract class Usuario implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                UsuarioTableMap::addInstanceToPool($this);
+                GrupoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -1008,42 +648,15 @@ abstract class Usuario implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(UsuarioTableMap::COL_ID)) {
+        if ($this->isColumnModified(GrupoTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'Id';
         }
-        if ($this->isColumnModified(UsuarioTableMap::COL_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'UserName';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_PASSWORD)) {
-            $modifiedColumns[':p' . $index++]  = 'Password';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_CEDULA)) {
-            $modifiedColumns[':p' . $index++]  = 'Cedula';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_NOMBRE)) {
+        if ($this->isColumnModified(GrupoTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'Nombre';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_APELLIDO)) {
-            $modifiedColumns[':p' . $index++]  = 'Apellido';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_OCUPACION)) {
-            $modifiedColumns[':p' . $index++]  = 'Ocupacion';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'Email';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_DIRECCION)) {
-            $modifiedColumns[':p' . $index++]  = 'Direccion';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_TELEFONO)) {
-            $modifiedColumns[':p' . $index++]  = 'Telefono';
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_ACTIVO)) {
-            $modifiedColumns[':p' . $index++]  = 'Activo';
         }
 
         $sql = sprintf(
-            'INSERT INTO Usuario (%s) VALUES (%s)',
+            'INSERT INTO Grupo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1055,35 +668,8 @@ abstract class Usuario implements ActiveRecordInterface
                     case 'Id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'UserName':
-                        $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
-                        break;
-                    case 'Password':
-                        $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
-                        break;
-                    case 'Cedula':
-                        $stmt->bindValue($identifier, $this->cedula, PDO::PARAM_STR);
-                        break;
                     case 'Nombre':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
-                        break;
-                    case 'Apellido':
-                        $stmt->bindValue($identifier, $this->apellido, PDO::PARAM_STR);
-                        break;
-                    case 'Ocupacion':
-                        $stmt->bindValue($identifier, $this->ocupacion, PDO::PARAM_STR);
-                        break;
-                    case 'Email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
-                        break;
-                    case 'Direccion':
-                        $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
-                        break;
-                    case 'Telefono':
-                        $stmt->bindValue($identifier, $this->telefono, PDO::PARAM_STR);
-                        break;
-                    case 'Activo':
-                        $stmt->bindValue($identifier, $this->activo, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1124,7 +710,7 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UsuarioTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = GrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1144,34 +730,7 @@ abstract class Usuario implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getUsername();
-                break;
-            case 2:
-                return $this->getPassword();
-                break;
-            case 3:
-                return $this->getCedula();
-                break;
-            case 4:
                 return $this->getNombre();
-                break;
-            case 5:
-                return $this->getApellido();
-                break;
-            case 6:
-                return $this->getOcupacion();
-                break;
-            case 7:
-                return $this->getEmail();
-                break;
-            case 8:
-                return $this->getDireccion();
-                break;
-            case 9:
-                return $this->getTelefono();
-                break;
-            case 10:
-                return $this->getActivo();
                 break;
             default:
                 return null;
@@ -1197,23 +756,14 @@ abstract class Usuario implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Usuario'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Grupo'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Usuario'][$this->hashCode()] = true;
-        $keys = UsuarioTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Grupo'][$this->hashCode()] = true;
+        $keys = GrupoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getUsername(),
-            $keys[2] => $this->getPassword(),
-            $keys[3] => $this->getCedula(),
-            $keys[4] => $this->getNombre(),
-            $keys[5] => $this->getApellido(),
-            $keys[6] => $this->getOcupacion(),
-            $keys[7] => $this->getEmail(),
-            $keys[8] => $this->getDireccion(),
-            $keys[9] => $this->getTelefono(),
-            $keys[10] => $this->getActivo(),
+            $keys[1] => $this->getNombre(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1250,11 +800,11 @@ abstract class Usuario implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Usuario
+     * @return $this|\Grupo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UsuarioTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = GrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1265,7 +815,7 @@ abstract class Usuario implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Usuario
+     * @return $this|\Grupo
      */
     public function setByPosition($pos, $value)
     {
@@ -1274,34 +824,7 @@ abstract class Usuario implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setUsername($value);
-                break;
-            case 2:
-                $this->setPassword($value);
-                break;
-            case 3:
-                $this->setCedula($value);
-                break;
-            case 4:
                 $this->setNombre($value);
-                break;
-            case 5:
-                $this->setApellido($value);
-                break;
-            case 6:
-                $this->setOcupacion($value);
-                break;
-            case 7:
-                $this->setEmail($value);
-                break;
-            case 8:
-                $this->setDireccion($value);
-                break;
-            case 9:
-                $this->setTelefono($value);
-                break;
-            case 10:
-                $this->setActivo($value);
                 break;
         } // switch()
 
@@ -1327,40 +850,13 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = UsuarioTableMap::getFieldNames($keyType);
+        $keys = GrupoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setUsername($arr[$keys[1]]);
-        }
-        if (array_key_exists($keys[2], $arr)) {
-            $this->setPassword($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setCedula($arr[$keys[3]]);
-        }
-        if (array_key_exists($keys[4], $arr)) {
-            $this->setNombre($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setApellido($arr[$keys[5]]);
-        }
-        if (array_key_exists($keys[6], $arr)) {
-            $this->setOcupacion($arr[$keys[6]]);
-        }
-        if (array_key_exists($keys[7], $arr)) {
-            $this->setEmail($arr[$keys[7]]);
-        }
-        if (array_key_exists($keys[8], $arr)) {
-            $this->setDireccion($arr[$keys[8]]);
-        }
-        if (array_key_exists($keys[9], $arr)) {
-            $this->setTelefono($arr[$keys[9]]);
-        }
-        if (array_key_exists($keys[10], $arr)) {
-            $this->setActivo($arr[$keys[10]]);
+            $this->setNombre($arr[$keys[1]]);
         }
     }
 
@@ -1381,7 +877,7 @@ abstract class Usuario implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Usuario The current object, for fluid interface
+     * @return $this|\Grupo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1401,40 +897,13 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(UsuarioTableMap::DATABASE_NAME);
+        $criteria = new Criteria(GrupoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(UsuarioTableMap::COL_ID)) {
-            $criteria->add(UsuarioTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(GrupoTableMap::COL_ID)) {
+            $criteria->add(GrupoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(UsuarioTableMap::COL_USERNAME)) {
-            $criteria->add(UsuarioTableMap::COL_USERNAME, $this->username);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_PASSWORD)) {
-            $criteria->add(UsuarioTableMap::COL_PASSWORD, $this->password);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_CEDULA)) {
-            $criteria->add(UsuarioTableMap::COL_CEDULA, $this->cedula);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_NOMBRE)) {
-            $criteria->add(UsuarioTableMap::COL_NOMBRE, $this->nombre);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_APELLIDO)) {
-            $criteria->add(UsuarioTableMap::COL_APELLIDO, $this->apellido);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_OCUPACION)) {
-            $criteria->add(UsuarioTableMap::COL_OCUPACION, $this->ocupacion);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_EMAIL)) {
-            $criteria->add(UsuarioTableMap::COL_EMAIL, $this->email);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_DIRECCION)) {
-            $criteria->add(UsuarioTableMap::COL_DIRECCION, $this->direccion);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_TELEFONO)) {
-            $criteria->add(UsuarioTableMap::COL_TELEFONO, $this->telefono);
-        }
-        if ($this->isColumnModified(UsuarioTableMap::COL_ACTIVO)) {
-            $criteria->add(UsuarioTableMap::COL_ACTIVO, $this->activo);
+        if ($this->isColumnModified(GrupoTableMap::COL_NOMBRE)) {
+            $criteria->add(GrupoTableMap::COL_NOMBRE, $this->nombre);
         }
 
         return $criteria;
@@ -1452,8 +921,8 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildUsuarioQuery::create();
-        $criteria->add(UsuarioTableMap::COL_ID, $this->id);
+        $criteria = ChildGrupoQuery::create();
+        $criteria->add(GrupoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1515,7 +984,7 @@ abstract class Usuario implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Usuario (or compatible) type.
+     * @param      object $copyObj An object of \Grupo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1523,16 +992,7 @@ abstract class Usuario implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
-        $copyObj->setUsername($this->getUsername());
-        $copyObj->setPassword($this->getPassword());
-        $copyObj->setCedula($this->getCedula());
         $copyObj->setNombre($this->getNombre());
-        $copyObj->setApellido($this->getApellido());
-        $copyObj->setOcupacion($this->getOcupacion());
-        $copyObj->setEmail($this->getEmail());
-        $copyObj->setDireccion($this->getDireccion());
-        $copyObj->setTelefono($this->getTelefono());
-        $copyObj->setActivo($this->getActivo());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1561,7 +1021,7 @@ abstract class Usuario implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Usuario Clone of current object.
+     * @return \Grupo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1643,7 +1103,7 @@ abstract class Usuario implements ActiveRecordInterface
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildUsuario is new, it will return
+     * If this ChildGrupo is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
@@ -1660,7 +1120,7 @@ abstract class Usuario implements ActiveRecordInterface
                 $this->initUsuariogrupos();
             } else {
                 $collUsuariogrupos = ChildUsuariogrupoQuery::create(null, $criteria)
-                    ->filterByUsuario($this)
+                    ->filterByGrupo($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1703,7 +1163,7 @@ abstract class Usuario implements ActiveRecordInterface
      *
      * @param      Collection $usuariogrupos A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildUsuario The current object (for fluent API support)
+     * @return $this|ChildGrupo The current object (for fluent API support)
      */
     public function setUsuariogrupos(Collection $usuariogrupos, ConnectionInterface $con = null)
     {
@@ -1714,7 +1174,7 @@ abstract class Usuario implements ActiveRecordInterface
         $this->usuariogruposScheduledForDeletion = $usuariogruposToDelete;
 
         foreach ($usuariogruposToDelete as $usuariogrupoRemoved) {
-            $usuariogrupoRemoved->setUsuario(null);
+            $usuariogrupoRemoved->setGrupo(null);
         }
 
         $this->collUsuariogrupos = null;
@@ -1755,7 +1215,7 @@ abstract class Usuario implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByUsuario($this)
+                ->filterByGrupo($this)
                 ->count($con);
         }
 
@@ -1767,7 +1227,7 @@ abstract class Usuario implements ActiveRecordInterface
      * through the ChildUsuariogrupo foreign key attribute.
      *
      * @param  ChildUsuariogrupo $l ChildUsuariogrupo
-     * @return $this|\Usuario The current object (for fluent API support)
+     * @return $this|\Grupo The current object (for fluent API support)
      */
     public function addUsuariogrupo(ChildUsuariogrupo $l)
     {
@@ -1793,12 +1253,12 @@ abstract class Usuario implements ActiveRecordInterface
     protected function doAddUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
     {
         $this->collUsuariogrupos[]= $usuariogrupo;
-        $usuariogrupo->setUsuario($this);
+        $usuariogrupo->setGrupo($this);
     }
 
     /**
      * @param  ChildUsuariogrupo $usuariogrupo The ChildUsuariogrupo object to remove.
-     * @return $this|ChildUsuario The current object (for fluent API support)
+     * @return $this|ChildGrupo The current object (for fluent API support)
      */
     public function removeUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
     {
@@ -1810,7 +1270,7 @@ abstract class Usuario implements ActiveRecordInterface
                 $this->usuariogruposScheduledForDeletion->clear();
             }
             $this->usuariogruposScheduledForDeletion[]= $usuariogrupo;
-            $usuariogrupo->setUsuario(null);
+            $usuariogrupo->setGrupo(null);
         }
 
         return $this;
@@ -1820,23 +1280,23 @@ abstract class Usuario implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this Usuario is new, it will return
-     * an empty collection; or if this Usuario has previously
+     * Otherwise if this Grupo is new, it will return
+     * an empty collection; or if this Grupo has previously
      * been saved, it will retrieve related Usuariogrupos from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in Usuario.
+     * actually need in Grupo.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildUsuariogrupo[] List of ChildUsuariogrupo objects
      */
-    public function getUsuariogruposJoinGrupo(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getUsuariogruposJoinUsuario(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildUsuariogrupoQuery::create(null, $criteria);
-        $query->joinWith('Grupo', $joinBehavior);
+        $query->joinWith('Usuario', $joinBehavior);
 
         return $this->getUsuariogrupos($query, $con);
     }
@@ -1849,16 +1309,7 @@ abstract class Usuario implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
-        $this->username = null;
-        $this->password = null;
-        $this->cedula = null;
         $this->nombre = null;
-        $this->apellido = null;
-        $this->ocupacion = null;
-        $this->email = null;
-        $this->direccion = null;
-        $this->telefono = null;
-        $this->activo = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1894,7 +1345,7 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(UsuarioTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(GrupoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

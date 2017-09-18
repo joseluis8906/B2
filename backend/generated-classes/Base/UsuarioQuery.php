@@ -10,6 +10,7 @@ use Map\UsuarioTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -20,15 +21,27 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildUsuarioQuery orderById($order = Criteria::ASC) Order by the Id column
+ * @method     ChildUsuarioQuery orderByUsername($order = Criteria::ASC) Order by the UserName column
+ * @method     ChildUsuarioQuery orderByPassword($order = Criteria::ASC) Order by the Password column
  * @method     ChildUsuarioQuery orderByCedula($order = Criteria::ASC) Order by the Cedula column
  * @method     ChildUsuarioQuery orderByNombre($order = Criteria::ASC) Order by the Nombre column
  * @method     ChildUsuarioQuery orderByApellido($order = Criteria::ASC) Order by the Apellido column
+ * @method     ChildUsuarioQuery orderByOcupacion($order = Criteria::ASC) Order by the Ocupacion column
+ * @method     ChildUsuarioQuery orderByEmail($order = Criteria::ASC) Order by the Email column
+ * @method     ChildUsuarioQuery orderByDireccion($order = Criteria::ASC) Order by the Direccion column
+ * @method     ChildUsuarioQuery orderByTelefono($order = Criteria::ASC) Order by the Telefono column
  * @method     ChildUsuarioQuery orderByActivo($order = Criteria::ASC) Order by the Activo column
  *
  * @method     ChildUsuarioQuery groupById() Group by the Id column
+ * @method     ChildUsuarioQuery groupByUsername() Group by the UserName column
+ * @method     ChildUsuarioQuery groupByPassword() Group by the Password column
  * @method     ChildUsuarioQuery groupByCedula() Group by the Cedula column
  * @method     ChildUsuarioQuery groupByNombre() Group by the Nombre column
  * @method     ChildUsuarioQuery groupByApellido() Group by the Apellido column
+ * @method     ChildUsuarioQuery groupByOcupacion() Group by the Ocupacion column
+ * @method     ChildUsuarioQuery groupByEmail() Group by the Email column
+ * @method     ChildUsuarioQuery groupByDireccion() Group by the Direccion column
+ * @method     ChildUsuarioQuery groupByTelefono() Group by the Telefono column
  * @method     ChildUsuarioQuery groupByActivo() Group by the Activo column
  *
  * @method     ChildUsuarioQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -39,29 +52,59 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuarioQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildUsuarioQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
+ * @method     ChildUsuarioQuery leftJoinUsuariogrupo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuariogrupo relation
+ * @method     ChildUsuarioQuery rightJoinUsuariogrupo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuariogrupo relation
+ * @method     ChildUsuarioQuery innerJoinUsuariogrupo($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuariogrupo relation
+ *
+ * @method     ChildUsuarioQuery joinWithUsuariogrupo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Usuariogrupo relation
+ *
+ * @method     ChildUsuarioQuery leftJoinWithUsuariogrupo() Adds a LEFT JOIN clause and with to the query using the Usuariogrupo relation
+ * @method     ChildUsuarioQuery rightJoinWithUsuariogrupo() Adds a RIGHT JOIN clause and with to the query using the Usuariogrupo relation
+ * @method     ChildUsuarioQuery innerJoinWithUsuariogrupo() Adds a INNER JOIN clause and with to the query using the Usuariogrupo relation
+ *
+ * @method     \UsuariogrupoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ *
  * @method     ChildUsuario findOne(ConnectionInterface $con = null) Return the first ChildUsuario matching the query
  * @method     ChildUsuario findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuario matching the query, or a new ChildUsuario object populated from the query conditions when no match is found
  *
  * @method     ChildUsuario findOneById(int $Id) Return the first ChildUsuario filtered by the Id column
+ * @method     ChildUsuario findOneByUsername(string $UserName) Return the first ChildUsuario filtered by the UserName column
+ * @method     ChildUsuario findOneByPassword(string $Password) Return the first ChildUsuario filtered by the Password column
  * @method     ChildUsuario findOneByCedula(string $Cedula) Return the first ChildUsuario filtered by the Cedula column
  * @method     ChildUsuario findOneByNombre(string $Nombre) Return the first ChildUsuario filtered by the Nombre column
  * @method     ChildUsuario findOneByApellido(string $Apellido) Return the first ChildUsuario filtered by the Apellido column
+ * @method     ChildUsuario findOneByOcupacion(string $Ocupacion) Return the first ChildUsuario filtered by the Ocupacion column
+ * @method     ChildUsuario findOneByEmail(string $Email) Return the first ChildUsuario filtered by the Email column
+ * @method     ChildUsuario findOneByDireccion(string $Direccion) Return the first ChildUsuario filtered by the Direccion column
+ * @method     ChildUsuario findOneByTelefono(string $Telefono) Return the first ChildUsuario filtered by the Telefono column
  * @method     ChildUsuario findOneByActivo(string $Activo) Return the first ChildUsuario filtered by the Activo column *
 
  * @method     ChildUsuario requirePk($key, ConnectionInterface $con = null) Return the ChildUsuario by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuario requireOne(ConnectionInterface $con = null) Return the first ChildUsuario matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildUsuario requireOneById(int $Id) Return the first ChildUsuario filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByUsername(string $UserName) Return the first ChildUsuario filtered by the UserName column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByPassword(string $Password) Return the first ChildUsuario filtered by the Password column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuario requireOneByCedula(string $Cedula) Return the first ChildUsuario filtered by the Cedula column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuario requireOneByNombre(string $Nombre) Return the first ChildUsuario filtered by the Nombre column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuario requireOneByApellido(string $Apellido) Return the first ChildUsuario filtered by the Apellido column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByOcupacion(string $Ocupacion) Return the first ChildUsuario filtered by the Ocupacion column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByEmail(string $Email) Return the first ChildUsuario filtered by the Email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByDireccion(string $Direccion) Return the first ChildUsuario filtered by the Direccion column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUsuario requireOneByTelefono(string $Telefono) Return the first ChildUsuario filtered by the Telefono column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuario requireOneByActivo(string $Activo) Return the first ChildUsuario filtered by the Activo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildUsuario[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildUsuario objects based on current ModelCriteria
  * @method     ChildUsuario[]|ObjectCollection findById(int $Id) Return ChildUsuario objects filtered by the Id column
+ * @method     ChildUsuario[]|ObjectCollection findByUsername(string $UserName) Return ChildUsuario objects filtered by the UserName column
+ * @method     ChildUsuario[]|ObjectCollection findByPassword(string $Password) Return ChildUsuario objects filtered by the Password column
  * @method     ChildUsuario[]|ObjectCollection findByCedula(string $Cedula) Return ChildUsuario objects filtered by the Cedula column
  * @method     ChildUsuario[]|ObjectCollection findByNombre(string $Nombre) Return ChildUsuario objects filtered by the Nombre column
  * @method     ChildUsuario[]|ObjectCollection findByApellido(string $Apellido) Return ChildUsuario objects filtered by the Apellido column
+ * @method     ChildUsuario[]|ObjectCollection findByOcupacion(string $Ocupacion) Return ChildUsuario objects filtered by the Ocupacion column
+ * @method     ChildUsuario[]|ObjectCollection findByEmail(string $Email) Return ChildUsuario objects filtered by the Email column
+ * @method     ChildUsuario[]|ObjectCollection findByDireccion(string $Direccion) Return ChildUsuario objects filtered by the Direccion column
+ * @method     ChildUsuario[]|ObjectCollection findByTelefono(string $Telefono) Return ChildUsuario objects filtered by the Telefono column
  * @method     ChildUsuario[]|ObjectCollection findByActivo(string $Activo) Return ChildUsuario objects filtered by the Activo column
  * @method     ChildUsuario[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -161,7 +204,7 @@ abstract class UsuarioQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT Id, Cedula, Nombre, Apellido, Activo FROM Usuario WHERE Id = :p0';
+        $sql = 'SELECT Id, UserName, Password, Cedula, Nombre, Apellido, Ocupacion, Email, Direccion, Telefono, Activo FROM Usuario WHERE Id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -293,6 +336,56 @@ abstract class UsuarioQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the UserName column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUsername('fooValue');   // WHERE UserName = 'fooValue'
+     * $query->filterByUsername('%fooValue%', Criteria::LIKE); // WHERE UserName LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $username The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByUsername($username = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($username)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_USERNAME, $username, $comparison);
+    }
+
+    /**
+     * Filter the query on the Password column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPassword('fooValue');   // WHERE Password = 'fooValue'
+     * $query->filterByPassword('%fooValue%', Criteria::LIKE); // WHERE Password LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $password The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByPassword($password = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($password)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_PASSWORD, $password, $comparison);
+    }
+
+    /**
      * Filter the query on the Cedula column
      *
      * Example usage:
@@ -368,6 +461,106 @@ abstract class UsuarioQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the Ocupacion column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOcupacion('fooValue');   // WHERE Ocupacion = 'fooValue'
+     * $query->filterByOcupacion('%fooValue%', Criteria::LIKE); // WHERE Ocupacion LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $ocupacion The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByOcupacion($ocupacion = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($ocupacion)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_OCUPACION, $ocupacion, $comparison);
+    }
+
+    /**
+     * Filter the query on the Email column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmail('fooValue');   // WHERE Email = 'fooValue'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE Email LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $email The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByEmail($email = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($email)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_EMAIL, $email, $comparison);
+    }
+
+    /**
+     * Filter the query on the Direccion column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDireccion('fooValue');   // WHERE Direccion = 'fooValue'
+     * $query->filterByDireccion('%fooValue%', Criteria::LIKE); // WHERE Direccion LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $direccion The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByDireccion($direccion = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($direccion)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_DIRECCION, $direccion, $comparison);
+    }
+
+    /**
+     * Filter the query on the Telefono column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTelefono('fooValue');   // WHERE Telefono = 'fooValue'
+     * $query->filterByTelefono('%fooValue%', Criteria::LIKE); // WHERE Telefono LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $telefono The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByTelefono($telefono = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($telefono)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UsuarioTableMap::COL_TELEFONO, $telefono, $comparison);
+    }
+
+    /**
      * Filter the query on the Activo column
      *
      * Example usage:
@@ -390,6 +583,79 @@ abstract class UsuarioQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(UsuarioTableMap::COL_ACTIVO, $activo, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Usuariogrupo object
+     *
+     * @param \Usuariogrupo|ObjectCollection $usuariogrupo the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function filterByUsuariogrupo($usuariogrupo, $comparison = null)
+    {
+        if ($usuariogrupo instanceof \Usuariogrupo) {
+            return $this
+                ->addUsingAlias(UsuarioTableMap::COL_ID, $usuariogrupo->getUsuarioid(), $comparison);
+        } elseif ($usuariogrupo instanceof ObjectCollection) {
+            return $this
+                ->useUsuariogrupoQuery()
+                ->filterByPrimaryKeys($usuariogrupo->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByUsuariogrupo() only accepts arguments of type \Usuariogrupo or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Usuariogrupo relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildUsuarioQuery The current query, for fluid interface
+     */
+    public function joinUsuariogrupo($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Usuariogrupo');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Usuariogrupo');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Usuariogrupo relation Usuariogrupo object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UsuariogrupoQuery A secondary query class using the current class as primary query
+     */
+    public function useUsuariogrupoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinUsuariogrupo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Usuariogrupo', '\UsuariogrupoQuery');
     }
 
     /**

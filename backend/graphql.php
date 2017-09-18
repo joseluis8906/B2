@@ -15,145 +15,359 @@ use GraphQL\Utils\Utils;
 
 class GQUsuario {
   public $Id;
+  public $UserName;
+  public $Password;
   public $Cedula;
   public $Nombre;
   public $Apellido;
+  public $Ocupacion;
+  public $Email;
+  public $Direccion;
+  public $Telefono;
   Public $Activo;
+  Public $Grupos;
   public function __construct(array $data)
   {
       Utils::assign($this, $data);
   }
 }
 
+class GQGrupo {
+  public $Id;
+  public $Nombre;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
 
 try {
+  //Tipo de objeto Usuario
+  $Grupo = new ObjectType([
+    'name' => 'Grupo',
+    'description' => 'Objeto que describe un grupo',
+    'fields' => [
+        'Id' => ['type' => Type::int()],
+        'Nombre' => ['type' => Type::string()],
+    ]
+  ]);
+
   $Usuario = new ObjectType([
     'name' => 'Usuario',
     'description' => 'Objeto que describe un usuario',
     'fields' => [
         'Id' => ['type' => Type::int()],
+        'UserName' => ['type' => Type::string()],
+        'Password' => ['type' => Type::string()],
         'Cedula' => ['type' => Type::string()],
         'Nombre' => ['type' => Type::string()],
         'Apellido' => ['type' => Type::string()],
+        'Ocupacion' => ['type' => Type::string()],
+        'Email' => ['type' => Type::string()],
+        'Direccion' => ['type' => Type::string()],
+        'Telefono' => ['type' => Type::string()],
         'Activo' => ['type' => Type::string()],
+        'Grupos' => ['type' => Type::listOf($Grupo)]
     ]
   ]);
 
+  //Tipo de objeto Query
   $queryType = new ObjectType([
       'name' => 'Query',
       'fields' => [
-          'test' => [
-              'type' => Type::string(),
-              'args' => [
-                  'message' => ['type' => Type::string()],
-              ],
-              'resolve' => function ($root, $args) {
-                  return $root['prefix'] . $args['message'];
-              }
-          ],
           'Usuarios' => [
               'type' => Type::listOf($Usuario),
               'args' => [
                   'Id' => ['type' => Type::int()],
+                  'UserName' => ['type' => Type::string()],
+                  'Password' => ['type' => Type::string()],
                   'Cedula' => ['type' => Type::string()],
                   'Nombre' => ['type' => Type::string()],
                   'Apellido' => ['type' => Type::string()],
-                  'Activo' => ['type' => Type::string()],
+                  'Ocupacion' => ['type' => Type::string()],
+                  'Email' => ['type' => Type::string()],
+                  'Direccion' => ['type' => Type::string()],
+                  'Telefono' => ['type' => Type::string()],
+                  'Activo' => ['type' => Type::string()]
               ],
               'resolve' => function ($db, $args) {
                 $usuarios = UsuarioQuery::create();
                 if(isset($args['Id'])) {$usuarios->filterById($args['Id']);}
+                if(isset($args['UserName'])) {$usuarios->filterByUserName($args['UserName']);}
+                if(isset($args['Password'])) {$usuarios->filterByPassword($args['Password']);}
                 if(isset($args['Cedula'])) {$usuarios->filterByCedula($args['Cedula']);}
                 if(isset($args['Nombre'])) {$usuarios->filterByNombre($args['Nombre']);}
                 if(isset($args['Apellido'])) {$usuarios->filterByApellido($args['Apellido']);}
+                if(isset($args['Ocupacion'])) {$usuarios->filterByOcupacion($args['Ocupacion']);}
+                if(isset($args['Email'])) {$usuarios->filterByEmail($args['Email']);}
+                if(isset($args['Direccion'])) {$usuarios->filterByDireccion($args['Direccion']);}
+                if(isset($args['Telefono'])) {$usuarios->filterByTelefono($args['Telefono']);}
                 if(isset($args['Activo'])) {$usuarios->filterByActivo($args['Activo']);}
                 $usuarios->find();
 
                 $R = [];
 
+
                 foreach ($usuarios as $usuario) {
-                    $R[] = new GQUsuario([
-                      'Id' => $usuario->getId(),
-                      "Cedula" => $usuario->getCedula(),
-                      "Nombre" => $usuario->getNombre(),
-                      'Apellido' => $usuario->getApellido(),
-                      'Activo' => $usuario->getActivo(),
+                  $gids = UsuariogrupoQuery::create();
+                  $gids->findByUsuarioid($usuario->getId());
+                  $gids->find();
+
+                  $G = [];
+
+                  foreach ($gids as $gid) {
+                    $grupo = GrupoQuery::create()->findPk($gid->getGrupoid());
+
+                    $G[] = new GQGrupo([
+                      'Id' => $grupo->getId(),
+                      'Nombre' => $grupo->getNombre()
+                    ]);
+                  }
+
+                  if(is_null($gids)){
+
+                    $G[] = new GQGrupo([
+                      'Id' => null,
+                      'Nombre' => null
+                    ]);
+
+                  }
+
+                  $R[] = new GQUsuario([
+                    'Id' => $usuario->getId(),
+                    "UserName" => $usuario->getUserName(),
+                    "Password" => $usuario->getPassword(),
+                    "Cedula" => $usuario->getCedula(),
+                    "Nombre" => $usuario->getNombre(),
+                    'Apellido' => $usuario->getApellido(),
+                    'Ocupacion' => $usuario->getOcupacion(),
+                    'Email' => $usuario->getEmail(),
+                    'Direccion' => $usuario->getDireccion(),
+                    'Telefono' => $usuario->getTelefono(),
+                    'Activo' => $usuario->getActivo(),
+                    'Grupos' => $G
+                  ]);
+                }
+                return $R;
+              }
+          ],
+          'Grupos' => [
+              'type' => Type::listOf($Grupo),
+              'args' => [
+                  'Id' => ['type' => Type::int()],
+                  'Nombre' => ['type' => Type::string()]
+              ],
+              'resolve' => function ($db, $args) {
+                $grupos = GrupoQuery::create();
+                if(isset($args['Id'])) {$grupos->filterById($args['Id']);}
+                if(isset($args['Nombre'])) {$grupos->filterByNombre($args['Nombre']);}
+                $grupos->find();
+
+                $R = [];
+
+                foreach ($grupos as $grupo) {
+                    $R[] = new GQGrupo([
+                      'Id' => $grupo->getId(),
+                      "Nombre" => $grupo->getNombre()
                     ]);
                 }
-
                 return $R;
               }
           ],
       ],
   ]);
+
   $mutationType = new ObjectType([
       'name' => 'Mutation',
       'fields' => [
-          'sum' => [
-            'type' => Type::int(),
-            'args' => [
-                'x' => ['type' => Type::int()],
-                'y' => ['type' => Type::int()],
-            ],
-            'resolve' => function ($root, $args) {
-                return $args['x'] + $args['y'];
-            },
-          ],
           'CreateUsuario' => [
             'type' => $Usuario,
             'args' => [
+              'UserName' => ['type' => Type::string()],
+              'Password' => ['type' => Type::string()],
               'Cedula' => ['type' => Type::string()],
               'Nombre' => ['type' => Type::string()],
               'Apellido' => ['type' => Type::string()],
-              'Activo' => ['type' => Type::string()],
+              'Ocupacion' => ['type' => Type::string()],
+              'Email' => ['type' => Type::string()],
+              'Direccion' => ['type' => Type::string()],
+              'Telefono' => ['type' => Type::string()],
+              'Activo' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $usuario = new Usuario();
-              $usuario->setCedula($args['Cedula']);
-              $usuario->setNombre($args['Nombre']);
-              $usuario->setApellido($args['Apellido']);
-              $usuario->setActivo($args['Activo']);
-              $usuario->save();
-
               $usuario = UsuarioQuery::create()->filterByCedula($args['Cedula'])->findOne();
 
-              $R = new GQUsuario([
-                'Id' => $usuario->getId(),
-                "Cedula" => $usuario->getCedula(),
-                "Nombre" => $usuario->getNombre(),
-                'Apellido' => $usuario->getApellido(),
-                'Activo' => $usuario->getActivo(),
-              ]);
+              if(is_null($usuario)) {
 
-              return $R;
+                $usuario = new Usuario();
+                $usuario->setUserName($args['UserName']);
+                $usuario->setPassword($args['Password']);
+                $usuario->setCedula($args['Cedula']);
+                $usuario->setNombre($args['Nombre']);
+                $usuario->setApellido($args['Apellido']);
+                $usuario->setOcupacion($args['Ocupacion']);
+                $usuario->setEmail($args['Email']);
+                $usuario->setDireccion($args['Direccion']);
+                $usuario->setTelefono($args['Telefono']);
+                $usuario->setActivo($args['Activo']);
+                $usuario->save();
+
+                $usuario = UsuarioQuery::create()->filterByCedula($args['Cedula'])->findOne();
+
+                $R = new GQUsuario([
+                  'Id' => $usuario->getId(),
+                  "UserName" => $usuario->getUserName(),
+                  "Password" => $usuario->getPassword(),
+                  "Cedula" => $usuario->getCedula(),
+                  "Nombre" => $usuario->getNombre(),
+                  'Apellido' => $usuario->getApellido(),
+                  'Ocupacion' => $usuario->getOcupacion(),
+                  'Email' => $usuario->getEmail(),
+                  'Direccion' => $usuario->getDireccion(),
+                  'Telefono' => $usuario->getTelefono(),
+                  'Activo' => $usuario->getActivo()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQUsuario([
+                  'Id' => null,
+                  "UserName" => null,
+                  "Password" => null,
+                  "Cedula" => null,
+                  "Nombre" => null,
+                  'Apellido' => null,
+                  'Ocupacion' => null,
+                  'Email' => null,
+                  'Direccion' => null,
+                  'Telefono' => null,
+                  'Activo' => null
+                ]);;
+                return $R;
+              }
             }
           ],
           'UpdateUsuario' => [
             'type' => $Usuario,
             'args' => [
               'Id' => ['type' => Type::int()],
+              'UserName' => ['type' => Type::string()],
+              'Password' => ['type' => Type::string()],
               'Cedula' => ['type' => Type::string()],
               'Nombre' => ['type' => Type::string()],
               'Apellido' => ['type' => Type::string()],
-              'Activo' => ['type' => Type::string()],
+              'Ocupacion' => ['type' => Type::string()],
+              'Email' => ['type' => Type::string()],
+              'Direccion' => ['type' => Type::string()],
+              'Telefono' => ['type' => Type::string()],
+              'Activo' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
               $usuario = UsuarioQuery::create()->filterById($args['Id'])->findOne();
-              if(isset($args['Cedula'])) {$usuario->setCedula($args['Cedula']);}
-              if(isset($args['Nombre'])) {$usuario->setNombre($args['Nombre']);}
-              if(isset($args['Apellido'])) {$usuario->setApellido($args['Apellido']);}
-              if(isset($args['Activo'])) {$usuario->setActivo($args['Activo']);}
-              $usuario->save();
 
-              $R = new GQUsuario([
-                'Id' => $usuario->getId(),
-                "Cedula" => $usuario->getCedula(),
-                "Nombre" => $usuario->getNombre(),
-                'Apellido' => $usuario->getApellido(),
-                'Activo' => $usuario->getActivo(),
-              ]);
+              if($usuario){
+                if(isset($args['UserName'])) {$usuario->setUserName($args['UserName']);}
+                if(isset($args['Password'])) {$usuario->setPassword($args['Password']);}
+                if(isset($args['Cedula'])) {$usuario->setCedula($args['Cedula']);}
+                if(isset($args['Nombre'])) {$usuario->setNombre($args['Nombre']);}
+                if(isset($args['Apellido'])) {$usuario->setApellido($args['Apellido']);}
+                if(isset($args['Ocupacion'])) {$usuario->setOcupacion($args['Ocupacion']);}
+                if(isset($args['Email'])) {$usuario->setEmail($args['Email']);}
+                if(isset($args['Direccion'])) {$usuario->setDireccion($args['Direccion']);}
+                if(isset($args['Telefono'])) {$usuario->setTelefono($args['Telefono']);}
+                if(isset($args['Activo'])) {$usuario->setActivo($args['Activo']);}
+                $usuario->save();
 
-              return $R;
+                $R = new GQUsuario([
+                  'Id' => $usuario->getId(),
+                  "UserName" => $usuario->getUserName(),
+                  "Password" => $usuario->getPassword(),
+                  "Cedula" => $usuario->getCedula(),
+                  "Nombre" => $usuario->getNombre(),
+                  'Apellido' => $usuario->getApellido(),
+                  'Ocupacion' => $usuario->getOcupacion(),
+                  'Email' => $usuario->getEmail(),
+                  'Direccion' => $usuario->getDireccion(),
+                  'Telefono' => $usuario->getTelefono(),
+                  'Activo' => $usuario->getActivo()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQUsuario([
+                  'Id' => null,
+                  "UserName" => null,
+                  "Password" => null,
+                  "Cedula" => null,
+                  "Nombre" => null,
+                  'Apellido' => null,
+                  'Ocupacion' => null,
+                  'Email' => null,
+                  'Direccion' => null,
+                  'Telefono' => null,
+                  'Activo' => null
+                ]);;
+                return $R;
+              }
+            }
+          ],
+          'CreateGrupo' => [
+            'type' => $Grupo,
+            'args' => [
+              'Nombre' => ['type' => Type::string()],
+            ],
+            'resolve' => function ($root, $args) {
+              $grupo = GrupoQuery::create()->filterByNombre($args['Nombre'])->findOne();
+
+              if(is_null($grupo)) {
+
+                $grupo = new Grupo();
+                $grupo->setNombre($args['Nombre']);
+                $grupo->save();
+
+                $grupo = GrupoQuery::create()->filterByNombre($args['Nombre'])->findOne();
+
+                $R = new GQGrupo([
+                  'Id' => $grupo->getId(),
+                  "Nombre" => $grupo->getNombre()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQGrupo([
+                  'Id' => null,
+                  "Nombre" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'UpdateGrupo' => [
+            'type' => $Usuario,
+            'args' => [
+              'Id' => ['type' => Type::int()],
+              'Nombre' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $grupo = GrupoQuery::create()->filterById($args['Id'])->findOne();
+
+              if($grupo){
+                if(isset($args['Nombre'])) {$grupo->setNombre($args['Nombre']);}
+                $grupo->save();
+
+                $R = new GQGrupo([
+                  'Id' => $grupo->getId(),
+                  "Nombre" => $grupo->getNombre()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQGrupo([
+                  'Id' => null,
+                  "Nombre" => null
+                ]);
+                return $R;
+              }
             }
           ],
       ],
@@ -164,13 +378,7 @@ try {
       'query' => $queryType,
       'mutation' => $mutationType,
   ]);
-  /*$rawInput = file_get_contents('php://input');
-  $input = json_decode($rawInput, true);
-  $query = $input['query'];
-  $variableValues = isset($input['variables']) ? $input['variables'] : null;
-  $rootValue = ['prefix' => 'You said: '];
-  $result = GraphQL::executeQuery($schema, $query, $rootValue, null, $variableValues);
-  $output = $result->toArray();*/
+
   $server = new StandardServer([
       'schema' => $schema
   ]);
@@ -178,13 +386,8 @@ try {
   $server->handleRequest();
 
 } catch (\Exception $e) {
-    /*$output = [
-        'error' => [
-            'message' => $e->getMessage()
-        ]
-    ];*/
+
   print $e->getMessage();
   StandardServer::send500Error($e);
+
 }
-/*header('Content-Type: application/json; charset=UTF-8');
-echo json_encode($output);*/

@@ -1,0 +1,25 @@
+mutation UserAddGroup(
+  $UsuarioId: Int,
+  $GrupoId: Int
+) {
+  UserAddGroup(
+    $UsuarioId: Int,
+    $GrupoId: Int
+  ) {
+    Id
+    UserName
+    Password
+    Cedula
+    Nombre
+    Apellido
+    Ocupacion
+    Email
+    Direccion
+    Telefono
+    Activo
+    Roles {
+      Id
+      Nombre
+    }
+  }
+}

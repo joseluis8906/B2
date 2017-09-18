@@ -1,0 +1,25 @@
+mutation UsuarioRemoveGropo(
+  $UsuarioId: Int,
+  $GrupoId: Int,
+) {
+  UsuarioRemoveGropo(
+    UsuarioId: $UsuarioId,
+    GrupoId: $GrupoId,
+  ) {
+    Id
+    UserName
+    Password
+    Cedula
+    Nombre
+    Apellido
+    Ocupacion
+    Email
+    Direccion
+    Telefono
+    Activo
+    Roles {
+      Id
+      Nombre
+    }
+  }
+}

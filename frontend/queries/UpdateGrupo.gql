@@ -1,15 +1,12 @@
-query Productos (
+mutation UpdateGrupo(
   $Id: Int,
-  $Codigo: String,
   $Nombre: String
-){
-  Productos (
+) {
+  UpdateGrupo (
     Id: $Id,
-    Codigo: $Codigo,
     Nombre: $Nombre
   ) {
     Id
-    Codigo
     Nombre
   }
 }

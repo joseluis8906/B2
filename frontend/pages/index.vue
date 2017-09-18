@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="hello")
-  p Contable
+  //p Contable
   //g-carousel
   //g-icon-grid
   //g-section1

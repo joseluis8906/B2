@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="Grupo" idMethod="native" phpName="Grupo">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
+    <unique name="Grupo_u_296ca2">
+      <unique-column name="Nombre"/>
+    </unique>
+  </table>
   <table name="Usuario" idMethod="native" phpName="Usuario">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="UserName" phpName="Username" type="LONGVARCHAR"/>
+    <column name="Password" phpName="Password" type="LONGVARCHAR"/>
     <column name="Cedula" phpName="Cedula" type="LONGVARCHAR"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
     <column name="Apellido" phpName="Apellido" type="LONGVARCHAR"/>
+    <column name="Ocupacion" phpName="Ocupacion" type="LONGVARCHAR"/>
+    <column name="Email" phpName="Email" type="LONGVARCHAR"/>
+    <column name="Direccion" phpName="Direccion" type="LONGVARCHAR"/>
+    <column name="Telefono" phpName="Telefono" type="LONGVARCHAR"/>
     <column name="Activo" phpName="Activo" type="LONGVARCHAR"/>
+    <unique name="Usuario_u_ce4c89">
+      <unique-column name="Email"/>
+    </unique>
     <unique name="Usuario_u_a0f30c">
       <unique-column name="Cedula"/>
+    </unique>
+    <unique name="Usuario_u_f86ef3">
+      <unique-column name="UserName"/>
+    </unique>
+  </table>
+  <table name="UsuarioGrupo" isCrossRef="true" idMethod="native" phpName="Usuariogrupo">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="UsuarioId" phpName="Usuarioid" type="INTEGER"/>
+    <column name="GrupoId" phpName="Grupoid" type="INTEGER"/>
+    <foreign-key foreignTable="Grupo" name="UsuarioGrupo_fk_8631f0" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="GrupoId" foreign="Id"/>
+    </foreign-key>
+    <foreign-key foreignTable="Usuario" name="UsuarioGrupo_fk_ad85c6" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="UsuarioId" foreign="Id"/>
+    </foreign-key>
+    <unique name="UsuarioGrupo_u_702c23">
+      <unique-column name="UsuarioId"/>
+      <unique-column name="GrupoId"/>
     </unique>
   </table>
 </database>
