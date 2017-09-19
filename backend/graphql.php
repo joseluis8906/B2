@@ -107,30 +107,16 @@ try {
 
                 $R = [];
 
-
                 foreach ($usuarios as $usuario) {
-                  $gids = UsuariogrupoQuery::create();
-                  $gids->findByUsuarioid($usuario->getId());
-                  $gids->find();
-
                   $G = [];
 
-                  foreach ($gids as $gid) {
-                    $grupo = GrupoQuery::create()->findPk($gid->getGrupoid());
+                  $grupos = $usuario->getGrupos();
 
+                  foreach ($grupos as $grupo) {
                     $G[] = new GQGrupo([
                       'Id' => $grupo->getId(),
                       'Nombre' => $grupo->getNombre()
                     ]);
-                  }
-
-                  if(is_null($gids)){
-
-                    $G[] = new GQGrupo([
-                      'Id' => null,
-                      'Nombre' => null
-                    ]);
-
                   }
 
                   $R[] = new GQUsuario([
@@ -370,17 +356,107 @@ try {
               }
             }
           ],
+          'UsuarioAddGrupo' => [
+            'type' => $Usuario,
+            'args' => [
+              'UsuarioId' => ['type' => Type::int()],
+              'GrupoId' => ['type' => Type::int()]
+            ],
+            'resolve' => function ($root, $args) {
+              $usuario = UsuarioQuery::create()->filterById($args['UsuarioId'])->findOne();
+              $grupo = GrupoQuery::create()->filterById($args['GrupoId'])->findOne();
+
+              if(isset($usuario) && isset($grupo)) {
+                $usuario->addGrupo($grupo);
+                $usuario->save();
+              }
+
+              $G = [];
+              $grupos = $usuario->getGrupos();
+
+              foreach ($grupos as $grupo) {
+                $G[] = new GQGrupo([
+                  'Id' => $grupo->getId(),
+                  'Nombre' => $grupo->getNombre()
+                ]);
+              }
+
+              $R = new GQUsuario([
+                'Id' => $usuario->getId(),
+                "UserName" => $usuario->getUserName(),
+                "Password" => $usuario->getPassword(),
+                "Cedula" => $usuario->getCedula(),
+                "Nombre" => $usuario->getNombre(),
+                'Apellido' => $usuario->getApellido(),
+                'Ocupacion' => $usuario->getOcupacion(),
+                'Email' => $usuario->getEmail(),
+                'Direccion' => $usuario->getDireccion(),
+                'Telefono' => $usuario->getTelefono(),
+                'Activo' => $usuario->getActivo(),
+                'Grupos' => $G
+              ]);
+
+            return $R;
+
+            }
+          ],
+          'UsuarioRemoveGrupo' => [
+            'type' => $Usuario,
+            'args' => [
+              'UsuarioId' => ['type' => Type::int()],
+              'GrupoId' => ['type' => Type::int()]
+            ],
+            'resolve' => function ($root, $args) {
+              $usuario = UsuarioQuery::create()->filterById($args['UsuarioId'])->findOne();
+              $grupo = GrupoQuery::create()->filterById($args['GrupoId'])->findOne();
+
+              if(isset($usuario) && isset($grupo)) {
+                $usuario->removeGrupo($grupo);
+                $usuario->save();
+              }
+
+              $G = [];
+              $grupos = $usuario->getGrupos();
+
+              foreach ($grupos as $grupo) {
+                $G[] = new GQGrupo([
+                  'Id' => $grupo->getId(),
+                  'Nombre' => $grupo->getNombre()
+                ]);
+              }
+
+              $R = new GQUsuario([
+                'Id' => $usuario->getId(),
+                "UserName" => $usuario->getUserName(),
+                "Password" => $usuario->getPassword(),
+                "Cedula" => $usuario->getCedula(),
+                "Nombre" => $usuario->getNombre(),
+                'Apellido' => $usuario->getApellido(),
+                'Ocupacion' => $usuario->getOcupacion(),
+                'Email' => $usuario->getEmail(),
+                'Direccion' => $usuario->getDireccion(),
+                'Telefono' => $usuario->getTelefono(),
+                'Activo' => $usuario->getActivo(),
+                'Grupos' => $G
+              ]);
+
+            return $R;
+
+            }
+          ],
       ],
   ]);
   // See docs on schema options:
   // http://webonyx.github.io/graphql-php/type-system/schema/#configuration-options
   $schema = new Schema([
       'query' => $queryType,
-      'mutation' => $mutationType,
+      'mutation' => $mutationType
   ]);
 
   $server = new StandardServer([
-      'schema' => $schema
+    'queryBatching' => true,
+    'schema' => $schema
+
   ]);
 
   $server->handleRequest();

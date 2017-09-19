@@ -29,14 +29,28 @@ v-layout( align-center justify-center )
 
             v-text-field( label="Contraseña" v-model="UiPassword" type="Password" maxlength="4" dark )
 
-            v-select( v-bind:items="ItemsActive"
-                      v-model="Active"
+            v-text-field( label="Cédula" v-model="Cedula" dark )
+
+            v-text-field( label="Nombre" v-model="Nombre" dark )
+
+            v-text-field( label="Apellido" v-model="Apellido" dark )
+
+            v-text-field( label="Ocupación" v-model="Ocupacion" dark )
+
+            v-text-field( label="Correo" v-model="Email" dark )
+
+            v-text-field( label="Dirección" v-model="Direccion" dark )
+
+            v-text-field( label="Teléfono" v-model="Telefono" dark )
+
+            v-select( v-bind:items="ItemsActivo"
+                      v-model="Activo"
                       label="Activo"
                       item-value="text"
                       dark )
 
             v-select( label="Grupos"
-                      v-bind:items="ItemsGroup"
+                      v-bind:items="ItemsGrupo"
                       v-model="SelectedGrupos"
                       item-text="Name"
                       item-value="Id"
@@ -76,29 +90,36 @@ export default {
     Id: null,
     UserName: null,
     Password: null,
-    Active: null,
+    Cedula: null,
+    Nombre: null,
+    Apellido: null,
+    Ocupacion: null,
+    Email: null,
+    Direccion: null,
+    Telefono: null,
+    Activo: null,
     UiPassword: null,
     SelectedGrupos: [],
     OldSelectedGrupos: [],
     SelectedGruposForUi: false,
     DisableGroupSelect: true,
-    ItemsActive: [
+    ItemsActivo: [
       {text: 'Si'},
       {text: 'No'}
     ],
-    ItemsGroup: [],
+    ItemsGrupo: [],
     loading: 0
   }),
-  beforeMount () {
+  /*beforeMount () {
     if (sessionStorage.getItem('x-access-token') === null || sessionStorage.getItem('x-access-token') === null) {
       this.$router.push('/')
     } else {
       var Roles = JSON.parse(sessionStorage.getItem('x-access-roles'))
       this.$store.commit('security/AddRoles', Roles);
     }
-  },
+  },*/
   apollo: {
-    Users: {
+    Usuarios: {
       query: USUARIOS,
       variables () {
         return {
@@ -108,7 +129,7 @@ export default {
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.LoadUi(data.Users)
+        this.LoadUi(data.Usuarios)
       }
     },
     Grupos: {
@@ -116,7 +137,7 @@ export default {
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.ItemsGroup = data.Grupos
+        this.ItemsGrupo = data.Grupos
       }
     },
   },
@@ -135,15 +156,15 @@ export default {
           if (this.SelectedGrupos.length > this.OldSelectedGrupos.length) {
             //console.log('Nuevo Rol')
             const UsuarioAddGrupo = {
-              UserId: this.Id,
-              GroupId: this.SelectedGrupos[this.SelectedGrupos.length-1].Id
+              UsuarioId: this.Id,
+              GrupoId: this.SelectedGrupos[this.SelectedGrupos.length-1].Id
             };
 
             this.$apollo.mutate ({
               mutation: USUARIO_ADD_GRUPO,
               variables: {
-                UserId: UsuarioAddGrupo.UserId,
-                GroupId: UsuarioAddGrupo.GroupId
+                UsuarioId: UsuarioAddGrupo.UsuarioId,
+                GrupoId: UsuarioAddGrupo.GrupoId
             },
             loadingKey: 'loading',
             update: (store, { data: res }) => {
@@ -156,9 +177,9 @@ export default {
                   }
                 })
 
-                for (let i=0; i<data.Users.length; i++) {
-                  if (data.Users[i].Id === res.UsuarioAddGrupo.Id) {
-                    data.Users[i].Grupos = res.UsuarioAddGrupo.Grupos
+                for (let i=0; i<data.Usuarios.length; i++) {
+                  if (data.Usuarios[i].Id === res.UsuarioAddGrupo.Id) {
+                    data.Usuarios[i].Grupos = res.UsuarioAddGrupo.Grupos
                   }
                 }
 
@@ -172,9 +193,9 @@ export default {
 
               } catch (Err) {
 
-                var data = {Users: []}
+                var data = {Usuarios: []}
 
-                data.Users.push(res.UsuarioAddGrupo)
+                data.Usuarios.push(res.UsuarioAddGrupo)
 
                 store.writeQuery({
                   query: USUARIOS,
@@ -200,15 +221,15 @@ export default {
               if(this.SelectedGrupos.indexOf(this.OldSelectedGrupos[i]) === -1){
 
                 const UsuarioRemoveGrupo = {
-                  UserId: this.Id,
-                  GroupId: this.OldSelectedGrupos[i].Id
+                  UsuarioId: this.Id,
+                  GrupoId: this.OldSelectedGrupos[i].Id
                 };
 
                 this.$apollo.mutate ({
                   mutation: USUARIO_REMOVE_GRUPO,
                   variables: {
-                    UserId: UsuarioRemoveGrupo.UserId,
-                    GroupId: UsuarioRemoveGrupo.GroupId
+                    UsuarioId: UsuarioRemoveGrupo.UsuarioId,
+                    GrupoId: UsuarioRemoveGrupo.GrupoId
                 },
                 loadingKey: 'loading',
                 update: (store, { data: res }) => {
@@ -221,9 +242,9 @@ export default {
                       }
                     })
 
-                    for (let i=0; i<data.Users.length; i++) {
-                      if (data.Users[i].Id === res.UsuarioRemoveGrupo.Id) {
-                        data.Users[i].Grupos = res.UsuarioRemoveGrupo.Grupos
+                    for (let i=0; i<data.Usuarios.length; i++) {
+                      if (data.Usuarios[i].Id === res.UsuarioRemoveGrupo.Id) {
+                        data.Usuarios[i].Grupos = res.UsuarioRemoveGrupo.Grupos
                       }
                     }
 
@@ -237,9 +258,9 @@ export default {
 
                   } catch (Err) {
 
-                    var data = {Users: []}
+                    var data = {Usuarios: []}
 
-                    data.Users.push(res.UsuarioRemoveGrupo)
+                    data.Usuarios.push(res.UsuarioRemoveGrupo)
 
                     store.writeQuery({
                       query: USUARIOS,
@@ -289,7 +310,7 @@ export default {
       const User = {
         UserName: this.UserName,
         Password: this.Password,
-        Active: this.Active,
+        Activo: this.Activo,
       };
 
       this.Reset ();
@@ -299,7 +320,7 @@ export default {
         variables: {
           UserName: User.UserName,
           Password: User.Password,
-          Active: User.Active
+          Activo: User.Activo
       },
       loadingKey: 'loading',
       update: (store, { data: res }) => {
@@ -312,7 +333,7 @@ export default {
             }
           })
 
-          data.Users.push(res.CreateUsuario)
+          data.Usuarios.push(res.CreateUsuario)
 
           store.writeQuery({
             query: USUARIOS,
@@ -324,9 +345,9 @@ export default {
 
         } catch (Err) {
 
-          var data = {Users: []}
+          var data = {Usuarios: []}
 
-          data.Users.push(res.CreateUsuario)
+          data.Usuarios.push(res.CreateUsuario)
 
           store.writeQuery({
             query: USUARIOS,
@@ -351,7 +372,7 @@ export default {
         Id: this.Id,
         UserName: this.UserName,
         Password: this.Password,
-        Active: this.Active
+        Activo: this.Activo
       };
 
       this.Reset ();
@@ -362,7 +383,7 @@ export default {
           Id: User.Id,
           UserName: User.UserName,
           Password: User.Password,
-          Active: User.Active
+          Activo: User.Activo
         },
         loadingKey: 'loading',
         update: (store, { data: res }) => {
@@ -375,11 +396,11 @@ export default {
               }
             })
 
-            for (let i=0; i<data.Users.length; i++) {
-              if (data.Users[i].Id === res.UpdateUsuario.Id) {
-                data.Users[i].UserName = res.UpdateUsuario.UserName
-                data.Users[i].Password = res.UpdateUsuario.Password
-                data.Users[i].Active = res.UpdateUsuario.Active
+            for (let i=0; i<data.Usuarios.length; i++) {
+              if (data.Usuarios[i].Id === res.UpdateUsuario.Id) {
+                data.Usuarios[i].UserName = res.UpdateUsuario.UserName
+                data.Usuarios[i].Password = res.UpdateUsuario.Password
+                data.Usuarios[i].Activo = res.UpdateUsuario.Activo
               }
             }
 
@@ -393,9 +414,9 @@ export default {
 
           } catch (Err) {
 
-            var data = {Users: []}
+            var data = {Usuarios: []}
 
-            data.Users.push(res.UpdateUsuario)
+            data.Usuarios.push(res.UpdateUsuario)
 
             store.writeQuery({
               query: USUARIOS,
@@ -419,34 +440,55 @@ export default {
       this.UserName = null
       this.Password = null
       this.UiPassword = null
-      this.Active = null
+      this.Activo = null
       this.SelectedGrupos = []
     },
-    LoadUi (Users) {
-      if( Users.length === 0 ) {
+    LoadUi (Usuarios) {
+      if( Usuarios.length === 0 ) {
         this.Id = null
         this.Password = null
+        this.Cedula = null
+        this.Nombre = null
+        this.Apellido = null
+        this.Ocupacion = null
+        this.Email = null
+        this.Direccion = null
+        this.Telefono = null
         this.UiPassword = null
-        this.Active = null
+        this.Activo = null
         this.SelectedGrupos = []
         this.OldSelectedGrupos = []
       }
 
-      for (let i=0; i<Users.length; i++) {
-        if ( this.UserName === Users[i].UserName ) {
-          this.Id = Users[i].Id
-          this.UserName = Users[i].UserName
-          this.Password = Users[i].Password
-          this.Active = Users[i].Active
+      for (let i=0; i<Usuarios.length; i++) {
+        if ( this.UserName === Usuarios[i].UserName ) {
+          this.Id = Usuarios[i].Id
+          this.UserName = Usuarios[i].UserName
+          this.Password = Usuarios[i].Password
+          this.Cedula = Usuarios[i].Cedula
+          this.Nombre = Usuarios[i].Nombre
+          this.Apellido = Usuarios[i].Apellido
+          this.Ocupacion = Usuarios[i].Ocupacion
+          this.Email = Usuarios[i].Email
+          this.Direccion = Usuarios[i].Direccion
+          this.Telefono = Usuarios[i].Telefono
+          this.Activo = Usuarios[i].Activo
           this.SelectedGruposForUi = true
-          this.SelectedGrupos = Users[i].Grupos
-          this.OldSelectedGrupos = Users[i].Grupos
+          this.SelectedGrupos = Usuarios[i].Grupos
+          this.OldSelectedGrupos = Usuarios[i].Grupos
           break
         }else{
           this.Id = null
           this.Password = null
+          this.Cedula = null
+          this.Nombre = null
+          this.Apellido = null
+          this.Ocupacion = null
+          this.Email = null
+          this.Direccion = null
+          this.Telefono = null
+          this.Activo = null
           this.UiPassword = null
-          this.Active = null
           this.SelectedGrupos = []
           this.OldSelectedGrupos = []
         }

@@ -1,10 +1,10 @@
-mutation UserAddGroup(
+mutation UsuarioAddGrupo(
   $UsuarioId: Int,
   $GrupoId: Int
 ) {
-  UserAddGroup(
-    $UsuarioId: Int,
-    $GrupoId: Int
+  UsuarioAddGrupo(
+    UsuarioId: $UsuarioId,
+    GrupoId: $GrupoId
   ) {
     Id
     UserName

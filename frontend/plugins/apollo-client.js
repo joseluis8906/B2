@@ -3,7 +3,7 @@ import ApolloClient, { createBatchingNetworkInterface } from 'apollo-client';
 import VueApollo from 'vue-apollo';
 
 const networkInterface = createBatchingNetworkInterface({
-    uri: '/backend/private/graphql',
+    uri: '/backend/graphql',
     //credentials: 'same-origin',
     dataIdFromObject: o => o.Id
 });

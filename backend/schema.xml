@@ -30,9 +30,8 @@
     </unique>
   </table>
   <table name="UsuarioGrupo" isCrossRef="true" idMethod="native" phpName="Usuariogrupo">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
-    <column name="UsuarioId" phpName="Usuarioid" type="INTEGER"/>
-    <column name="GrupoId" phpName="Grupoid" type="INTEGER"/>
+    <column name="UsuarioId" phpName="Usuarioid" type="INTEGER" primaryKey="true"/>
+    <column name="GrupoId" phpName="Grupoid" type="INTEGER" primaryKey="true"/>
     <foreign-key foreignTable="Grupo" name="UsuarioGrupo_fk_8631f0" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="GrupoId" foreign="Id"/>
     </foreign-key>

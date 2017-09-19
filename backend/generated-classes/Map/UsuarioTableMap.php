@@ -201,6 +201,7 @@ class UsuarioTableMap extends TableMap
     1 => ':Id',
   ),
 ), 'CASCADE', 'CASCADE', 'Usuariogrupos', false);
+        $this->addRelation('Grupo', '\\Grupo', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'CASCADE', 'Grupos');
     } // buildRelations()
     /**
      * Method to invalidate the instance pool of all tables related to Usuario     * by a foreign key with ON DELETE CASCADE

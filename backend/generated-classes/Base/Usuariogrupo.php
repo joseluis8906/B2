@@ -64,13 +64,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     *
-     * @var        int
-     */
-    protected $id;
-
-    /**
      * The value for the usuarioid field.
      *
      * @var        int
@@ -328,16 +321,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Get the [usuarioid] column value.
      *
      * @return int
@@ -356,26 +339,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     {
         return $this->grupoid;
     }
-
-    /**
-     * Set the value of [id] column.
-     *
-     * @param int $v new value
-     * @return $this|\Usuariogrupo The current object (for fluent API support)
-     */
-    public function setId($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[UsuariogrupoTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
 
     /**
      * Set the value of [usuarioid] column.
@@ -461,13 +424,10 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariogrupoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariogrupoTableMap::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariogrupoTableMap::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->usuarioid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariogrupoTableMap::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariogrupoTableMap::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->grupoid = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -477,7 +437,7 @@ abstract class Usuariogrupo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 3; // 3 = UsuariogrupoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = UsuariogrupoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Usuariogrupo'), 0, $e);
@@ -701,9 +661,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(UsuariogrupoTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'Id';
-        }
         if ($this->isColumnModified(UsuariogrupoTableMap::COL_USUARIOID)) {
             $modifiedColumns[':p' . $index++]  = 'UsuarioId';
         }
@@ -721,9 +678,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'Id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
                     case 'UsuarioId':
                         $stmt->bindValue($identifier, $this->usuarioid, PDO::PARAM_INT);
                         break;
@@ -786,12 +740,9 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
-                break;
-            case 1:
                 return $this->getUsuarioid();
                 break;
-            case 2:
+            case 1:
                 return $this->getGrupoid();
                 break;
             default:
@@ -824,9 +775,8 @@ abstract class Usuariogrupo implements ActiveRecordInterface
         $alreadyDumpedObjects['Usuariogrupo'][$this->hashCode()] = true;
         $keys = UsuariogrupoTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getUsuarioid(),
-            $keys[2] => $this->getGrupoid(),
+            $keys[0] => $this->getUsuarioid(),
+            $keys[1] => $this->getGrupoid(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -899,12 +849,9 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
-                break;
-            case 1:
                 $this->setUsuarioid($value);
                 break;
-            case 2:
+            case 1:
                 $this->setGrupoid($value);
                 break;
         } // switch()
@@ -934,13 +881,10 @@ abstract class Usuariogrupo implements ActiveRecordInterface
         $keys = UsuariogrupoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setUsuarioid($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setUsuarioid($arr[$keys[1]]);
-        }
-        if (array_key_exists($keys[2], $arr)) {
-            $this->setGrupoid($arr[$keys[2]]);
+            $this->setGrupoid($arr[$keys[1]]);
         }
     }
 
@@ -983,9 +927,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     {
         $criteria = new Criteria(UsuariogrupoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(UsuariogrupoTableMap::COL_ID)) {
-            $criteria->add(UsuariogrupoTableMap::COL_ID, $this->id);
-        }
         if ($this->isColumnModified(UsuariogrupoTableMap::COL_USUARIOID)) {
             $criteria->add(UsuariogrupoTableMap::COL_USUARIOID, $this->usuarioid);
         }
@@ -1009,7 +950,8 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     public function buildPkeyCriteria()
     {
         $criteria = ChildUsuariogrupoQuery::create();
-        $criteria->add(UsuariogrupoTableMap::COL_ID, $this->id);
+        $criteria->add(UsuariogrupoTableMap::COL_USUARIOID, $this->usuarioid);
+        $criteria->add(UsuariogrupoTableMap::COL_GRUPOID, $this->grupoid);
 
         return $criteria;
     }
@@ -1022,10 +964,25 @@ abstract class Usuariogrupo implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getId();
+        $validPk = null !== $this->getUsuarioid() &&
+            null !== $this->getGrupoid();
 
-        $validPrimaryKeyFKs = 0;
+        $validPrimaryKeyFKs = 2;
         $primaryKeyFKs = [];
+
+        //relation UsuarioGrupo_fk_8631f0 to table Grupo
+        if ($this->aGrupo && $hash = spl_object_hash($this->aGrupo)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
+
+        //relation UsuarioGrupo_fk_ad85c6 to table Usuario
+        if ($this->aUsuario && $hash = spl_object_hash($this->aUsuario)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
 
         if ($validPk) {
             return crc32(json_encode($this->getPrimaryKey(), JSON_UNESCAPED_UNICODE));
@@ -1037,23 +994,29 @@ abstract class Usuariogrupo implements ActiveRecordInterface
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return int
+     * Returns the composite primary key for this object.
+     * The array elements will be in same order as specified in XML.
+     * @return array
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        $pks = array();
+        $pks[0] = $this->getUsuarioid();
+        $pks[1] = $this->getGrupoid();
+
+        return $pks;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Set the [composite] primary key.
      *
-     * @param       int $key Primary key.
+     * @param      array $keys The elements of the composite key (order must match the order in XML file).
      * @return void
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($keys)
     {
-        $this->setId($key);
+        $this->setUsuarioid($keys[0]);
+        $this->setGrupoid($keys[1]);
     }
 
     /**
@@ -1062,7 +1025,7 @@ abstract class Usuariogrupo implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getId();
+        return (null === $this->getUsuarioid()) && (null === $this->getGrupoid());
     }
 
     /**
@@ -1078,7 +1041,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
         $copyObj->setUsuarioid($this->getUsuarioid());
         $copyObj->setGrupoid($this->getGrupoid());
         if ($makeNew) {
@@ -1223,7 +1185,6 @@ abstract class Usuariogrupo implements ActiveRecordInterface
         if (null !== $this->aUsuario) {
             $this->aUsuario->removeUsuariogrupo($this);
         }
-        $this->id = null;
         $this->usuarioid = null;
         $this->grupoid = null;
         $this->alreadyInSave = false;

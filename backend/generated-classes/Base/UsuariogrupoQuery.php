@@ -20,11 +20,9 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildUsuariogrupoQuery orderById($order = Criteria::ASC) Order by the Id column
  * @method     ChildUsuariogrupoQuery orderByUsuarioid($order = Criteria::ASC) Order by the UsuarioId column
  * @method     ChildUsuariogrupoQuery orderByGrupoid($order = Criteria::ASC) Order by the GrupoId column
  *
- * @method     ChildUsuariogrupoQuery groupById() Group by the Id column
  * @method     ChildUsuariogrupoQuery groupByUsuarioid() Group by the UsuarioId column
  * @method     ChildUsuariogrupoQuery groupByGrupoid() Group by the GrupoId column
  *
@@ -61,19 +59,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuariogrupo findOne(ConnectionInterface $con = null) Return the first ChildUsuariogrupo matching the query
  * @method     ChildUsuariogrupo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuariogrupo matching the query, or a new ChildUsuariogrupo object populated from the query conditions when no match is found
  *
- * @method     ChildUsuariogrupo findOneById(int $Id) Return the first ChildUsuariogrupo filtered by the Id column
  * @method     ChildUsuariogrupo findOneByUsuarioid(int $UsuarioId) Return the first ChildUsuariogrupo filtered by the UsuarioId column
  * @method     ChildUsuariogrupo findOneByGrupoid(int $GrupoId) Return the first ChildUsuariogrupo filtered by the GrupoId column *
 
  * @method     ChildUsuariogrupo requirePk($key, ConnectionInterface $con = null) Return the ChildUsuariogrupo by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuariogrupo requireOne(ConnectionInterface $con = null) Return the first ChildUsuariogrupo matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildUsuariogrupo requireOneById(int $Id) Return the first ChildUsuariogrupo filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuariogrupo requireOneByUsuarioid(int $UsuarioId) Return the first ChildUsuariogrupo filtered by the UsuarioId column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUsuariogrupo requireOneByGrupoid(int $GrupoId) Return the first ChildUsuariogrupo filtered by the GrupoId column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildUsuariogrupo[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildUsuariogrupo objects based on current ModelCriteria
- * @method     ChildUsuariogrupo[]|ObjectCollection findById(int $Id) Return ChildUsuariogrupo objects filtered by the Id column
  * @method     ChildUsuariogrupo[]|ObjectCollection findByUsuarioid(int $UsuarioId) Return ChildUsuariogrupo objects filtered by the UsuarioId column
  * @method     ChildUsuariogrupo[]|ObjectCollection findByGrupoid(int $GrupoId) Return ChildUsuariogrupo objects filtered by the GrupoId column
  * @method     ChildUsuariogrupo[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -125,10 +120,10 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      * Go fast if the query is untouched.
      *
      * <code>
-     * $obj  = $c->findPk(12, $con);
+     * $obj = $c->findPk(array(12, 34), $con);
      * </code>
      *
-     * @param mixed $key Primary key to use for the query
+     * @param array[$UsuarioId, $GrupoId] $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
      * @return ChildUsuariogrupo|array|mixed the result, formatted by the current formatter
@@ -153,7 +148,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = UsuariogrupoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = UsuariogrupoTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]))))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -174,10 +169,11 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT Id, UsuarioId, GrupoId FROM UsuarioGrupo WHERE Id = :p0';
+        $sql = 'SELECT UsuarioId, GrupoId FROM UsuarioGrupo WHERE UsuarioId = :p0 AND GrupoId = :p1';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
+            $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -188,7 +184,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
             /** @var ChildUsuariogrupo $obj */
             $obj = new ChildUsuariogrupo();
             $obj->hydrate($row);
-            UsuariogrupoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            UsuariogrupoTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
         }
         $stmt->closeCursor();
 
@@ -217,7 +213,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(12, 56, 832), $con);
+     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     ConnectionInterface $con an optional connection object
@@ -247,8 +243,10 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      */
     public function filterByPrimaryKey($key)
     {
+        $this->addUsingAlias(UsuariogrupoTableMap::COL_USUARIOID, $key[0], Criteria::EQUAL);
+        $this->addUsingAlias(UsuariogrupoTableMap::COL_GRUPOID, $key[1], Criteria::EQUAL);
 
-        return $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this;
     }
 
     /**
@@ -260,49 +258,17 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
-
-        return $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $keys, Criteria::IN);
-    }
-
-    /**
-     * Filter the query on the Id column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterById(1234); // WHERE Id = 1234
-     * $query->filterById(array(12, 34)); // WHERE Id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE Id > 12
-     * </code>
-     *
-     * @param     mixed $id The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildUsuariogrupoQuery The current query, for fluid interface
-     */
-    public function filterById($id = null, $comparison = null)
-    {
-        if (is_array($id)) {
-            $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
+        if (empty($keys)) {
+            return $this->add(null, '1<>1', Criteria::CUSTOM);
+        }
+        foreach ($keys as $key) {
+            $cton0 = $this->getNewCriterion(UsuariogrupoTableMap::COL_USUARIOID, $key[0], Criteria::EQUAL);
+            $cton1 = $this->getNewCriterion(UsuariogrupoTableMap::COL_GRUPOID, $key[1], Criteria::EQUAL);
+            $cton0->addAnd($cton1);
+            $this->addOr($cton0);
         }
 
-        return $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $id, $comparison);
+        return $this;
     }
 
     /**
@@ -426,7 +392,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      *
      * @return $this|ChildUsuariogrupoQuery The current query, for fluid interface
      */
-    public function joinGrupo($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinGrupo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Grupo');
@@ -461,7 +427,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      *
      * @return \GrupoQuery A secondary query class using the current class as primary query
      */
-    public function useGrupoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useGrupoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinGrupo($relationAlias, $joinType)
@@ -503,7 +469,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      *
      * @return $this|ChildUsuariogrupoQuery The current query, for fluid interface
      */
-    public function joinUsuario($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinUsuario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Usuario');
@@ -538,7 +504,7 @@ abstract class UsuariogrupoQuery extends ModelCriteria
      *
      * @return \UsuarioQuery A secondary query class using the current class as primary query
      */
-    public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinUsuario($relationAlias, $joinType)
@@ -555,7 +521,9 @@ abstract class UsuariogrupoQuery extends ModelCriteria
     public function prune($usuariogrupo = null)
     {
         if ($usuariogrupo) {
-            $this->addUsingAlias(UsuariogrupoTableMap::COL_ID, $usuariogrupo->getId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond0', $this->getAliasedColName(UsuariogrupoTableMap::COL_USUARIOID), $usuariogrupo->getUsuarioid(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond1', $this->getAliasedColName(UsuariogrupoTableMap::COL_GRUPOID), $usuariogrupo->getGrupoid(), Criteria::NOT_EQUAL);
+            $this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
         }
 
         return $this;

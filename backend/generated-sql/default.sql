@@ -48,12 +48,10 @@ DROP TABLE IF EXISTS [UsuarioGrupo];
 
 CREATE TABLE [UsuarioGrupo]
 (
-    [Id] INTEGER NOT NULL,
-    [UsuarioId] INTEGER,
-    [GrupoId] INTEGER,
-    PRIMARY KEY ([Id]),
+    [UsuarioId] INTEGER NOT NULL,
+    [GrupoId] INTEGER NOT NULL,
+    PRIMARY KEY ([UsuarioId],[GrupoId]),
     UNIQUE ([UsuarioId],[GrupoId]),
-    UNIQUE ([Id]),
     FOREIGN KEY ([GrupoId]) REFERENCES [Grupo] ([Id])
         ON UPDATE CASCADE
         ON DELETE CASCADE,

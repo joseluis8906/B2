@@ -346,7 +346,7 @@ abstract class GrupoQuery extends ModelCriteria
      *
      * @return $this|ChildGrupoQuery The current query, for fluid interface
      */
-    public function joinUsuariogrupo($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinUsuariogrupo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Usuariogrupo');
@@ -381,11 +381,28 @@ abstract class GrupoQuery extends ModelCriteria
      *
      * @return \UsuariogrupoQuery A secondary query class using the current class as primary query
      */
-    public function useUsuariogrupoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useUsuariogrupoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinUsuariogrupo($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Usuariogrupo', '\UsuariogrupoQuery');
+    }
+
+    /**
+     * Filter the query by a related Usuario object
+     * using the UsuarioGrupo table as cross reference
+     *
+     * @param Usuario $usuario the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildGrupoQuery The current query, for fluid interface
+     */
+    public function filterByUsuario($usuario, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useUsuariogrupoQuery()
+            ->filterByUsuario($usuario, $comparison)
+            ->endUse();
     }
 
     /**

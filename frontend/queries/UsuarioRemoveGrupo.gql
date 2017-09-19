@@ -1,8 +1,8 @@
-mutation UsuarioRemoveGropo(
+mutation UsuarioRemoveGrupo(
   $UsuarioId: Int,
   $GrupoId: Int,
 ) {
-  UsuarioRemoveGropo(
+  UsuarioRemoveGrupo(
     UsuarioId: $UsuarioId,
     GrupoId: $GrupoId,
   ) {
