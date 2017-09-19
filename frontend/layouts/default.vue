@@ -50,11 +50,12 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
           //{ icon: 'group', text: 'Localidad', to: '/localidad' },
           //{ icon: 'local_offer', text: 'Producto', to: '/producto' },
           { icon: 'person', text: 'Usuario', to: '/Usuario' },
+          { icon: 'group', text: 'Grupo', to: '/Grupo' },
           //{ icon: 'local_shipping', text: 'Oferta', to: '/oferta' },
           //{ icon: 'shopping_cart', text: 'Demanda', to: '/demanda' },
           //{ icon: 'backup', text: 'Cargue Masivo', to: '/carguemasivo' },
         ],
-        title: 'Oferta y Demanda de Productos Cesar'
+        title: 'Libreria UPC'
       }
     },
     methods: {

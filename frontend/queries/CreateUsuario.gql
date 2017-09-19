@@ -8,7 +8,7 @@ mutation CreateUsuario(
   $Email: String,
   $Direccion: String,
   $Telefono: String,
-  $Activo: string
+  $Activo: String
 ) {
   CreateUsuario (
     UserName: $UserName,

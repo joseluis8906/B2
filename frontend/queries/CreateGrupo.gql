@@ -1,9 +1,7 @@
 mutation CreateGrupo(
-  $Id: Int,
   $Nombre: String
 ) {
   CreateGrupo (
-    Id: $Id,
     Nombre: $Nombre
   ) {
     Id

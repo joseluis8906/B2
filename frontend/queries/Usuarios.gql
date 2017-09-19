@@ -9,7 +9,7 @@ query Usuarios(
   $Email: String,
   $Direccion: String,
   $Telefono: String,
-  $Activo: string
+  $Activo: String
 ) {
   Usuarios (
     Id: $Id,
@@ -35,7 +35,7 @@ query Usuarios(
     Direccion
     Telefono
     Activo
-    Roles {
+    Grupos {
       Id
       Nombre
     }

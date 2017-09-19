@@ -9,7 +9,7 @@ mutation UpdateUsuario(
   $Email: String,
   $Direccion: String,
   $Telefono: String,
-  $Activo: string
+  $Activo: String
 ) {
   UpdateUsuario (
     Id: $Id,

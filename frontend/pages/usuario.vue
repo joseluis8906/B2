@@ -52,7 +52,7 @@ v-layout( align-center justify-center )
             v-select( label="Grupos"
                       v-bind:items="ItemsGrupo"
                       v-model="SelectedGrupos"
-                      item-text="Name"
+                      item-text="Nombre"
                       item-value="Id"
                       multiple
                       chips
@@ -291,6 +291,7 @@ export default {
       if (this.UiPassword !== null && this.UiPassword !== '') {
         axios.get(`/backend/generatepassword/${this.UiPassword}`).then(res => {
           this.Password = res.data.Password
+          console.log(this.Password)
           this.CreateOrUpdate()
         }).catch(err => {
           console.log(err)
@@ -310,7 +311,14 @@ export default {
       const User = {
         UserName: this.UserName,
         Password: this.Password,
-        Activo: this.Activo,
+        Cedula: this.Cedula,
+        Nombre: this.Nombre,
+        Apellido: this.Apellido,
+        Ocupacion: this.Ocupacion,
+        Email: this.Email,
+        Direccion: this.Direccion,
+        Telefono: this.Telefono,
+        Activo: this.Activo
       };
 
       this.Reset ();
@@ -320,6 +328,13 @@ export default {
         variables: {
           UserName: User.UserName,
           Password: User.Password,
+          Cedula: User.Cedula,
+          Nombre: User.Nombre,
+          Apellido: User.Apellido,
+          Ocupacion: User.Ocupacion,
+          Email: User.Email,
+          Direccion: User.Direccion,
+          Telefono: User.Telefono,
           Activo: User.Activo
       },
       loadingKey: 'loading',
@@ -372,6 +387,13 @@ export default {
         Id: this.Id,
         UserName: this.UserName,
         Password: this.Password,
+        Cedula: this.Cedula,
+        Nombre: this.Nombre,
+        Apellido: this.Apellido,
+        Ocupacion: this.Ocupacion,
+        Email: this.Email,
+        Direccion: this.Direccion,
+        Telefono: this.Telefono,
         Activo: this.Activo
       };
 
@@ -383,6 +405,13 @@ export default {
           Id: User.Id,
           UserName: User.UserName,
           Password: User.Password,
+          Cedula: User.Cedula,
+          Nombre: User.Nombre,
+          Apellido: User.Apellido,
+          Ocupacion: User.Ocupacion,
+          Email: User.Email,
+          Direccion: User.Direccion,
+          Telefono: User.Telefono,
           Activo: User.Activo
         },
         loadingKey: 'loading',
@@ -400,6 +429,13 @@ export default {
               if (data.Usuarios[i].Id === res.UpdateUsuario.Id) {
                 data.Usuarios[i].UserName = res.UpdateUsuario.UserName
                 data.Usuarios[i].Password = res.UpdateUsuario.Password
+                data.Usuarios[i].Cedula = res.UpdateUsuario.Cedula
+                data.Usuarios[i].Nombre = res.UpdateUsuario.Nombre
+                data.Usuarios[i].Apellido = res.UpdateUsuario.Apellido
+                data.Usuarios[i].Ocupacion = res.UpdateUsuario.Ocupacion
+                data.Usuarios[i].Email = res.UpdateUsuario.Email
+                data.Usuarios[i].Direccion = res.UpdateUsuario.Direccion
+                data.Usuarios[i].Telefono = res.UpdateUsuario.Telefono
                 data.Usuarios[i].Activo = res.UpdateUsuario.Activo
               }
             }
@@ -439,6 +475,13 @@ export default {
       this.Id = null
       this.UserName = null
       this.Password = null
+      this.Cedula = null
+      this.Nombre = null
+      this.Apellido = null
+      this.Ocupacion = null
+      this.Email = null
+      this.Direccion = null
+      this.Telefono = null
       this.UiPassword = null
       this.Activo = null
       this.SelectedGrupos = []
