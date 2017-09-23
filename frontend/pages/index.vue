@@ -1,5 +1,6 @@
 <template lang="pug">
 div(class="hello")
+  img(src="books2.jpg" style="width:100%")
   //p Contable
   //g-carousel
   //g-icon-grid

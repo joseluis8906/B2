@@ -27,7 +27,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
       nuxt
 
   v-footer(fixed)
-    <span> © {{ new Date().getFullYear() }} </span> Jose Luis Cáceres Escudero
+    <span> © {{ new Date().getFullYear() }} </span> Jose L. Cáceres E. & Joiner Sanchez M.
 
 </template>
 
