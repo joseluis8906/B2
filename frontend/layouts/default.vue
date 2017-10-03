@@ -49,19 +49,28 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
         items: [
           //{ icon: 'group', text: 'Localidad', to: '/localidad' },
           //{ icon: 'local_offer', text: 'Producto', to: '/producto' },
-          { icon: 'person', text: 'Usuario', to: '/Usuario' },
-          { icon: 'group', text: 'Grupo', to: '/Grupo' },
+          { icon: 'person', text: 'Usuario', to: '/Usuario', Roles: ['Administrador'] },
+          { icon: 'group', text: 'Grupo', to: '/Grupo', Roles: ['Administrador'] },
           //{ icon: 'local_shipping', text: 'Oferta', to: '/oferta' },
           //{ icon: 'shopping_cart', text: 'Demanda', to: '/demanda' },
           //{ icon: 'backup', text: 'Cargue Masivo', to: '/carguemasivo' },
         ],
-        title: 'Libreria UPC'
+        title: 'Libreria UPC',
+        StoreRoles: []
       }
     },
     methods: {
       logout () {
         sessionStorage.removeItem("x-access-token")
         this.$router.push('/')
+      },
+      EvaluarRoles (Roles) {
+        if (this.$store.state.security.Roles !== null) {
+          for (let i=0;i<Roles.length; i++) {
+            if(this.$store.state.security.Roles.indexOf(Roles[i]) !== -1) {return true}
+          }
+        }
+        return false;
       }
     }
   }

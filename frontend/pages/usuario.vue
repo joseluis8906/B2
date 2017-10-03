@@ -62,6 +62,25 @@ v-layout( align-center justify-center )
                       class="select-special"
                       :disabled="DisableGroupSelect")
 
+            table
+              tr
+                th UserName
+                th Cedula
+                th Nombre
+                th Apellido
+                th Ocupacion
+                th Email
+              tr(v-for="(item, i) in  TodosUsuariosDb" :key="i")
+                td {{ item.UserName }}
+                td {{ item.Cedula }}
+                td {{ item.Nombre }}
+                td {{ item.Apellido }}
+                td {{ item.Ocupacion }}
+                td {{ item.Email }}
+
+            //-div(style="width: 90%; height: scroll")
+              //-pre {{ TodosUsuariosDb }}
+
       v-card-actions
         v-spacer
         v-btn( dark @click.native="Reset" ) Cancelar
@@ -108,6 +127,7 @@ export default {
       {text: 'No'}
     ],
     ItemsGrupo: [],
+    TodosUsuariosDb: [],
     loading: 0
   }),
   beforeMount () {
@@ -130,6 +150,14 @@ export default {
       update (data) {
         //console.log(data)
         this.LoadUi(data.Usuarios)
+      }
+    },
+    TodosUsuarios: {
+      query: USUARIOS,
+      loadingKey: 'loading',
+      update (data) {
+        console.log(data)
+        this.TodosUsuariosDb = data.Usuarios
       }
     },
     Grupos: {
