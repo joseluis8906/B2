@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="hello")
-  img(src="books2.jpg" style="width:100%")
+  img(src="/books2.jpg" style="width:100%")
   //p Contable
   //g-carousel
   //g-icon-grid
@@ -17,14 +17,6 @@ div(class="hello")
 <script>
 
 import GCarousel from '~components/GCarousel.vue'
-import GIconGrid from '~components/GIconGrid.vue'
-import GSection1 from '~components/GSection1.vue'
-import GSection2 from '~components/GSection2.vue'
-import GSection3 from '~components/GSection3.vue'
-import GSection4 from '~components/GSection4.vue'
-import GSection5 from '~components/GSection5.vue'
-import GTestimonios from '~components/GTestimonios.vue'
-import GContact from '~components/GContact.vue'
 
 
 export default {
@@ -35,20 +27,6 @@ export default {
   layout: 'page',
   components: {
     GCarousel,
-    GIconGrid,
-    GSection1,
-    GSection2,
-    GSection3,
-    GSection4,
-    GSection5,
-    GTestimonios,
-    GContact
-  },
-  head () {
-    return {
-      meta: [{name: "viewport", content: "width=device-width, initial-scale=1, maximun-scale=1, user-scalable=no, minimal-ui"}],
-      title: "Gis"
-    }
   }
 }
 

@@ -25,28 +25,29 @@ v-layout( align-center justify-center )
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
-            v-text-field( label="Nombre De Usuario" v-model="UserName" dark )
+            v-text-field( label="Nombre De Usuario" v-model="UserName" :rules="[rules.required]" dark )
 
             v-text-field( label="Contraseña" v-model="UiPassword" type="Password" maxlength="4" dark )
 
-            v-text-field( label="Cédula" v-model="Cedula" dark )
+            v-text-field( label="Cédula" v-model="Cedula" :rules="[rules.required]" dark )
 
-            v-text-field( label="Nombre" v-model="Nombre" dark )
+            v-text-field( label="Nombre" v-model="Nombre" :rules="[rules.required]" dark )
 
-            v-text-field( label="Apellido" v-model="Apellido" dark )
+            v-text-field( label="Apellido" v-model="Apellido" :rules="[rules.required]" dark )
 
-            v-text-field( label="Ocupación" v-model="Ocupacion" dark )
+            v-text-field( label="Ocupación" v-model="Ocupacion" :rules="[rules.required]" dark )
 
-            v-text-field( label="Correo" v-model="Email" dark )
+            v-text-field( label="Correo" v-model="Email" :rules="[rules.required]" dark )
 
-            v-text-field( label="Dirección" v-model="Direccion" dark )
+            v-text-field( label="Dirección" v-model="Direccion" :rules="[rules.required]" dark )
 
-            v-text-field( label="Teléfono" v-model="Telefono" dark )
+            v-text-field( label="Teléfono" v-model="Telefono" :rules="[rules.required]" dark )
 
             v-select( v-bind:items="ItemsActivo"
                       v-model="Activo"
                       label="Activo"
                       item-value="text"
+                      :rules="[rules.required]"
                       dark )
 
             v-select( label="Grupos"
@@ -61,22 +62,6 @@ v-layout( align-center justify-center )
                       return-object
                       class="select-special"
                       :disabled="DisableGroupSelect")
-
-            table
-              tr
-                th UserName
-                th Cedula
-                th Nombre
-                th Apellido
-                th Ocupacion
-                th Email
-              tr(v-for="(item, i) in  TodosUsuariosDb" :key="i")
-                td {{ item.UserName }}
-                td {{ item.Cedula }}
-                td {{ item.Nombre }}
-                td {{ item.Apellido }}
-                td {{ item.Ocupacion }}
-                td {{ item.Email }}
 
             //-div(style="width: 90%; height: scroll")
               //-pre {{ TodosUsuariosDb }}
@@ -106,6 +91,13 @@ export default {
       timeout: 6000,
       text: 'Cargando'
     },
+    rules: {
+      required: (value) => !!value || 'Obligatorio.',
+      email: (value) => {
+        const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return pattern.test(value) || 'Correo Inválido.'
+      }
+    },
     Id: null,
     UserName: null,
     Password: null,
@@ -130,7 +122,7 @@ export default {
     TodosUsuariosDb: [],
     loading: 0
   }),
-  beforeMount () {
+  mounted () {
     if (sessionStorage.getItem('x-access-token') === null || sessionStorage.getItem('x-access-token') === null) {
       this.$router.push('/')
     } else {
@@ -150,14 +142,6 @@ export default {
       update (data) {
         //console.log(data)
         this.LoadUi(data.Usuarios)
-      }
-    },
-    TodosUsuarios: {
-      query: USUARIOS,
-      loadingKey: 'loading',
-      update (data) {
-        console.log(data)
-        this.TodosUsuariosDb = data.Usuarios
       }
     },
     Grupos: {

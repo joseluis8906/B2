@@ -1,7 +1,13 @@
 <template lang="pug">
-  input( v-model="displayValue"
-         @blur="handleInputState"
-         @focus="handleInputState" )
+  v-text-field( v-model="displayValue"
+                :label="label"
+                :readonly="readonly"
+                :prepend-icon="prependIcon"
+                :light="light || false"
+                :rules="rules"
+                @blur="handleInputState"
+                @focus="handleInputState"
+                :dark="dark || false" )
 </template>
 
 <script>
@@ -9,11 +15,11 @@
 const masks = {
   currency: {
     mask (value) {
-      return '$' + (value !== null ? value.toLocaleString() : ''.toLocaleString())
+      return (value !== null ? '$' + value.toLocaleString() : null)
     },
     unmask (value) {
       value = parseFloat(value.replace(/[^\d\.]/g, ""))
-      return isNaN(value) ? 0 : value
+      return isNaN(value) ? null : value
     },
   },
 }
@@ -21,8 +27,14 @@ const masks = {
 export default {
   props: {
     value: null,
+    rules: null,
     maskType: String,
-    focused: false
+    focused: false,
+    label: String,
+    readonly: Boolean,
+    prependIcon: String,
+    light: Boolean,
+    dark: String
   },
   data: function() {
     return {
@@ -49,12 +61,12 @@ export default {
     displayValue: {
       get: function() {
         if (this.inputFocused) {
-          return (this.value !== null ? this.value.toLocaleString() : ''.toLocaleString())
+          return (this.value !== null ? this.value : null)
         } else {
           return this.mask(this.value)
         }
       },
-      set: function(modifiedValue) {        
+      set: function(modifiedValue) {
         this.$emit('input', this.unmask(modifiedValue))
       }
     }
