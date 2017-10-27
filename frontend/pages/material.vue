@@ -74,7 +74,7 @@ export default {
       snackbar: {
         context: 'secondary',
         mode: '',
-        timeout: 6000,
+        timeout: 3000,
         text: 'Cargando'
       },
       rules: {

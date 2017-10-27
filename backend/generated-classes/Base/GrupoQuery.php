@@ -389,23 +389,6 @@ abstract class GrupoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Usuario object
-     * using the UsuarioGrupo table as cross reference
-     *
-     * @param Usuario $usuario the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildGrupoQuery The current query, for fluid interface
-     */
-    public function filterByUsuario($usuario, $comparison = Criteria::EQUAL)
-    {
-        return $this
-            ->useUsuariogrupoQuery()
-            ->filterByUsuario($usuario, $comparison)
-            ->endUse();
-    }
-
-    /**
      * Exclude object from result
      *
      * @param   ChildGrupo $grupo Object to remove from the list of results

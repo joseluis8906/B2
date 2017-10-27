@@ -130,7 +130,6 @@ class UsuariogrupoTableMap extends TableMap
         $this->setClassName('\\Usuariogrupo');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
-        $this->setIsCrossRef(true);
         // columns
         $this->addForeignPrimaryKey('UsuarioId', 'Usuarioid', 'INTEGER' , 'Usuario', 'Id', true, null, null);
         $this->addForeignPrimaryKey('GrupoId', 'Grupoid', 'INTEGER' , 'Grupo', 'Id', true, null, null);

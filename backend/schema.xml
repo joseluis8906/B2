@@ -7,6 +7,30 @@
       <unique-column name="Nombre"/>
     </unique>
   </table>
+  <table name="Libro" idMethod="native" phpName="Libro">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Isbn" phpName="Isbn" type="LONGVARCHAR"/>
+    <column name="Categoria" phpName="Categoria" type="LONGVARCHAR"/>
+    <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
+    <column name="Editorial" phpName="Editorial" type="LONGVARCHAR"/>
+    <column name="Edicion" phpName="Edicion" type="LONGVARCHAR"/>
+    <column name="Fecha" phpName="Fecha" type="DATE"/>
+    <column name="Lugar" phpName="Lugar" type="LONGVARCHAR"/>
+    <column name="Estado" phpName="Estado" type="LONGVARCHAR"/>
+    <unique name="Libro_u_00c2a6">
+      <unique-column name="Isbn"/>
+    </unique>
+  </table>
+  <table name="TablaDibujo" idMethod="native" phpName="Tabladibujo">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
+    <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
+    <column name="Especificaciones" phpName="Especificaciones" type="LONGVARCHAR"/>
+    <column name="Estado" phpName="Estado" type="LONGVARCHAR"/>
+    <unique name="TablaDibujo_u_44b826">
+      <unique-column name="Codigo"/>
+    </unique>
+  </table>
   <table name="Usuario" idMethod="native" phpName="Usuario">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="UserName" phpName="Username" type="LONGVARCHAR"/>
@@ -29,7 +53,7 @@
       <unique-column name="UserName"/>
     </unique>
   </table>
-  <table name="UsuarioGrupo" isCrossRef="true" idMethod="native" phpName="Usuariogrupo">
+  <table name="UsuarioGrupo" idMethod="native" phpName="Usuariogrupo">
     <column name="UsuarioId" phpName="Usuarioid" type="INTEGER" primaryKey="true"/>
     <column name="GrupoId" phpName="Grupoid" type="INTEGER" primaryKey="true"/>
     <foreign-key foreignTable="Grupo" name="UsuarioGrupo_fk_8631f0" onDelete="CASCADE" onUpdate="CASCADE">
@@ -41,6 +65,18 @@
     <unique name="UsuarioGrupo_u_702c23">
       <unique-column name="UsuarioId"/>
       <unique-column name="GrupoId"/>
+    </unique>
+  </table>
+  <table name="VideoBean" idMethod="native" phpName="Videobean">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
+    <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
+    <column name="Modelo" phpName="Modelo" type="LONGVARCHAR"/>
+    <column name="Especificaciones" phpName="Especificaciones" type="LONGVARCHAR"/>
+    <column name="Accesorios" phpName="Accesorios" type="LONGVARCHAR"/>
+    <column name="Estado" phpName="Estado" type="LONGVARCHAR"/>
+    <unique name="VideoBean_u_44b826">
+      <unique-column name="Codigo"/>
     </unique>
   </table>
 </database>

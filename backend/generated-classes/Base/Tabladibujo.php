@@ -2,20 +2,15 @@
 
 namespace Base;
 
-use \Grupo as ChildGrupo;
-use \GrupoQuery as ChildGrupoQuery;
-use \Usuariogrupo as ChildUsuariogrupo;
-use \UsuariogrupoQuery as ChildUsuariogrupoQuery;
+use \TabladibujoQuery as ChildTabladibujoQuery;
 use \Exception;
 use \PDO;
-use Map\GrupoTableMap;
-use Map\UsuariogrupoTableMap;
+use Map\TabladibujoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -24,18 +19,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'Grupo' table.
+ * Base class that represents a row from the 'TablaDibujo' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class Grupo implements ActiveRecordInterface
+abstract class Tabladibujo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\GrupoTableMap';
+    const TABLE_MAP = '\\Map\\TabladibujoTableMap';
 
 
     /**
@@ -72,17 +67,32 @@ abstract class Grupo implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the nombre field.
+     * The value for the codigo field.
      *
      * @var        string
      */
-    protected $nombre;
+    protected $codigo;
 
     /**
-     * @var        ObjectCollection|ChildUsuariogrupo[] Collection to store aggregation of ChildUsuariogrupo objects.
+     * The value for the marca field.
+     *
+     * @var        string
      */
-    protected $collUsuariogrupos;
-    protected $collUsuariogruposPartial;
+    protected $marca;
+
+    /**
+     * The value for the especificaciones field.
+     *
+     * @var        string
+     */
+    protected $especificaciones;
+
+    /**
+     * The value for the estado field.
+     *
+     * @var        string
+     */
+    protected $estado;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -93,13 +103,7 @@ abstract class Grupo implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildUsuariogrupo[]
-     */
-    protected $usuariogruposScheduledForDeletion = null;
-
-    /**
-     * Initializes internal state of Base\Grupo object.
+     * Initializes internal state of Base\Tabladibujo object.
      */
     public function __construct()
     {
@@ -194,9 +198,9 @@ abstract class Grupo implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Grupo</code> instance.  If
-     * <code>obj</code> is an instance of <code>Grupo</code>, delegates to
-     * <code>equals(Grupo)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Tabladibujo</code> instance.  If
+     * <code>obj</code> is an instance of <code>Tabladibujo</code>, delegates to
+     * <code>equals(Tabladibujo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -262,7 +266,7 @@ abstract class Grupo implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Grupo The current object, for fluid interface
+     * @return $this|Tabladibujo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -334,20 +338,50 @@ abstract class Grupo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [nombre] column value.
+     * Get the [codigo] column value.
      *
      * @return string
      */
-    public function getNombre()
+    public function getCodigo()
     {
-        return $this->nombre;
+        return $this->codigo;
+    }
+
+    /**
+     * Get the [marca] column value.
+     *
+     * @return string
+     */
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
+    /**
+     * Get the [especificaciones] column value.
+     *
+     * @return string
+     */
+    public function getEspecificaciones()
+    {
+        return $this->especificaciones;
+    }
+
+    /**
+     * Get the [estado] column value.
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Grupo The current object (for fluent API support)
+     * @return $this|\Tabladibujo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -357,31 +391,91 @@ abstract class Grupo implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[GrupoTableMap::COL_ID] = true;
+            $this->modifiedColumns[TabladibujoTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [nombre] column.
+     * Set the value of [codigo] column.
      *
      * @param string $v new value
-     * @return $this|\Grupo The current object (for fluent API support)
+     * @return $this|\Tabladibujo The current object (for fluent API support)
      */
-    public function setNombre($v)
+    public function setCodigo($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->nombre !== $v) {
-            $this->nombre = $v;
-            $this->modifiedColumns[GrupoTableMap::COL_NOMBRE] = true;
+        if ($this->codigo !== $v) {
+            $this->codigo = $v;
+            $this->modifiedColumns[TabladibujoTableMap::COL_CODIGO] = true;
         }
 
         return $this;
-    } // setNombre()
+    } // setCodigo()
+
+    /**
+     * Set the value of [marca] column.
+     *
+     * @param string $v new value
+     * @return $this|\Tabladibujo The current object (for fluent API support)
+     */
+    public function setMarca($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->marca !== $v) {
+            $this->marca = $v;
+            $this->modifiedColumns[TabladibujoTableMap::COL_MARCA] = true;
+        }
+
+        return $this;
+    } // setMarca()
+
+    /**
+     * Set the value of [especificaciones] column.
+     *
+     * @param string $v new value
+     * @return $this|\Tabladibujo The current object (for fluent API support)
+     */
+    public function setEspecificaciones($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->especificaciones !== $v) {
+            $this->especificaciones = $v;
+            $this->modifiedColumns[TabladibujoTableMap::COL_ESPECIFICACIONES] = true;
+        }
+
+        return $this;
+    } // setEspecificaciones()
+
+    /**
+     * Set the value of [estado] column.
+     *
+     * @param string $v new value
+     * @return $this|\Tabladibujo The current object (for fluent API support)
+     */
+    public function setEstado($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->estado !== $v) {
+            $this->estado = $v;
+            $this->modifiedColumns[TabladibujoTableMap::COL_ESTADO] = true;
+        }
+
+        return $this;
+    } // setEstado()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -419,11 +513,20 @@ abstract class Grupo implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : GrupoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TabladibujoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : GrupoTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nombre = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TabladibujoTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->codigo = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TabladibujoTableMap::translateFieldName('Marca', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->marca = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TabladibujoTableMap::translateFieldName('Especificaciones', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->especificaciones = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TabladibujoTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->estado = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -432,10 +535,10 @@ abstract class Grupo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = GrupoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = TabladibujoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Grupo'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Tabladibujo'), 0, $e);
         }
     }
 
@@ -477,13 +580,13 @@ abstract class Grupo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(GrupoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TabladibujoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildGrupoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildTabladibujoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -492,8 +595,6 @@ abstract class Grupo implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
-
-            $this->collUsuariogrupos = null;
 
         } // if (deep)
     }
@@ -504,8 +605,8 @@ abstract class Grupo implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Grupo::setDeleted()
-     * @see Grupo::isDeleted()
+     * @see Tabladibujo::setDeleted()
+     * @see Tabladibujo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -514,11 +615,11 @@ abstract class Grupo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GrupoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildGrupoQuery::create()
+            $deleteQuery = ChildTabladibujoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -553,7 +654,7 @@ abstract class Grupo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GrupoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -572,7 +673,7 @@ abstract class Grupo implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                GrupoTableMap::addInstanceToPool($this);
+                TabladibujoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -609,23 +710,6 @@ abstract class Grupo implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->usuariogruposScheduledForDeletion !== null) {
-                if (!$this->usuariogruposScheduledForDeletion->isEmpty()) {
-                    \UsuariogrupoQuery::create()
-                        ->filterByPrimaryKeys($this->usuariogruposScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->usuariogruposScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collUsuariogrupos !== null) {
-                foreach ($this->collUsuariogrupos as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
             $this->alreadyInSave = false;
 
         }
@@ -648,15 +732,24 @@ abstract class Grupo implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(GrupoTableMap::COL_ID)) {
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'Id';
         }
-        if ($this->isColumnModified(GrupoTableMap::COL_NOMBRE)) {
-            $modifiedColumns[':p' . $index++]  = 'Nombre';
+        if ($this->isColumnModified(TabladibujoTableMap::COL_CODIGO)) {
+            $modifiedColumns[':p' . $index++]  = 'Codigo';
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_MARCA)) {
+            $modifiedColumns[':p' . $index++]  = 'Marca';
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ESPECIFICACIONES)) {
+            $modifiedColumns[':p' . $index++]  = 'Especificaciones';
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ESTADO)) {
+            $modifiedColumns[':p' . $index++]  = 'Estado';
         }
 
         $sql = sprintf(
-            'INSERT INTO Grupo (%s) VALUES (%s)',
+            'INSERT INTO TablaDibujo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -668,8 +761,17 @@ abstract class Grupo implements ActiveRecordInterface
                     case 'Id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'Nombre':
-                        $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
+                    case 'Codigo':
+                        $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
+                        break;
+                    case 'Marca':
+                        $stmt->bindValue($identifier, $this->marca, PDO::PARAM_STR);
+                        break;
+                    case 'Especificaciones':
+                        $stmt->bindValue($identifier, $this->especificaciones, PDO::PARAM_STR);
+                        break;
+                    case 'Estado':
+                        $stmt->bindValue($identifier, $this->estado, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -710,7 +812,7 @@ abstract class Grupo implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = GrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TabladibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -730,7 +832,16 @@ abstract class Grupo implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getNombre();
+                return $this->getCodigo();
+                break;
+            case 2:
+                return $this->getMarca();
+                break;
+            case 3:
+                return $this->getEspecificaciones();
+                break;
+            case 4:
+                return $this->getEstado();
                 break;
             default:
                 return null;
@@ -749,44 +860,29 @@ abstract class Grupo implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
 
-        if (isset($alreadyDumpedObjects['Grupo'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Tabladibujo'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Grupo'][$this->hashCode()] = true;
-        $keys = GrupoTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Tabladibujo'][$this->hashCode()] = true;
+        $keys = TabladibujoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getNombre(),
+            $keys[1] => $this->getCodigo(),
+            $keys[2] => $this->getMarca(),
+            $keys[3] => $this->getEspecificaciones(),
+            $keys[4] => $this->getEstado(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
-        if ($includeForeignObjects) {
-            if (null !== $this->collUsuariogrupos) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'usuariogrupos';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'UsuarioGrupos';
-                        break;
-                    default:
-                        $key = 'Usuariogrupos';
-                }
-
-                $result[$key] = $this->collUsuariogrupos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-        }
 
         return $result;
     }
@@ -800,11 +896,11 @@ abstract class Grupo implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Grupo
+     * @return $this|\Tabladibujo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = GrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TabladibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -815,7 +911,7 @@ abstract class Grupo implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Grupo
+     * @return $this|\Tabladibujo
      */
     public function setByPosition($pos, $value)
     {
@@ -824,7 +920,16 @@ abstract class Grupo implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setNombre($value);
+                $this->setCodigo($value);
+                break;
+            case 2:
+                $this->setMarca($value);
+                break;
+            case 3:
+                $this->setEspecificaciones($value);
+                break;
+            case 4:
+                $this->setEstado($value);
                 break;
         } // switch()
 
@@ -850,13 +955,22 @@ abstract class Grupo implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = GrupoTableMap::getFieldNames($keyType);
+        $keys = TabladibujoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNombre($arr[$keys[1]]);
+            $this->setCodigo($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setMarca($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setEspecificaciones($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setEstado($arr[$keys[4]]);
         }
     }
 
@@ -877,7 +991,7 @@ abstract class Grupo implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Grupo The current object, for fluid interface
+     * @return $this|\Tabladibujo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -897,13 +1011,22 @@ abstract class Grupo implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(GrupoTableMap::DATABASE_NAME);
+        $criteria = new Criteria(TabladibujoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(GrupoTableMap::COL_ID)) {
-            $criteria->add(GrupoTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ID)) {
+            $criteria->add(TabladibujoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(GrupoTableMap::COL_NOMBRE)) {
-            $criteria->add(GrupoTableMap::COL_NOMBRE, $this->nombre);
+        if ($this->isColumnModified(TabladibujoTableMap::COL_CODIGO)) {
+            $criteria->add(TabladibujoTableMap::COL_CODIGO, $this->codigo);
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_MARCA)) {
+            $criteria->add(TabladibujoTableMap::COL_MARCA, $this->marca);
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ESPECIFICACIONES)) {
+            $criteria->add(TabladibujoTableMap::COL_ESPECIFICACIONES, $this->especificaciones);
+        }
+        if ($this->isColumnModified(TabladibujoTableMap::COL_ESTADO)) {
+            $criteria->add(TabladibujoTableMap::COL_ESTADO, $this->estado);
         }
 
         return $criteria;
@@ -921,8 +1044,8 @@ abstract class Grupo implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildGrupoQuery::create();
-        $criteria->add(GrupoTableMap::COL_ID, $this->id);
+        $criteria = ChildTabladibujoQuery::create();
+        $criteria->add(TabladibujoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -984,7 +1107,7 @@ abstract class Grupo implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Grupo (or compatible) type.
+     * @param      object $copyObj An object of \Tabladibujo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -992,21 +1115,10 @@ abstract class Grupo implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
-        $copyObj->setNombre($this->getNombre());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getUsuariogrupos() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addUsuariogrupo($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
+        $copyObj->setCodigo($this->getCodigo());
+        $copyObj->setMarca($this->getMarca());
+        $copyObj->setEspecificaciones($this->getEspecificaciones());
+        $copyObj->setEstado($this->getEstado());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1021,7 +1133,7 @@ abstract class Grupo implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Grupo Clone of current object.
+     * @return \Tabladibujo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1034,276 +1146,6 @@ abstract class Grupo implements ActiveRecordInterface
         return $copyObj;
     }
 
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('Usuariogrupo' == $relationName) {
-            $this->initUsuariogrupos();
-            return;
-        }
-    }
-
-    /**
-     * Clears out the collUsuariogrupos collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addUsuariogrupos()
-     */
-    public function clearUsuariogrupos()
-    {
-        $this->collUsuariogrupos = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collUsuariogrupos collection loaded partially.
-     */
-    public function resetPartialUsuariogrupos($v = true)
-    {
-        $this->collUsuariogruposPartial = $v;
-    }
-
-    /**
-     * Initializes the collUsuariogrupos collection.
-     *
-     * By default this just sets the collUsuariogrupos collection to an empty array (like clearcollUsuariogrupos());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initUsuariogrupos($overrideExisting = true)
-    {
-        if (null !== $this->collUsuariogrupos && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = UsuariogrupoTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collUsuariogrupos = new $collectionClassName;
-        $this->collUsuariogrupos->setModel('\Usuariogrupo');
-    }
-
-    /**
-     * Gets an array of ChildUsuariogrupo objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildGrupo is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildUsuariogrupo[] List of ChildUsuariogrupo objects
-     * @throws PropelException
-     */
-    public function getUsuariogrupos(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collUsuariogruposPartial && !$this->isNew();
-        if (null === $this->collUsuariogrupos || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collUsuariogrupos) {
-                // return empty collection
-                $this->initUsuariogrupos();
-            } else {
-                $collUsuariogrupos = ChildUsuariogrupoQuery::create(null, $criteria)
-                    ->filterByGrupo($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collUsuariogruposPartial && count($collUsuariogrupos)) {
-                        $this->initUsuariogrupos(false);
-
-                        foreach ($collUsuariogrupos as $obj) {
-                            if (false == $this->collUsuariogrupos->contains($obj)) {
-                                $this->collUsuariogrupos->append($obj);
-                            }
-                        }
-
-                        $this->collUsuariogruposPartial = true;
-                    }
-
-                    return $collUsuariogrupos;
-                }
-
-                if ($partial && $this->collUsuariogrupos) {
-                    foreach ($this->collUsuariogrupos as $obj) {
-                        if ($obj->isNew()) {
-                            $collUsuariogrupos[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collUsuariogrupos = $collUsuariogrupos;
-                $this->collUsuariogruposPartial = false;
-            }
-        }
-
-        return $this->collUsuariogrupos;
-    }
-
-    /**
-     * Sets a collection of ChildUsuariogrupo objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $usuariogrupos A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildGrupo The current object (for fluent API support)
-     */
-    public function setUsuariogrupos(Collection $usuariogrupos, ConnectionInterface $con = null)
-    {
-        /** @var ChildUsuariogrupo[] $usuariogruposToDelete */
-        $usuariogruposToDelete = $this->getUsuariogrupos(new Criteria(), $con)->diff($usuariogrupos);
-
-
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->usuariogruposScheduledForDeletion = clone $usuariogruposToDelete;
-
-        foreach ($usuariogruposToDelete as $usuariogrupoRemoved) {
-            $usuariogrupoRemoved->setGrupo(null);
-        }
-
-        $this->collUsuariogrupos = null;
-        foreach ($usuariogrupos as $usuariogrupo) {
-            $this->addUsuariogrupo($usuariogrupo);
-        }
-
-        $this->collUsuariogrupos = $usuariogrupos;
-        $this->collUsuariogruposPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Usuariogrupo objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related Usuariogrupo objects.
-     * @throws PropelException
-     */
-    public function countUsuariogrupos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collUsuariogruposPartial && !$this->isNew();
-        if (null === $this->collUsuariogrupos || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collUsuariogrupos) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getUsuariogrupos());
-            }
-
-            $query = ChildUsuariogrupoQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByGrupo($this)
-                ->count($con);
-        }
-
-        return count($this->collUsuariogrupos);
-    }
-
-    /**
-     * Method called to associate a ChildUsuariogrupo object to this object
-     * through the ChildUsuariogrupo foreign key attribute.
-     *
-     * @param  ChildUsuariogrupo $l ChildUsuariogrupo
-     * @return $this|\Grupo The current object (for fluent API support)
-     */
-    public function addUsuariogrupo(ChildUsuariogrupo $l)
-    {
-        if ($this->collUsuariogrupos === null) {
-            $this->initUsuariogrupos();
-            $this->collUsuariogruposPartial = true;
-        }
-
-        if (!$this->collUsuariogrupos->contains($l)) {
-            $this->doAddUsuariogrupo($l);
-
-            if ($this->usuariogruposScheduledForDeletion and $this->usuariogruposScheduledForDeletion->contains($l)) {
-                $this->usuariogruposScheduledForDeletion->remove($this->usuariogruposScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildUsuariogrupo $usuariogrupo The ChildUsuariogrupo object to add.
-     */
-    protected function doAddUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
-    {
-        $this->collUsuariogrupos[]= $usuariogrupo;
-        $usuariogrupo->setGrupo($this);
-    }
-
-    /**
-     * @param  ChildUsuariogrupo $usuariogrupo The ChildUsuariogrupo object to remove.
-     * @return $this|ChildGrupo The current object (for fluent API support)
-     */
-    public function removeUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
-    {
-        if ($this->getUsuariogrupos()->contains($usuariogrupo)) {
-            $pos = $this->collUsuariogrupos->search($usuariogrupo);
-            $this->collUsuariogrupos->remove($pos);
-            if (null === $this->usuariogruposScheduledForDeletion) {
-                $this->usuariogruposScheduledForDeletion = clone $this->collUsuariogrupos;
-                $this->usuariogruposScheduledForDeletion->clear();
-            }
-            $this->usuariogruposScheduledForDeletion[]= clone $usuariogrupo;
-            $usuariogrupo->setGrupo(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Grupo is new, it will return
-     * an empty collection; or if this Grupo has previously
-     * been saved, it will retrieve related Usuariogrupos from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Grupo.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildUsuariogrupo[] List of ChildUsuariogrupo objects
-     */
-    public function getUsuariogruposJoinUsuario(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildUsuariogrupoQuery::create(null, $criteria);
-        $query->joinWith('Usuario', $joinBehavior);
-
-        return $this->getUsuariogrupos($query, $con);
-    }
-
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -1312,7 +1154,10 @@ abstract class Grupo implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
-        $this->nombre = null;
+        $this->codigo = null;
+        $this->marca = null;
+        $this->especificaciones = null;
+        $this->estado = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1331,14 +1176,8 @@ abstract class Grupo implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collUsuariogrupos) {
-                foreach ($this->collUsuariogrupos as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        $this->collUsuariogrupos = null;
     }
 
     /**
@@ -1348,7 +1187,7 @@ abstract class Grupo implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(GrupoTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(TabladibujoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

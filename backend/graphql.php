@@ -41,6 +41,47 @@ class GQGrupo {
   }
 }
 
+class GQLibro {
+  public $Id;
+  public $Isbn;
+  public $Nombre;
+  public $Editorial;
+  public $Edicion;
+  public $Fecha;
+  public $Lugar;
+  public $Estado;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
+
+class GQVidebean {
+  public $Id;
+  public $Codigo;
+  public $marca;
+  public $Modelo;
+  public $Especificaciones;
+  public $Accesorios;
+  public $Estado;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
+
+class GQTabladibujo {
+  public $Id;
+  public $Codigo;
+  public $marca;
+  public $Especificaciones;
+  public $Estado;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
+
 try {
   //Tipo de objeto Usuario
   $Grupo = new ObjectType([
@@ -68,6 +109,49 @@ try {
         'Telefono' => ['type' => Type::string()],
         'Activo' => ['type' => Type::string()],
         'Grupos' => ['type' => Type::listOf($Grupo)]
+    ]
+  ]);
+
+  $Libro = new ObjectType([
+    'name' => 'Libro',
+    'description' => 'Objeto que describe un libro',
+    'fields' => [
+        'Id' => ['type' => Type::int()],
+        'Isbn' => ['type' => Type::string()],
+        'Categoria' => ['type' => Type::string()],
+        'Nombre' => ['type' => Type::string()],
+        'Editorial' => ['type' => Type::string()],
+        'Edicion' => ['type' => Type::string()],
+        'Fecha' => ['type' => Type::string()],
+        'Lugar' => ['type' => Type::string()],
+        'Estado' => ['type' => Type::string()]
+    ]
+  ]);
+
+
+  $Videobean = new ObjectType([
+    'name' => 'Videobean',
+    'description' => 'Objeto que describe un videobean',
+    'fields' => [
+        'Id' => ['type' => Type::int()],
+        'Codigo' => ['type' => Type::string()],
+        'Marca' => ['type' => Type::string()],
+        'Modelo' => ['type' => Type::string()],
+        'Especificaciones' => ['type' => Type::string()],
+        'Accesorios' => ['type' => Type::string()],
+        'Estado' => ['type' => Type::string()]
+    ]
+  ]);
+
+  $Tabladibujo = new ObjectType([
+    'name' => 'Tabladibujo',
+    'description' => 'Objeto que describe un videobean',
+    'fields' => [
+        'Id' => ['type' => Type::int()],
+        'Codigo' => ['type' => Type::string()],
+        'Marca' => ['type' => Type::string()],
+        'Especificaciones' => ['type' => Type::string()],
+        'Estado' => ['type' => Type::string()]
     ]
   ]);
 
