@@ -15,6 +15,21 @@ v-layout( align-center justify-center )
       h6(class="grey--text text--lighten-4 mb-0") {{ snackbar.text }}
       v-icon autorenew
 
+  v-snackbar( :timeout="$store.state.notificaciones.Timeout"
+              :success="$store.state.notificaciones.Context === 'success'"
+              :info="$store.state.notificaciones.Context === 'info'"
+              :warning="$store.state.notificaciones.Context === 'warning'"
+              :error="$store.state.notificaciones.Context === 'error'"
+              :primary="$store.state.notificaciones.Context === 'primary'"
+              :secondary="$store.state.notificaciones.Context === 'secondary'"
+              :multi-line="$store.state.notificaciones.Mode === 'multi-line'"
+              :vertical="$store.state.notificaciones.Mode === 'vertical'"
+              :top="true"
+              v-model="$store.state.notificaciones.State" )
+      h6(class="grey--text text--lighten-4 mb-0") {{ $store.state.notificaciones.Msg }}
+      v-icon {{ $store.state.notificaciones.Icon }}
+
+
   v-flex( xs12 mt-3 md8 lg6 )
     v-card
       v-layout(row wrap pt-3 light-blue)

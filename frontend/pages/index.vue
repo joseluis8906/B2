@@ -1,23 +1,11 @@
 <template lang="pug">
 div(class="hello")
   img(src="/books2.jpg" style="width:100%")
-  //p Contable
-  //g-carousel
-  //g-icon-grid
-  //g-section1
-  //g-section3
-  //g-section4
-  //g-section2
-  //g-section5
-  //g-testimonios
-  //g-contact
 
 </template>
 
 <script>
-
 import GCarousel from '~components/GCarousel.vue'
-
 
 export default {
   data () {
@@ -29,7 +17,6 @@ export default {
     GCarousel,
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
