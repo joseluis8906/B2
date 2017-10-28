@@ -43,6 +43,7 @@ class GQGrupo {
 
 class GQLibro {
   public $Id;
+  Public $Categoria;
   public $Isbn;
   public $Nombre;
   public $Editorial;
@@ -239,6 +240,120 @@ try {
                     $R[] = new GQGrupo([
                       'Id' => $grupo->getId(),
                       "Nombre" => $grupo->getNombre()
+                    ]);
+                }
+                return $R;
+              }
+          ],
+          'Libros' => [
+              'type' => Type::listOf($Libro),
+              'args' => [
+                  'Id' => ['type' => Type::int()],
+                  'Categoria' => ['type' => Type::string()],
+                  'Isbn' => ['type' => Type::string()],
+                  'Nombre' => ['type' => Type::string()],
+                  'Editorial' => ['type' => Type::string()],
+                  'Edicion' => ['type' => Type::string()],
+                  'Fecha' => ['type' => Type::string()],
+                  'Lugar' => ['type' => Type::string()],
+                  'Estado' => ['type' => Type::string()]
+              ],
+              'resolve' => function ($db, $args) {
+                $libros = LibroQuery::create();
+                if(isset($args['Id'])) {$libros->filterById($args['Id']);}
+                if(isset($args['Categoria'])) {$libros->filterByCategoria($args['Categoria']);}
+                if(isset($args['Isbn'])) {$libros->filterByIsbn($args['Isbn']);}
+                if(isset($args['Nombre'])) {$libros->filterByNombre($args['Nombre']);}
+                if(isset($args['Editorial'])) {$libros->filterByEditorial($args['Editorial']);}
+                if(isset($args['Edicion'])) {$libros->filterByEdicion($args['Edicion']);}
+                if(isset($args['Fecha'])) {$libros->filterByFecha($args['Fecha']);}
+                if(isset($args['Lugar'])) {$libros->filterByLugar($args['Lugar']);}
+                if(isset($args['Estado'])) {$libros->filterByEstado($args['Estado']);}
+                $libros->find();
+
+                $R = [];
+
+                foreach ($libros as $libro) {
+                    $R[] = new GQLibro([
+                      'Id' => $libro->getId(),
+                      "Categoria" => $libro->getCategoria(),
+                      "Isbn" => $libro->getIsbn(),
+                      "Nombre" => $libro->getNombre(),
+                      "Editorial" => $libro->getEditorial(),
+                      "Edicion" => $libro->getEdicion(),
+                      "Fecha" => $libro->getFecha()->format('Y-m-d'),
+                      "Lugar" => $libro->getLugar(),
+                      "Estado" => $libro->getEstado()
+                    ]);
+                }
+                return $R;
+              }
+          ],
+          'Videobeans' => [
+              'type' => Type::listOf($Videobean),
+              'args' => [
+                  'Id' => ['type' => Type::int()],
+                  'Codigo' => ['type' => Type::string()],
+                  'Marca' => ['type' => Type::string()],
+                  'Modelo' => ['type' => Type::string()],
+                  'Especificaciones' => ['type' => Type::string()],
+                  'Accesorios' => ['type' => Type::string()],
+                  'Estado' => ['type' => Type::string()]
+              ],
+              'resolve' => function ($db, $args) {
+                $libros = LibroQuery::create();
+                if(isset($args['Id'])) {$libros->filterById($args['Id']);}
+                if(isset($args['Codigo'])) {$libros->filterByCodigo($args['Codigo']);}
+                if(isset($args['Marca'])) {$libros->filterByMarca($args['Marca']);}
+                if(isset($args['Modelo'])) {$libros->filterByModelo($args['Modelo']);}
+                if(isset($args['Especificaciones'])) {$libros->filterByEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Accesorios'])) {$libros->filterByAccesorios($args['Accesorios']);}
+                if(isset($args['Estado'])) {$libros->filterByEstado($args['Estado']);}
+                $libros->find();
+
+                $R = [];
+
+                foreach ($libros as $libro) {
+                    $R[] = new GQLibro([
+                      'Id' => $libro->getId(),
+                      "Codigo" => $libro->getCodigo(),
+                      "Marca" => $libro->getMarca(),
+                      "Modelo" => $libro->getModelo(),
+                      "Especificaciones" => $libro->getEspecificaciones(),
+                      "Accesorios" => $libro->getAccesorios(),
+                      "Estado" => $libro->getEstado()
+                    ]);
+                }
+                return $R;
+              }
+          ],
+          'Tabladibujos' => [
+              'type' => Type::listOf($Tabladibujo),
+              'args' => [
+                  'Id' => ['type' => Type::int()],
+                  'Codigo' => ['type' => Type::string()],
+                  'Marca' => ['type' => Type::string()],
+                  'Especificaciones' => ['type' => Type::string()],
+                  'Estado' => ['type' => Type::string()]
+              ],
+              'resolve' => function ($db, $args) {
+                $libros = LibroQuery::create();
+                if(isset($args['Id'])) {$libros->filterById($args['Id']);}
+                if(isset($args['Codigo'])) {$libros->filterByCodigo($args['Codigo']);}
+                if(isset($args['Marca'])) {$libros->filterByMarca($args['Marca']);}
+                if(isset($args['Especificaciones'])) {$libros->filterByEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Estado'])) {$libros->filterByEstado($args['Estado']);}
+                $libros->find();
+
+                $R = [];
+
+                foreach ($libros as $libro) {
+                    $R[] = new GQLibro([
+                      'Id' => $libro->getId(),
+                      "Codigo" => $libro->getCodigo(),
+                      "Marca" => $libro->getMarca(),
+                      "Especificaciones" => $libro->getEspecificaciones(),
+                      "Estado" => $libro->getEstado()
                     ]);
                 }
                 return $R;
@@ -526,6 +641,300 @@ try {
 
             return $R;
 
+            }
+          ],
+          'CreateLibro' => [
+            'type' => $Libro,
+            'args' => [
+              'Categoria' => ['type' => Type::string()],
+              'Isbn' => ['type' => Type::string()],
+              'Nombre' => ['type' => Type::string()],
+              'Editorial' => ['type' => Type::string()],
+              'Edicion' => ['type' => Type::string()],
+              'Fecha' => ['type' => Type::string()],
+              'Lugar' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $libro = LibroQuery::create()->filterByIsbn($args['Isbn'])->findOne();
+
+              if(is_null($libro)) {
+
+                $libro = new Libro();
+                $libro->setCategoria($args['Categoria']);
+                $libro->setIsbn($args['Isbn']);
+                $libro->setNombre($args['Nombre']);
+                $libro->setEditorial($args['Editorial']);
+                $libro->setEdicion($args['Edicion']);
+                $libro->setFecha($args['Fecha']);
+                $libro->setLugar($args['Lugar']);
+                $libro->setEstado($args['Estado']);
+                $libro->save();
+
+                $libro = LibroQuery::create()->filterByIsbn($args['Isbn'])->findOne();
+
+                $R = new GQLibro([
+                  'Id' => $libro->getId(),
+                  "Categoria" => $libro->getCategoria(),
+                  "Isbn" => $libro->getIsbn(),
+                  "Nombre" => $libro->getNombre(),
+                  "Editorial" => $libro->getEditorial(),
+                  "Edicion" => $libro->getEdicion(),
+                  "Fecha" => $libro->getFecha()->format('Y-m-d'),
+                  "Lugar" => $libro->getLugar(),
+                  "Estado" => $libro->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQLibro([
+                  'Id' => null,
+                  "Categoria" => null,
+                  "Isbn" => null,
+                  "Nombre" => null,
+                  "Editorial" => null,
+                  "Edicion" => null,
+                  "Fecha" => null,
+                  "Lugar" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'UpdateLibro' => [
+            'type' => $Libro,
+            'args' => [
+              'Id' => ['type' => Type::int()],
+              'Categoria' => ['type' => Type::string()],
+              'Isbn' => ['type' => Type::string()],
+              'Nombre' => ['type' => Type::string()],
+              'Editorial' => ['type' => Type::string()],
+              'Edicion' => ['type' => Type::string()],
+              'Fecha' => ['type' => Type::string()],
+              'Lugar' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $libro = LibroQuery::create()->filterByIsbn($args['Isbn'])->findOne();
+
+              if($libro){
+                if(isset($args['Categoria'])) {$libro->setCategoria($args['Categoria']);}
+                if(isset($args['Nombre'])) {$libro->setNombre($args['Nombre']);}
+                if(isset($args['Editorial'])) {$libro->setEditorial($args['Editorial']);}
+                if(isset($args['Edicion'])) {$libro->setEdicion($args['Edicion']);}
+                if(isset($args['Fecha'])) {$libro->setFecha($args['Fecha']);}
+                if(isset($args['Lugar'])) {$libro->setLugar($args['Lugar']);}
+                if(isset($args['Estado'])) {$libro->setEstado($args['Estado']);}
+                $libro->save();
+
+                $R = new GQLibro([
+                  'Id' => $libro->getId(),
+                  "Categoria" => $libro->getCategoria(),
+                  "Isbn" => $libro->getIsbn(),
+                  "Nombre" => $libro->getNombre(),
+                  "Editorial" => $libro->getEditorial(),
+                  "Edicion" => $libro->getEdicion(),
+                  "Fecha" => $libro->getFecha()->format('Y-m-d'),
+                  "Lugar" => $libro->getLugar(),
+                  "Estado" => $libro->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQLibro([
+                  'Id' => null,
+                  "Categoria" => null,
+                  "Isbn" => null,
+                  "Nombre" => null,
+                  "Editorial" => null,
+                  "Edicion" => null,
+                  "Fecha" => null,
+                  "Lugar" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'CreateVideobean' => [
+            'type' => $Videobean,
+            'args' => [
+              'Codigo' => ['type' => Type::string()],
+              'Marca' => ['type' => Type::string()],
+              'Modelo' => ['type' => Type::string()],
+              'Especificaciones' => ['type' => Type::string()],
+              'Accesorios' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+              if(is_null($videobean)) {
+
+                $videobean = new Videobean();
+                $videobean->setCodigo($args['Codigo']);
+                $videobean->setMarca($args['Marca']);
+                $videobean->setModelo($args['Modelo']);
+                $videobean->setEspecificaciones($args['Especificaciones']);
+                $videobean->setAccesorios($args['Accesorios']);
+                $videobean->setEstado($args['Estado']);
+                $videobean->save();
+
+                $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+                $R = new GQVidebean([
+                  'Id' => $videobean->getId(),
+                  "Codigo" => $videobean->getCodigo(),
+                  "Marca" => $videobean->getMarca(),
+                  "Modelo" => $videobean->getModelo(),
+                  "Especificaciones" => $videobean->getEspecificaciones(),
+                  "Accesorios" => $videobean->getAccesorios(),
+                  "Estado" => $videobean->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQVidebean([
+                  'Id' => null,
+                  "Codigo" => null,
+                  "Marca" => null,
+                  "Modelo" => null,
+                  "Especificaciones" => null,
+                  "Accesorios" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'UpdateVideobean' => [
+            'type' => $Videobean,
+            'args' => [
+              'Id' => ['type' => Type::int()],
+              'Codigo' => ['type' => Type::string()],
+              'Marca' => ['type' => Type::string()],
+              'Modelo' => ['type' => Type::string()],
+              'Especificaciones' => ['type' => Type::string()],
+              'Accesorios' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+              if($videobean){
+                if(isset($args['Marca'])) {$videobean->setMarca($args['Marca']);}
+                if(isset($args['Modelo'])) {$videobean->setModelo($args['Modelo']);}
+                if(isset($args['Especificaciones'])) {$videobean->setEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Accesorios'])) {$videobean->setAccesorios($args['Accesorios']);}
+                if(isset($args['Estado'])) {$videobean->setEstado($args['Estado']);}
+                $videobean->save();
+
+                $R = new GQVideobean([
+                  'Id' => $videobean->getId(),
+                  "Codigo" => $videobean->getCodigo(),
+                  "Marca" => $videobean->getMarca(),
+                  "Modelo" => $videobean->getModelo(),
+                  "Especificaciones" => $videobean->getEspecificaciones(),
+                  "Accesorios" => $videobean->getAccesorios(),
+                  "Estado" => $videobean->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQVideobean([
+                  'Id' => null,
+                  "Codigo" => null,
+                  "Marca" => null,
+                  "Modelo" => null,
+                  "Especificaciones" => null,
+                  "Accesorios" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'CreateTabladibujo' => [
+            'type' => $Videobean,
+            'args' => [
+              'Codigo' => ['type' => Type::string()],
+              'Marca' => ['type' => Type::string()],
+              'Especificaciones' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+              if(is_null($tabladibujo)) {
+
+                $tabladibujo = new Tabladibujo();
+                $tabladibujo->setCodigo($args['Codigo']);
+                $tabladibujo->setMarca($args['Marca']);
+                $tabladibujo->setEspecificaciones($args['Especificaciones']);
+                $tabladibujo->setEstado($args['Estado']);
+                $tabladibujo->save();
+
+                $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+                $R = new GQTabladibujo([
+                  'Id' => $tabladibujo->getId(),
+                  "Codigo" => $tabladibujo->getCodigo(),
+                  "Marca" => $tabladibujo->getMarca(),
+                  "Especificaciones" => $tabladibujo->getEspecificaciones(),
+                  "Estado" => $tabladibujo->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQLibro([
+                  'Id' => null,
+                  "Codigo" => null,
+                  "Marca" => null,
+                  "Especificaciones" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'UpdateTabladibujo' => [
+            'type' => $Tabladibujo,
+            'args' => [
+              'Id' => ['type' => Type::int()],
+              'Codigo' => ['type' => Type::string()],
+              'Marca' => ['type' => Type::string()],
+              'Especificaciones' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()]
+            ],
+            'resolve' => function ($root, $args) {
+              $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+
+              if($tabladibujo){
+                if(isset($args['Marca'])) {$tabladibujo->setMarca($args['Marca']);}
+                if(isset($args['Especificaciones'])) {$tabladibujo->setEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Estado'])) {$tabladibujo->setEstado($args['Estado']);}
+                $tabladibujo->save();
+
+                $R = new GQVideobean([
+                  'Id' => $tabladibujo->getId(),
+                  "Codigo" => $tabladibujo->getCodigo(),
+                  "Marca" => $tabladibujo->getMarca(),
+                  "Especificaciones" => $tabladibujo->getEspecificaciones(),
+                  "Estado" => $tabladibujo->getEstado()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQVideobean([
+                  'Id' => null,
+                  "Codigo" => null,
+                  "Marca" => null,
+                  "Especificaciones" => null,
+                  "Estado" => null
+                ]);
+                return $R;
+              }
             }
           ],
       ],
