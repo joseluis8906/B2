@@ -301,27 +301,27 @@ try {
                   'Estado' => ['type' => Type::string()]
               ],
               'resolve' => function ($db, $args) {
-                $libros = LibroQuery::create();
-                if(isset($args['Id'])) {$libros->filterById($args['Id']);}
-                if(isset($args['Codigo'])) {$libros->filterByCodigo($args['Codigo']);}
-                if(isset($args['Marca'])) {$libros->filterByMarca($args['Marca']);}
-                if(isset($args['Modelo'])) {$libros->filterByModelo($args['Modelo']);}
-                if(isset($args['Especificaciones'])) {$libros->filterByEspecificaciones($args['Especificaciones']);}
-                if(isset($args['Accesorios'])) {$libros->filterByAccesorios($args['Accesorios']);}
-                if(isset($args['Estado'])) {$libros->filterByEstado($args['Estado']);}
-                $libros->find();
+                $videobeans = VideobeanQuery::create();
+                if(isset($args['Id'])) {$videobeans->filterById($args['Id']);}
+                if(isset($args['Codigo'])) {$videobeans->filterByCodigo($args['Codigo']);}
+                if(isset($args['Marca'])) {$videobeans->filterByMarca($args['Marca']);}
+                if(isset($args['Modelo'])) {$videobeans->filterByModelo($args['Modelo']);}
+                if(isset($args['Especificaciones'])) {$videobeans->filterByEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Accesorios'])) {$videobeans->filterByAccesorios($args['Accesorios']);}
+                if(isset($args['Estado'])) {$videobeans->filterByEstado($args['Estado']);}
+                $videobeans->find();
 
                 $R = [];
 
-                foreach ($libros as $libro) {
-                    $R[] = new GQLibro([
-                      'Id' => $libro->getId(),
-                      "Codigo" => $libro->getCodigo(),
-                      "Marca" => $libro->getMarca(),
-                      "Modelo" => $libro->getModelo(),
-                      "Especificaciones" => $libro->getEspecificaciones(),
-                      "Accesorios" => $libro->getAccesorios(),
-                      "Estado" => $libro->getEstado()
+                foreach ($videobeans as $videobean) {
+                    $R[] = new GQVidebean([
+                      'Id' => $videobean->getId(),
+                      "Codigo" => $videobean->getCodigo(),
+                      "Marca" => $videobean->getMarca(),
+                      "Modelo" => $videobean->getModelo(),
+                      "Especificaciones" => $videobean->getEspecificaciones(),
+                      "Accesorios" => $videobean->getAccesorios(),
+                      "Estado" => $videobean->getEstado()
                     ]);
                 }
                 return $R;
@@ -337,23 +337,23 @@ try {
                   'Estado' => ['type' => Type::string()]
               ],
               'resolve' => function ($db, $args) {
-                $libros = LibroQuery::create();
-                if(isset($args['Id'])) {$libros->filterById($args['Id']);}
-                if(isset($args['Codigo'])) {$libros->filterByCodigo($args['Codigo']);}
-                if(isset($args['Marca'])) {$libros->filterByMarca($args['Marca']);}
-                if(isset($args['Especificaciones'])) {$libros->filterByEspecificaciones($args['Especificaciones']);}
-                if(isset($args['Estado'])) {$libros->filterByEstado($args['Estado']);}
-                $libros->find();
+                $tabladibujos = TabladibujoQuery::create();
+                if(isset($args['Id'])) {$tabladibujos->filterById($args['Id']);}
+                if(isset($args['Codigo'])) {$tabladibujos->filterByCodigo($args['Codigo']);}
+                if(isset($args['Marca'])) {$tabladibujos->filterByMarca($args['Marca']);}
+                if(isset($args['Especificaciones'])) {$tabladibujos->filterByEspecificaciones($args['Especificaciones']);}
+                if(isset($args['Estado'])) {$tabladibujos->filterByEstado($args['Estado']);}
+                $tabladibujos->find();
 
                 $R = [];
 
-                foreach ($libros as $libro) {
-                    $R[] = new GQLibro([
-                      'Id' => $libro->getId(),
-                      "Codigo" => $libro->getCodigo(),
-                      "Marca" => $libro->getMarca(),
-                      "Especificaciones" => $libro->getEspecificaciones(),
-                      "Estado" => $libro->getEstado()
+                foreach ($tabladibujos as $tabladibujo) {
+                    $R[] = new GQTabladibujo([
+                      'Id' => $tabladibujo->getId(),
+                      "Codigo" => $tabladibujo->getCodigo(),
+                      "Marca" => $tabladibujo->getMarca(),
+                      "Especificaciones" => $tabladibujo->getEspecificaciones(),
+                      "Estado" => $tabladibujo->getEstado()
                     ]);
                 }
                 return $R;
