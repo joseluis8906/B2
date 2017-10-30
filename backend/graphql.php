@@ -916,7 +916,7 @@ try {
                 if(isset($args['Estado'])) {$tabladibujo->setEstado($args['Estado']);}
                 $tabladibujo->save();
 
-                $R = new GQVideobean([
+                $R = new GQTabladibujo([
                   'Id' => $tabladibujo->getId(),
                   "Codigo" => $tabladibujo->getCodigo(),
                   "Marca" => $tabladibujo->getMarca(),
@@ -926,7 +926,7 @@ try {
                 return $R;
 
               } else {
-                $R = new GQVideobean([
+                $R = new GQTabladibujo([
                   'Id' => null,
                   "Codigo" => null,
                   "Marca" => null,
