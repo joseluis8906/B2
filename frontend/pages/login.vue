@@ -14,7 +14,7 @@
         h6(class="grey--text text--lighten-4 mb-0") {{ $store.state.notificaciones.Msg }}
         v-icon {{ $store.state.notificaciones.Icon }}
 
-    v-flex(xs12 sm6 md2 )
+    v-flex(xs12 sm3)
       v-card(class="mt-5 pa-3")
         v-card-text
           div(class="text-xs-center")

@@ -30,7 +30,7 @@ v-layout( align-center justify-center )
       v-icon {{ $store.state.notificaciones.Icon }}
 
 
-  v-flex( xs12 mt-3 md8 lg6 )
+  v-flex( xs12 sm8 mt-3 )
     v-card
       v-layout(row wrap pt-3 light-blue)
         v-flex( xs12 )
