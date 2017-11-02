@@ -1,0 +1,26 @@
+query Videobeans (
+	$Id: Int,
+	$Codigo: String,
+	$Marca: String,
+	$Modelo: String,
+	$Especificaciones: String,
+	$Accesorios: String,
+	$Estado: String
+){
+  Videobeans (
+    Id: $Id,
+    Codigo: $Codigo,
+    Marca: $Marca,
+    Modelo: $Modelo,
+    Especificaciones: $Especificaciones,
+    Accesorios: $Accesorios,
+    Estado: $Estado
+  ) {
+    Id
+    Codigo
+    Marca
+    Especificaciones
+    Accesorios
+    Estado
+  }
+}

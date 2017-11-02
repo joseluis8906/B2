@@ -1,0 +1,30 @@
+mutation CreateLibro(
+	$Categoria: String,
+	$Isbn: String,
+	$Nombre: String,
+	$Editorial: String,
+	$Edicion: String,
+	$Fecha: String,
+	$Lugar: String,
+	$Estado: String
+){
+  CreateLibro(
+    Categoria: $Categoria,
+    Isbn: $Isbn,
+    Nombre: Nombre,
+    Editorial: $Editorial,
+    Edicion: $Edicion,
+    Fecha: $Fecha,
+    Lugar: $Lugar,
+    Estado: $Estado
+  ) {
+    Id
+    Categoria
+    Isbn
+    Nombre
+    Editorial
+    Fecha
+    Lugar
+    Estado
+  }
+}

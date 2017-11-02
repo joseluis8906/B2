@@ -1,0 +1,21 @@
+query Tabladibujos (
+	$Id: Int,
+	$Codigo: String,
+	$Marca: String,
+	$Especificaciones: String,
+	$Estado: String,
+){
+  Tabladibujos (
+    Id: $Id,
+    Codigo: $Codigo,
+    Marca: $Marca,
+    Especificaciones: $Especificaciones,
+    Estado: $Estado
+  ) {
+    Id
+    Codigo
+    Marca
+    Especificaciones
+    Estado
+  }
+}
