@@ -54,7 +54,7 @@ v-layout( align-center justify-center )
 
       v-card-actions
         v-spacer
-        v-btn( dark @click.native="" ) Cancelar
+        v-btn( dark @click.native="Reset" ) Cancelar
         v-btn( dark primary @click.native="" ) Guardar
 </template>
 
@@ -112,6 +112,35 @@ export default {
         Estado: null,
       },
       loading: 0,
+    }
+  },
+  methods: {
+    Reset () {
+      this.Tipo = null
+      this.Libro = {
+        Categoria: null,
+        Isbn: null,
+        Nombre: null,
+        Editorial: null,
+        Edicion: null,
+        Fecha: null,
+        Lugar: null,
+        Estado: null,
+      }
+      this.VideoBean = {
+        Codigo: null,
+        Marca: null,
+        Modelo: null,
+        Especificaciones: null,
+        Accesorios: null,
+        Estado: null,
+      }
+      this.TablaDibujo = {
+        Codigo: null,
+        Marca: null,
+        Especificaciones: null,
+        Estado: null,
+      }
     }
   }
 }

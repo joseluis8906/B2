@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Usuariogrupo;
-use \UsuariogrupoQuery;
+use \VideoBean;
+use \VideoBeanQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'UsuarioGrupo' table.
+ * This class defines the structure of the 'VideoBean' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class UsuariogrupoTableMap extends TableMap
+class VideoBeanTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class UsuariogrupoTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.UsuariogrupoTableMap';
+    const CLASS_NAME = '.Map.VideoBeanTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class UsuariogrupoTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'UsuarioGrupo';
+    const TABLE_NAME = 'VideoBean';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Usuariogrupo';
+    const OM_CLASS = '\\VideoBean';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Usuariogrupo';
+    const CLASS_DEFAULT = 'VideoBean';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 2;
+    const NUM_COLUMNS = 7;
 
     /**
      * The number of lazy-loaded columns
@@ -69,17 +69,42 @@ class UsuariogrupoTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 2;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /**
-     * the column name for the UsuarioId field
+     * the column name for the Id field
      */
-    const COL_USUARIOID = 'UsuarioGrupo.UsuarioId';
+    const COL_ID = 'VideoBean.Id';
 
     /**
-     * the column name for the GrupoId field
+     * the column name for the Codigo field
      */
-    const COL_GRUPOID = 'UsuarioGrupo.GrupoId';
+    const COL_CODIGO = 'VideoBean.Codigo';
+
+    /**
+     * the column name for the Marca field
+     */
+    const COL_MARCA = 'VideoBean.Marca';
+
+    /**
+     * the column name for the Modelo field
+     */
+    const COL_MODELO = 'VideoBean.Modelo';
+
+    /**
+     * the column name for the Especificaciones field
+     */
+    const COL_ESPECIFICACIONES = 'VideoBean.Especificaciones';
+
+    /**
+     * the column name for the Accesorios field
+     */
+    const COL_ACCESORIOS = 'VideoBean.Accesorios';
+
+    /**
+     * the column name for the Estado field
+     */
+    const COL_ESTADO = 'VideoBean.Estado';
 
     /**
      * The default string format for model objects of the related table
@@ -93,11 +118,11 @@ class UsuariogrupoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Usuarioid', 'Grupoid', ),
-        self::TYPE_CAMELNAME     => array('usuarioid', 'grupoid', ),
-        self::TYPE_COLNAME       => array(UsuariogrupoTableMap::COL_USUARIOID, UsuariogrupoTableMap::COL_GRUPOID, ),
-        self::TYPE_FIELDNAME     => array('UsuarioId', 'GrupoId', ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Marca', 'Modelo', 'Especificaciones', 'Accesorios', 'Estado', ),
+        self::TYPE_CAMELNAME     => array('id', 'codigo', 'marca', 'modelo', 'especificaciones', 'accesorios', 'estado', ),
+        self::TYPE_COLNAME       => array(VideoBeanTableMap::COL_ID, VideoBeanTableMap::COL_CODIGO, VideoBeanTableMap::COL_MARCA, VideoBeanTableMap::COL_MODELO, VideoBeanTableMap::COL_ESPECIFICACIONES, VideoBeanTableMap::COL_ACCESORIOS, VideoBeanTableMap::COL_ESTADO, ),
+        self::TYPE_FIELDNAME     => array('Id', 'Codigo', 'Marca', 'Modelo', 'Especificaciones', 'Accesorios', 'Estado', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -107,11 +132,11 @@ class UsuariogrupoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Usuarioid' => 0, 'Grupoid' => 1, ),
-        self::TYPE_CAMELNAME     => array('usuarioid' => 0, 'grupoid' => 1, ),
-        self::TYPE_COLNAME       => array(UsuariogrupoTableMap::COL_USUARIOID => 0, UsuariogrupoTableMap::COL_GRUPOID => 1, ),
-        self::TYPE_FIELDNAME     => array('UsuarioId' => 0, 'GrupoId' => 1, ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Modelo' => 3, 'Especificaciones' => 4, 'Accesorios' => 5, 'Estado' => 6, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'marca' => 2, 'modelo' => 3, 'especificaciones' => 4, 'accesorios' => 5, 'estado' => 6, ),
+        self::TYPE_COLNAME       => array(VideoBeanTableMap::COL_ID => 0, VideoBeanTableMap::COL_CODIGO => 1, VideoBeanTableMap::COL_MARCA => 2, VideoBeanTableMap::COL_MODELO => 3, VideoBeanTableMap::COL_ESPECIFICACIONES => 4, VideoBeanTableMap::COL_ACCESORIOS => 5, VideoBeanTableMap::COL_ESTADO => 6, ),
+        self::TYPE_FIELDNAME     => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Modelo' => 3, 'Especificaciones' => 4, 'Accesorios' => 5, 'Estado' => 6, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -124,15 +149,20 @@ class UsuariogrupoTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('UsuarioGrupo');
-        $this->setPhpName('Usuariogrupo');
+        $this->setName('VideoBean');
+        $this->setPhpName('VideoBean');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Usuariogrupo');
+        $this->setClassName('\\VideoBean');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
-        $this->addForeignPrimaryKey('UsuarioId', 'Usuarioid', 'INTEGER' , 'Usuario', 'Id', true, null, null);
-        $this->addForeignPrimaryKey('GrupoId', 'Grupoid', 'INTEGER' , 'Grupo', 'Id', true, null, null);
+        $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('Codigo', 'Codigo', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Marca', 'Marca', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Modelo', 'Modelo', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Especificaciones', 'Especificaciones', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Accesorios', 'Accesorios', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Estado', 'Estado', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
     /**
@@ -140,74 +170,7 @@ class UsuariogrupoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Grupo', '\\Grupo', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':GrupoId',
-    1 => ':Id',
-  ),
-), 'CASCADE', 'CASCADE', null, false);
-        $this->addRelation('Usuario', '\\Usuario', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':UsuarioId',
-    1 => ':Id',
-  ),
-), 'CASCADE', 'CASCADE', null, false);
     } // buildRelations()
-
-    /**
-     * Adds an object to the instance pool.
-     *
-     * Propel keeps cached copies of objects in an instance pool when they are retrieved
-     * from the database. In some cases you may need to explicitly add objects
-     * to the cache in order to ensure that the same objects are always returned by find*()
-     * and findPk*() calls.
-     *
-     * @param \Usuariogrupo $obj A \Usuariogrupo object.
-     * @param string $key             (optional) key to use for instance map (for performance boost if key was already calculated externally).
-     */
-    public static function addInstanceToPool($obj, $key = null)
-    {
-        if (Propel::isInstancePoolingEnabled()) {
-            if (null === $key) {
-                $key = serialize([(null === $obj->getUsuarioid() || is_scalar($obj->getUsuarioid()) || is_callable([$obj->getUsuarioid(), '__toString']) ? (string) $obj->getUsuarioid() : $obj->getUsuarioid()), (null === $obj->getGrupoid() || is_scalar($obj->getGrupoid()) || is_callable([$obj->getGrupoid(), '__toString']) ? (string) $obj->getGrupoid() : $obj->getGrupoid())]);
-            } // if key === null
-            self::$instances[$key] = $obj;
-        }
-    }
-
-    /**
-     * Removes an object from the instance pool.
-     *
-     * Propel keeps cached copies of objects in an instance pool when they are retrieved
-     * from the database.  In some cases -- especially when you override doDelete
-     * methods in your stub classes -- you may need to explicitly remove objects
-     * from the cache in order to prevent returning objects that no longer exist.
-     *
-     * @param mixed $value A \Usuariogrupo object or a primary key value.
-     */
-    public static function removeInstanceFromPool($value)
-    {
-        if (Propel::isInstancePoolingEnabled() && null !== $value) {
-            if (is_object($value) && $value instanceof \Usuariogrupo) {
-                $key = serialize([(null === $value->getUsuarioid() || is_scalar($value->getUsuarioid()) || is_callable([$value->getUsuarioid(), '__toString']) ? (string) $value->getUsuarioid() : $value->getUsuarioid()), (null === $value->getGrupoid() || is_scalar($value->getGrupoid()) || is_callable([$value->getGrupoid(), '__toString']) ? (string) $value->getGrupoid() : $value->getGrupoid())]);
-
-            } elseif (is_array($value) && count($value) === 2) {
-                // assume we've been passed a primary key";
-                $key = serialize([(null === $value[0] || is_scalar($value[0]) || is_callable([$value[0], '__toString']) ? (string) $value[0] : $value[0]), (null === $value[1] || is_scalar($value[1]) || is_callable([$value[1], '__toString']) ? (string) $value[1] : $value[1])]);
-            } elseif ($value instanceof Criteria) {
-                self::$instances = [];
-
-                return;
-            } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \Usuariogrupo object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
-                throw $e;
-            }
-
-            unset(self::$instances[$key]);
-        }
-    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -225,11 +188,11 @@ class UsuariogrupoTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return serialize([(null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)]), (null === $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)])]);
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -246,20 +209,11 @@ class UsuariogrupoTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-            $pks = [];
-
-        $pks[] = (int) $row[
+        return (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('Usuarioid', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
-        $pks[] = (int) $row[
-            $indexType == TableMap::TYPE_NUM
-                ? 1 + $offset
-                : self::translateFieldName('Grupoid', TableMap::TYPE_PHPNAME, $indexType)
-        ];
-
-        return $pks;
     }
 
     /**
@@ -275,7 +229,7 @@ class UsuariogrupoTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? UsuariogrupoTableMap::CLASS_DEFAULT : UsuariogrupoTableMap::OM_CLASS;
+        return $withPrefix ? VideoBeanTableMap::CLASS_DEFAULT : VideoBeanTableMap::OM_CLASS;
     }
 
     /**
@@ -289,22 +243,22 @@ class UsuariogrupoTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Usuariogrupo object, last column rank)
+     * @return array           (VideoBean object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = UsuariogrupoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = UsuariogrupoTableMap::getInstanceFromPool($key))) {
+        $key = VideoBeanTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = VideoBeanTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + UsuariogrupoTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + VideoBeanTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = UsuariogrupoTableMap::OM_CLASS;
-            /** @var Usuariogrupo $obj */
+            $cls = VideoBeanTableMap::OM_CLASS;
+            /** @var VideoBean $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            UsuariogrupoTableMap::addInstanceToPool($obj, $key);
+            VideoBeanTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -327,18 +281,18 @@ class UsuariogrupoTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = UsuariogrupoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = UsuariogrupoTableMap::getInstanceFromPool($key))) {
+            $key = VideoBeanTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = VideoBeanTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Usuariogrupo $obj */
+                /** @var VideoBean $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                UsuariogrupoTableMap::addInstanceToPool($obj, $key);
+                VideoBeanTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -359,11 +313,21 @@ class UsuariogrupoTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(UsuariogrupoTableMap::COL_USUARIOID);
-            $criteria->addSelectColumn(UsuariogrupoTableMap::COL_GRUPOID);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_ID);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_CODIGO);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_MARCA);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_MODELO);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_ESPECIFICACIONES);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_ACCESORIOS);
+            $criteria->addSelectColumn(VideoBeanTableMap::COL_ESTADO);
         } else {
-            $criteria->addSelectColumn($alias . '.UsuarioId');
-            $criteria->addSelectColumn($alias . '.GrupoId');
+            $criteria->addSelectColumn($alias . '.Id');
+            $criteria->addSelectColumn($alias . '.Codigo');
+            $criteria->addSelectColumn($alias . '.Marca');
+            $criteria->addSelectColumn($alias . '.Modelo');
+            $criteria->addSelectColumn($alias . '.Especificaciones');
+            $criteria->addSelectColumn($alias . '.Accesorios');
+            $criteria->addSelectColumn($alias . '.Estado');
         }
     }
 
@@ -376,7 +340,7 @@ class UsuariogrupoTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(UsuariogrupoTableMap::DATABASE_NAME)->getTable(UsuariogrupoTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(VideoBeanTableMap::DATABASE_NAME)->getTable(VideoBeanTableMap::TABLE_NAME);
     }
 
     /**
@@ -384,16 +348,16 @@ class UsuariogrupoTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UsuariogrupoTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(UsuariogrupoTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new UsuariogrupoTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(VideoBeanTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(VideoBeanTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new VideoBeanTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Usuariogrupo or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a VideoBean or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Usuariogrupo object or primary key or array of primary keys
+     * @param mixed               $values Criteria or VideoBean object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -404,37 +368,27 @@ class UsuariogrupoTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UsuariogrupoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(VideoBeanTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Usuariogrupo) { // it's a model object
+        } elseif ($values instanceof \VideoBean) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(UsuariogrupoTableMap::DATABASE_NAME);
-            // primary key is composite; we therefore, expect
-            // the primary key passed to be an array of pkey values
-            if (count($values) == count($values, COUNT_RECURSIVE)) {
-                // array is not multi-dimensional
-                $values = array($values);
-            }
-            foreach ($values as $value) {
-                $criterion = $criteria->getNewCriterion(UsuariogrupoTableMap::COL_USUARIOID, $value[0]);
-                $criterion->addAnd($criteria->getNewCriterion(UsuariogrupoTableMap::COL_GRUPOID, $value[1]));
-                $criteria->addOr($criterion);
-            }
+            $criteria = new Criteria(VideoBeanTableMap::DATABASE_NAME);
+            $criteria->add(VideoBeanTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = UsuariogrupoQuery::create()->mergeWith($criteria);
+        $query = VideoBeanQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            UsuariogrupoTableMap::clearInstancePool();
+            VideoBeanTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                UsuariogrupoTableMap::removeInstanceFromPool($singleval);
+                VideoBeanTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -442,20 +396,20 @@ class UsuariogrupoTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the UsuarioGrupo table.
+     * Deletes all rows from the VideoBean table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return UsuariogrupoQuery::create()->doDeleteAll($con);
+        return VideoBeanQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Usuariogrupo or Criteria object.
+     * Performs an INSERT on the database, given a VideoBean or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Usuariogrupo object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or VideoBean object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -464,18 +418,18 @@ class UsuariogrupoTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UsuariogrupoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(VideoBeanTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Usuariogrupo object
+            $criteria = $criteria->buildCriteria(); // build Criteria from VideoBean object
         }
 
 
         // Set the correct dbName
-        $query = UsuariogrupoQuery::create()->mergeWith($criteria);
+        $query = VideoBeanQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -484,7 +438,7 @@ class UsuariogrupoTableMap extends TableMap
         });
     }
 
-} // UsuariogrupoTableMap
+} // VideoBeanTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-UsuariogrupoTableMap::buildTableMap();
+VideoBeanTableMap::buildTableMap();

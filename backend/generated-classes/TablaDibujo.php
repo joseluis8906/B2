@@ -1,9 +1,9 @@
 <?php
 
-use Base\Videobean as BaseVideobean;
+use Base\TablaDibujo as BaseTablaDibujo;
 
 /**
- * Skeleton subclass for representing a row from the 'VideoBean' table.
+ * Skeleton subclass for representing a row from the 'TablaDibujo' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\Videobean as BaseVideobean;
  * long as it does not already exist in the output directory.
  *
  */
-class Videobean extends BaseVideobean
+class TablaDibujo extends BaseTablaDibujo
 {
 
 }

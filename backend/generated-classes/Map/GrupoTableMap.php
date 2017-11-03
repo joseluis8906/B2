@@ -140,13 +140,14 @@ class GrupoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Usuariogrupo', '\\Usuariogrupo', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('UsuarioGrupo', '\\UsuarioGrupo', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':GrupoId',
     1 => ':Id',
   ),
-), 'CASCADE', 'CASCADE', 'Usuariogrupos', false);
+), 'CASCADE', 'CASCADE', 'UsuarioGrupos', false);
+        $this->addRelation('Usuario', '\\Usuario', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'CASCADE', 'Usuarios');
     } // buildRelations()
     /**
      * Method to invalidate the instance pool of all tables related to Grupo     * by a foreign key with ON DELETE CASCADE
@@ -155,7 +156,7 @@ class GrupoTableMap extends TableMap
     {
         // Invalidate objects in related instance pools,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        UsuariogrupoTableMap::clearInstancePool();
+        UsuarioGrupoTableMap::clearInstancePool();
     }
 
     /**

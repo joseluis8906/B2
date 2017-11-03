@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Videobean as ChildVideobean;
-use \VideobeanQuery as ChildVideobeanQuery;
+use \VideoBean as ChildVideoBean;
+use \VideoBeanQuery as ChildVideoBeanQuery;
 use \Exception;
 use \PDO;
-use Map\VideobeanTableMap;
+use Map\VideoBeanTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,93 +19,93 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildVideobeanQuery orderById($order = Criteria::ASC) Order by the Id column
- * @method     ChildVideobeanQuery orderByCodigo($order = Criteria::ASC) Order by the Codigo column
- * @method     ChildVideobeanQuery orderByMarca($order = Criteria::ASC) Order by the Marca column
- * @method     ChildVideobeanQuery orderByModelo($order = Criteria::ASC) Order by the Modelo column
- * @method     ChildVideobeanQuery orderByEspecificaciones($order = Criteria::ASC) Order by the Especificaciones column
- * @method     ChildVideobeanQuery orderByAccesorios($order = Criteria::ASC) Order by the Accesorios column
- * @method     ChildVideobeanQuery orderByEstado($order = Criteria::ASC) Order by the Estado column
+ * @method     ChildVideoBeanQuery orderById($order = Criteria::ASC) Order by the Id column
+ * @method     ChildVideoBeanQuery orderByCodigo($order = Criteria::ASC) Order by the Codigo column
+ * @method     ChildVideoBeanQuery orderByMarca($order = Criteria::ASC) Order by the Marca column
+ * @method     ChildVideoBeanQuery orderByModelo($order = Criteria::ASC) Order by the Modelo column
+ * @method     ChildVideoBeanQuery orderByEspecificaciones($order = Criteria::ASC) Order by the Especificaciones column
+ * @method     ChildVideoBeanQuery orderByAccesorios($order = Criteria::ASC) Order by the Accesorios column
+ * @method     ChildVideoBeanQuery orderByEstado($order = Criteria::ASC) Order by the Estado column
  *
- * @method     ChildVideobeanQuery groupById() Group by the Id column
- * @method     ChildVideobeanQuery groupByCodigo() Group by the Codigo column
- * @method     ChildVideobeanQuery groupByMarca() Group by the Marca column
- * @method     ChildVideobeanQuery groupByModelo() Group by the Modelo column
- * @method     ChildVideobeanQuery groupByEspecificaciones() Group by the Especificaciones column
- * @method     ChildVideobeanQuery groupByAccesorios() Group by the Accesorios column
- * @method     ChildVideobeanQuery groupByEstado() Group by the Estado column
+ * @method     ChildVideoBeanQuery groupById() Group by the Id column
+ * @method     ChildVideoBeanQuery groupByCodigo() Group by the Codigo column
+ * @method     ChildVideoBeanQuery groupByMarca() Group by the Marca column
+ * @method     ChildVideoBeanQuery groupByModelo() Group by the Modelo column
+ * @method     ChildVideoBeanQuery groupByEspecificaciones() Group by the Especificaciones column
+ * @method     ChildVideoBeanQuery groupByAccesorios() Group by the Accesorios column
+ * @method     ChildVideoBeanQuery groupByEstado() Group by the Estado column
  *
- * @method     ChildVideobeanQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildVideobeanQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildVideobeanQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildVideoBeanQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildVideoBeanQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildVideoBeanQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildVideobeanQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildVideobeanQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildVideobeanQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildVideoBeanQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildVideoBeanQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildVideoBeanQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildVideobean findOne(ConnectionInterface $con = null) Return the first ChildVideobean matching the query
- * @method     ChildVideobean findOneOrCreate(ConnectionInterface $con = null) Return the first ChildVideobean matching the query, or a new ChildVideobean object populated from the query conditions when no match is found
+ * @method     ChildVideoBean findOne(ConnectionInterface $con = null) Return the first ChildVideoBean matching the query
+ * @method     ChildVideoBean findOneOrCreate(ConnectionInterface $con = null) Return the first ChildVideoBean matching the query, or a new ChildVideoBean object populated from the query conditions when no match is found
  *
- * @method     ChildVideobean findOneById(int $Id) Return the first ChildVideobean filtered by the Id column
- * @method     ChildVideobean findOneByCodigo(string $Codigo) Return the first ChildVideobean filtered by the Codigo column
- * @method     ChildVideobean findOneByMarca(string $Marca) Return the first ChildVideobean filtered by the Marca column
- * @method     ChildVideobean findOneByModelo(string $Modelo) Return the first ChildVideobean filtered by the Modelo column
- * @method     ChildVideobean findOneByEspecificaciones(string $Especificaciones) Return the first ChildVideobean filtered by the Especificaciones column
- * @method     ChildVideobean findOneByAccesorios(string $Accesorios) Return the first ChildVideobean filtered by the Accesorios column
- * @method     ChildVideobean findOneByEstado(string $Estado) Return the first ChildVideobean filtered by the Estado column *
+ * @method     ChildVideoBean findOneById(int $Id) Return the first ChildVideoBean filtered by the Id column
+ * @method     ChildVideoBean findOneByCodigo(string $Codigo) Return the first ChildVideoBean filtered by the Codigo column
+ * @method     ChildVideoBean findOneByMarca(string $Marca) Return the first ChildVideoBean filtered by the Marca column
+ * @method     ChildVideoBean findOneByModelo(string $Modelo) Return the first ChildVideoBean filtered by the Modelo column
+ * @method     ChildVideoBean findOneByEspecificaciones(string $Especificaciones) Return the first ChildVideoBean filtered by the Especificaciones column
+ * @method     ChildVideoBean findOneByAccesorios(string $Accesorios) Return the first ChildVideoBean filtered by the Accesorios column
+ * @method     ChildVideoBean findOneByEstado(string $Estado) Return the first ChildVideoBean filtered by the Estado column *
 
- * @method     ChildVideobean requirePk($key, ConnectionInterface $con = null) Return the ChildVideobean by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOne(ConnectionInterface $con = null) Return the first ChildVideobean matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requirePk($key, ConnectionInterface $con = null) Return the ChildVideoBean by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOne(ConnectionInterface $con = null) Return the first ChildVideoBean matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildVideobean requireOneById(int $Id) Return the first ChildVideobean filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByCodigo(string $Codigo) Return the first ChildVideobean filtered by the Codigo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByMarca(string $Marca) Return the first ChildVideobean filtered by the Marca column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByModelo(string $Modelo) Return the first ChildVideobean filtered by the Modelo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByEspecificaciones(string $Especificaciones) Return the first ChildVideobean filtered by the Especificaciones column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByAccesorios(string $Accesorios) Return the first ChildVideobean filtered by the Accesorios column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildVideobean requireOneByEstado(string $Estado) Return the first ChildVideobean filtered by the Estado column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneById(int $Id) Return the first ChildVideoBean filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByCodigo(string $Codigo) Return the first ChildVideoBean filtered by the Codigo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByMarca(string $Marca) Return the first ChildVideoBean filtered by the Marca column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByModelo(string $Modelo) Return the first ChildVideoBean filtered by the Modelo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByEspecificaciones(string $Especificaciones) Return the first ChildVideoBean filtered by the Especificaciones column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByAccesorios(string $Accesorios) Return the first ChildVideoBean filtered by the Accesorios column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildVideoBean requireOneByEstado(string $Estado) Return the first ChildVideoBean filtered by the Estado column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildVideobean[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildVideobean objects based on current ModelCriteria
- * @method     ChildVideobean[]|ObjectCollection findById(int $Id) Return ChildVideobean objects filtered by the Id column
- * @method     ChildVideobean[]|ObjectCollection findByCodigo(string $Codigo) Return ChildVideobean objects filtered by the Codigo column
- * @method     ChildVideobean[]|ObjectCollection findByMarca(string $Marca) Return ChildVideobean objects filtered by the Marca column
- * @method     ChildVideobean[]|ObjectCollection findByModelo(string $Modelo) Return ChildVideobean objects filtered by the Modelo column
- * @method     ChildVideobean[]|ObjectCollection findByEspecificaciones(string $Especificaciones) Return ChildVideobean objects filtered by the Especificaciones column
- * @method     ChildVideobean[]|ObjectCollection findByAccesorios(string $Accesorios) Return ChildVideobean objects filtered by the Accesorios column
- * @method     ChildVideobean[]|ObjectCollection findByEstado(string $Estado) Return ChildVideobean objects filtered by the Estado column
- * @method     ChildVideobean[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildVideoBean[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildVideoBean objects based on current ModelCriteria
+ * @method     ChildVideoBean[]|ObjectCollection findById(int $Id) Return ChildVideoBean objects filtered by the Id column
+ * @method     ChildVideoBean[]|ObjectCollection findByCodigo(string $Codigo) Return ChildVideoBean objects filtered by the Codigo column
+ * @method     ChildVideoBean[]|ObjectCollection findByMarca(string $Marca) Return ChildVideoBean objects filtered by the Marca column
+ * @method     ChildVideoBean[]|ObjectCollection findByModelo(string $Modelo) Return ChildVideoBean objects filtered by the Modelo column
+ * @method     ChildVideoBean[]|ObjectCollection findByEspecificaciones(string $Especificaciones) Return ChildVideoBean objects filtered by the Especificaciones column
+ * @method     ChildVideoBean[]|ObjectCollection findByAccesorios(string $Accesorios) Return ChildVideoBean objects filtered by the Accesorios column
+ * @method     ChildVideoBean[]|ObjectCollection findByEstado(string $Estado) Return ChildVideoBean objects filtered by the Estado column
+ * @method     ChildVideoBean[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class VideobeanQuery extends ModelCriteria
+abstract class VideoBeanQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\VideobeanQuery object.
+     * Initializes internal state of \Base\VideoBeanQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\Videobean', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\VideoBean', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildVideobeanQuery object.
+     * Returns a new ChildVideoBeanQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildVideobeanQuery
+     * @return ChildVideoBeanQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildVideobeanQuery) {
+        if ($criteria instanceof ChildVideoBeanQuery) {
             return $criteria;
         }
-        $query = new ChildVideobeanQuery();
+        $query = new ChildVideoBeanQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -128,7 +128,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildVideobean|array|mixed the result, formatted by the current formatter
+     * @return ChildVideoBean|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -137,7 +137,7 @@ abstract class VideobeanQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(VideoBeanTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -150,7 +150,7 @@ abstract class VideobeanQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = VideobeanTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = VideoBeanTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -167,7 +167,7 @@ abstract class VideobeanQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildVideobean A model object, or null if the key is not found
+     * @return ChildVideoBean A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
@@ -182,10 +182,10 @@ abstract class VideobeanQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildVideobean $obj */
-            $obj = new ChildVideobean();
+            /** @var ChildVideoBean $obj */
+            $obj = new ChildVideoBean();
             $obj->hydrate($row);
-            VideobeanTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            VideoBeanTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -198,7 +198,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildVideobean|array|mixed the result, formatted by the current formatter
+     * @return ChildVideoBean|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -240,12 +240,12 @@ abstract class VideobeanQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -253,12 +253,12 @@ abstract class VideobeanQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -277,18 +277,18 @@ abstract class VideobeanQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(VideobeanTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(VideoBeanTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(VideobeanTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(VideoBeanTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -299,7 +299,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -314,7 +314,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $codigo The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByCodigo($codigo = null, $comparison = null)
     {
@@ -324,7 +324,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_CODIGO, $codigo, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_CODIGO, $codigo, $comparison);
     }
 
     /**
@@ -339,7 +339,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $marca The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByMarca($marca = null, $comparison = null)
     {
@@ -349,7 +349,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_MARCA, $marca, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_MARCA, $marca, $comparison);
     }
 
     /**
@@ -364,7 +364,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $modelo The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByModelo($modelo = null, $comparison = null)
     {
@@ -374,7 +374,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_MODELO, $modelo, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_MODELO, $modelo, $comparison);
     }
 
     /**
@@ -389,7 +389,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $especificaciones The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByEspecificaciones($especificaciones = null, $comparison = null)
     {
@@ -399,7 +399,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ESPECIFICACIONES, $especificaciones, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ESPECIFICACIONES, $especificaciones, $comparison);
     }
 
     /**
@@ -414,7 +414,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $accesorios The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByAccesorios($accesorios = null, $comparison = null)
     {
@@ -424,7 +424,7 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ACCESORIOS, $accesorios, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ACCESORIOS, $accesorios, $comparison);
     }
 
     /**
@@ -439,7 +439,7 @@ abstract class VideobeanQuery extends ModelCriteria
      * @param     string $estado The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
     public function filterByEstado($estado = null, $comparison = null)
     {
@@ -449,20 +449,20 @@ abstract class VideobeanQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(VideobeanTableMap::COL_ESTADO, $estado, $comparison);
+        return $this->addUsingAlias(VideoBeanTableMap::COL_ESTADO, $estado, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildVideobean $videobean Object to remove from the list of results
+     * @param   ChildVideoBean $videoBean Object to remove from the list of results
      *
-     * @return $this|ChildVideobeanQuery The current query, for fluid interface
+     * @return $this|ChildVideoBeanQuery The current query, for fluid interface
      */
-    public function prune($videobean = null)
+    public function prune($videoBean = null)
     {
-        if ($videobean) {
-            $this->addUsingAlias(VideobeanTableMap::COL_ID, $videobean->getId(), Criteria::NOT_EQUAL);
+        if ($videoBean) {
+            $this->addUsingAlias(VideoBeanTableMap::COL_ID, $videoBean->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
@@ -477,7 +477,7 @@ abstract class VideobeanQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(VideoBeanTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -488,8 +488,8 @@ abstract class VideobeanQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            VideobeanTableMap::clearInstancePool();
-            VideobeanTableMap::clearRelatedInstancePool();
+            VideoBeanTableMap::clearInstancePool();
+            VideoBeanTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -507,26 +507,26 @@ abstract class VideobeanQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(VideoBeanTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(VideobeanTableMap::DATABASE_NAME);
+        $criteria->setDbName(VideoBeanTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            VideobeanTableMap::removeInstanceFromPool($criteria);
+            VideoBeanTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            VideobeanTableMap::clearRelatedInstancePool();
+            VideoBeanTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // VideobeanQuery
+} // VideoBeanQuery

@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Videobean;
-use \VideobeanQuery;
+use \TablaDibujo;
+use \TablaDibujoQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'VideoBean' table.
+ * This class defines the structure of the 'TablaDibujo' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class VideobeanTableMap extends TableMap
+class TablaDibujoTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class VideobeanTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.VideobeanTableMap';
+    const CLASS_NAME = '.Map.TablaDibujoTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class VideobeanTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'VideoBean';
+    const TABLE_NAME = 'TablaDibujo';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Videobean';
+    const OM_CLASS = '\\TablaDibujo';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Videobean';
+    const CLASS_DEFAULT = 'TablaDibujo';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,42 +69,32 @@ class VideobeanTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the Id field
      */
-    const COL_ID = 'VideoBean.Id';
+    const COL_ID = 'TablaDibujo.Id';
 
     /**
      * the column name for the Codigo field
      */
-    const COL_CODIGO = 'VideoBean.Codigo';
+    const COL_CODIGO = 'TablaDibujo.Codigo';
 
     /**
      * the column name for the Marca field
      */
-    const COL_MARCA = 'VideoBean.Marca';
-
-    /**
-     * the column name for the Modelo field
-     */
-    const COL_MODELO = 'VideoBean.Modelo';
+    const COL_MARCA = 'TablaDibujo.Marca';
 
     /**
      * the column name for the Especificaciones field
      */
-    const COL_ESPECIFICACIONES = 'VideoBean.Especificaciones';
-
-    /**
-     * the column name for the Accesorios field
-     */
-    const COL_ACCESORIOS = 'VideoBean.Accesorios';
+    const COL_ESPECIFICACIONES = 'TablaDibujo.Especificaciones';
 
     /**
      * the column name for the Estado field
      */
-    const COL_ESTADO = 'VideoBean.Estado';
+    const COL_ESTADO = 'TablaDibujo.Estado';
 
     /**
      * The default string format for model objects of the related table
@@ -118,11 +108,11 @@ class VideobeanTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Marca', 'Modelo', 'Especificaciones', 'Accesorios', 'Estado', ),
-        self::TYPE_CAMELNAME     => array('id', 'codigo', 'marca', 'modelo', 'especificaciones', 'accesorios', 'estado', ),
-        self::TYPE_COLNAME       => array(VideobeanTableMap::COL_ID, VideobeanTableMap::COL_CODIGO, VideobeanTableMap::COL_MARCA, VideobeanTableMap::COL_MODELO, VideobeanTableMap::COL_ESPECIFICACIONES, VideobeanTableMap::COL_ACCESORIOS, VideobeanTableMap::COL_ESTADO, ),
-        self::TYPE_FIELDNAME     => array('Id', 'Codigo', 'Marca', 'Modelo', 'Especificaciones', 'Accesorios', 'Estado', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Marca', 'Especificaciones', 'Estado', ),
+        self::TYPE_CAMELNAME     => array('id', 'codigo', 'marca', 'especificaciones', 'estado', ),
+        self::TYPE_COLNAME       => array(TablaDibujoTableMap::COL_ID, TablaDibujoTableMap::COL_CODIGO, TablaDibujoTableMap::COL_MARCA, TablaDibujoTableMap::COL_ESPECIFICACIONES, TablaDibujoTableMap::COL_ESTADO, ),
+        self::TYPE_FIELDNAME     => array('Id', 'Codigo', 'Marca', 'Especificaciones', 'Estado', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -132,11 +122,11 @@ class VideobeanTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Modelo' => 3, 'Especificaciones' => 4, 'Accesorios' => 5, 'Estado' => 6, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'marca' => 2, 'modelo' => 3, 'especificaciones' => 4, 'accesorios' => 5, 'estado' => 6, ),
-        self::TYPE_COLNAME       => array(VideobeanTableMap::COL_ID => 0, VideobeanTableMap::COL_CODIGO => 1, VideobeanTableMap::COL_MARCA => 2, VideobeanTableMap::COL_MODELO => 3, VideobeanTableMap::COL_ESPECIFICACIONES => 4, VideobeanTableMap::COL_ACCESORIOS => 5, VideobeanTableMap::COL_ESTADO => 6, ),
-        self::TYPE_FIELDNAME     => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Modelo' => 3, 'Especificaciones' => 4, 'Accesorios' => 5, 'Estado' => 6, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Especificaciones' => 3, 'Estado' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'marca' => 2, 'especificaciones' => 3, 'estado' => 4, ),
+        self::TYPE_COLNAME       => array(TablaDibujoTableMap::COL_ID => 0, TablaDibujoTableMap::COL_CODIGO => 1, TablaDibujoTableMap::COL_MARCA => 2, TablaDibujoTableMap::COL_ESPECIFICACIONES => 3, TablaDibujoTableMap::COL_ESTADO => 4, ),
+        self::TYPE_FIELDNAME     => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Especificaciones' => 3, 'Estado' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -149,19 +139,17 @@ class VideobeanTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('VideoBean');
-        $this->setPhpName('Videobean');
+        $this->setName('TablaDibujo');
+        $this->setPhpName('TablaDibujo');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Videobean');
+        $this->setClassName('\\TablaDibujo');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('Codigo', 'Codigo', 'LONGVARCHAR', false, null, null);
         $this->addColumn('Marca', 'Marca', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Modelo', 'Modelo', 'LONGVARCHAR', false, null, null);
         $this->addColumn('Especificaciones', 'Especificaciones', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Accesorios', 'Accesorios', 'LONGVARCHAR', false, null, null);
         $this->addColumn('Estado', 'Estado', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
@@ -229,7 +217,7 @@ class VideobeanTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? VideobeanTableMap::CLASS_DEFAULT : VideobeanTableMap::OM_CLASS;
+        return $withPrefix ? TablaDibujoTableMap::CLASS_DEFAULT : TablaDibujoTableMap::OM_CLASS;
     }
 
     /**
@@ -243,22 +231,22 @@ class VideobeanTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Videobean object, last column rank)
+     * @return array           (TablaDibujo object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = VideobeanTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = VideobeanTableMap::getInstanceFromPool($key))) {
+        $key = TablaDibujoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = TablaDibujoTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + VideobeanTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + TablaDibujoTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = VideobeanTableMap::OM_CLASS;
-            /** @var Videobean $obj */
+            $cls = TablaDibujoTableMap::OM_CLASS;
+            /** @var TablaDibujo $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            VideobeanTableMap::addInstanceToPool($obj, $key);
+            TablaDibujoTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -281,18 +269,18 @@ class VideobeanTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = VideobeanTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = VideobeanTableMap::getInstanceFromPool($key))) {
+            $key = TablaDibujoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = TablaDibujoTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Videobean $obj */
+                /** @var TablaDibujo $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                VideobeanTableMap::addInstanceToPool($obj, $key);
+                TablaDibujoTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -313,20 +301,16 @@ class VideobeanTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(VideobeanTableMap::COL_ID);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_CODIGO);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_MARCA);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_MODELO);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_ESPECIFICACIONES);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_ACCESORIOS);
-            $criteria->addSelectColumn(VideobeanTableMap::COL_ESTADO);
+            $criteria->addSelectColumn(TablaDibujoTableMap::COL_ID);
+            $criteria->addSelectColumn(TablaDibujoTableMap::COL_CODIGO);
+            $criteria->addSelectColumn(TablaDibujoTableMap::COL_MARCA);
+            $criteria->addSelectColumn(TablaDibujoTableMap::COL_ESPECIFICACIONES);
+            $criteria->addSelectColumn(TablaDibujoTableMap::COL_ESTADO);
         } else {
             $criteria->addSelectColumn($alias . '.Id');
             $criteria->addSelectColumn($alias . '.Codigo');
             $criteria->addSelectColumn($alias . '.Marca');
-            $criteria->addSelectColumn($alias . '.Modelo');
             $criteria->addSelectColumn($alias . '.Especificaciones');
-            $criteria->addSelectColumn($alias . '.Accesorios');
             $criteria->addSelectColumn($alias . '.Estado');
         }
     }
@@ -340,7 +324,7 @@ class VideobeanTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(VideobeanTableMap::DATABASE_NAME)->getTable(VideobeanTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(TablaDibujoTableMap::DATABASE_NAME)->getTable(TablaDibujoTableMap::TABLE_NAME);
     }
 
     /**
@@ -348,16 +332,16 @@ class VideobeanTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(VideobeanTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(VideobeanTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new VideobeanTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(TablaDibujoTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(TablaDibujoTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new TablaDibujoTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Videobean or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a TablaDibujo or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Videobean object or primary key or array of primary keys
+     * @param mixed               $values Criteria or TablaDibujo object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -368,27 +352,27 @@ class VideobeanTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Videobean) { // it's a model object
+        } elseif ($values instanceof \TablaDibujo) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(VideobeanTableMap::DATABASE_NAME);
-            $criteria->add(VideobeanTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(TablaDibujoTableMap::DATABASE_NAME);
+            $criteria->add(TablaDibujoTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = VideobeanQuery::create()->mergeWith($criteria);
+        $query = TablaDibujoQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            VideobeanTableMap::clearInstancePool();
+            TablaDibujoTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                VideobeanTableMap::removeInstanceFromPool($singleval);
+                TablaDibujoTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -396,20 +380,20 @@ class VideobeanTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the VideoBean table.
+     * Deletes all rows from the TablaDibujo table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return VideobeanQuery::create()->doDeleteAll($con);
+        return TablaDibujoQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Videobean or Criteria object.
+     * Performs an INSERT on the database, given a TablaDibujo or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Videobean object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or TablaDibujo object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -418,18 +402,18 @@ class VideobeanTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Videobean object
+            $criteria = $criteria->buildCriteria(); // build Criteria from TablaDibujo object
         }
 
 
         // Set the correct dbName
-        $query = VideobeanQuery::create()->mergeWith($criteria);
+        $query = TablaDibujoQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -438,7 +422,7 @@ class VideobeanTableMap extends TableMap
         });
     }
 
-} // VideobeanTableMap
+} // TablaDibujoTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-VideobeanTableMap::buildTableMap();
+TablaDibujoTableMap::buildTableMap();

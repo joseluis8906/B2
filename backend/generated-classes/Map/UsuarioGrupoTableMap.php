@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Tabladibujo;
-use \TabladibujoQuery;
+use \UsuarioGrupo;
+use \UsuarioGrupoQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'TablaDibujo' table.
+ * This class defines the structure of the 'UsuarioGrupo' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class TabladibujoTableMap extends TableMap
+class UsuarioGrupoTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class TabladibujoTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.TabladibujoTableMap';
+    const CLASS_NAME = '.Map.UsuarioGrupoTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class TabladibujoTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'TablaDibujo';
+    const TABLE_NAME = 'UsuarioGrupo';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Tabladibujo';
+    const OM_CLASS = '\\UsuarioGrupo';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Tabladibujo';
+    const CLASS_DEFAULT = 'UsuarioGrupo';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -69,32 +69,17 @@ class TabladibujoTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
-     * the column name for the Id field
+     * the column name for the UsuarioId field
      */
-    const COL_ID = 'TablaDibujo.Id';
+    const COL_USUARIOID = 'UsuarioGrupo.UsuarioId';
 
     /**
-     * the column name for the Codigo field
+     * the column name for the GrupoId field
      */
-    const COL_CODIGO = 'TablaDibujo.Codigo';
-
-    /**
-     * the column name for the Marca field
-     */
-    const COL_MARCA = 'TablaDibujo.Marca';
-
-    /**
-     * the column name for the Especificaciones field
-     */
-    const COL_ESPECIFICACIONES = 'TablaDibujo.Especificaciones';
-
-    /**
-     * the column name for the Estado field
-     */
-    const COL_ESTADO = 'TablaDibujo.Estado';
+    const COL_GRUPOID = 'UsuarioGrupo.GrupoId';
 
     /**
      * The default string format for model objects of the related table
@@ -108,11 +93,11 @@ class TabladibujoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Marca', 'Especificaciones', 'Estado', ),
-        self::TYPE_CAMELNAME     => array('id', 'codigo', 'marca', 'especificaciones', 'estado', ),
-        self::TYPE_COLNAME       => array(TabladibujoTableMap::COL_ID, TabladibujoTableMap::COL_CODIGO, TabladibujoTableMap::COL_MARCA, TabladibujoTableMap::COL_ESPECIFICACIONES, TabladibujoTableMap::COL_ESTADO, ),
-        self::TYPE_FIELDNAME     => array('Id', 'Codigo', 'Marca', 'Especificaciones', 'Estado', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('UsuarioId', 'GrupoId', ),
+        self::TYPE_CAMELNAME     => array('usuarioId', 'grupoId', ),
+        self::TYPE_COLNAME       => array(UsuarioGrupoTableMap::COL_USUARIOID, UsuarioGrupoTableMap::COL_GRUPOID, ),
+        self::TYPE_FIELDNAME     => array('UsuarioId', 'GrupoId', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -122,11 +107,11 @@ class TabladibujoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Especificaciones' => 3, 'Estado' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'marca' => 2, 'especificaciones' => 3, 'estado' => 4, ),
-        self::TYPE_COLNAME       => array(TabladibujoTableMap::COL_ID => 0, TabladibujoTableMap::COL_CODIGO => 1, TabladibujoTableMap::COL_MARCA => 2, TabladibujoTableMap::COL_ESPECIFICACIONES => 3, TabladibujoTableMap::COL_ESTADO => 4, ),
-        self::TYPE_FIELDNAME     => array('Id' => 0, 'Codigo' => 1, 'Marca' => 2, 'Especificaciones' => 3, 'Estado' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('UsuarioId' => 0, 'GrupoId' => 1, ),
+        self::TYPE_CAMELNAME     => array('usuarioId' => 0, 'grupoId' => 1, ),
+        self::TYPE_COLNAME       => array(UsuarioGrupoTableMap::COL_USUARIOID => 0, UsuarioGrupoTableMap::COL_GRUPOID => 1, ),
+        self::TYPE_FIELDNAME     => array('UsuarioId' => 0, 'GrupoId' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -139,18 +124,16 @@ class TabladibujoTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('TablaDibujo');
-        $this->setPhpName('Tabladibujo');
+        $this->setName('UsuarioGrupo');
+        $this->setPhpName('UsuarioGrupo');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Tabladibujo');
+        $this->setClassName('\\UsuarioGrupo');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
+        $this->setIsCrossRef(true);
         // columns
-        $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('Codigo', 'Codigo', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Marca', 'Marca', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Especificaciones', 'Especificaciones', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Estado', 'Estado', 'LONGVARCHAR', false, null, null);
+        $this->addForeignPrimaryKey('UsuarioId', 'UsuarioId', 'INTEGER' , 'Usuario', 'Id', true, null, null);
+        $this->addForeignPrimaryKey('GrupoId', 'GrupoId', 'INTEGER' , 'Grupo', 'Id', true, null, null);
     } // initialize()
 
     /**
@@ -158,7 +141,74 @@ class TabladibujoTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Grupo', '\\Grupo', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':GrupoId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
+        $this->addRelation('Usuario', '\\Usuario', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':UsuarioId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
     } // buildRelations()
+
+    /**
+     * Adds an object to the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database. In some cases you may need to explicitly add objects
+     * to the cache in order to ensure that the same objects are always returned by find*()
+     * and findPk*() calls.
+     *
+     * @param \UsuarioGrupo $obj A \UsuarioGrupo object.
+     * @param string $key             (optional) key to use for instance map (for performance boost if key was already calculated externally).
+     */
+    public static function addInstanceToPool($obj, $key = null)
+    {
+        if (Propel::isInstancePoolingEnabled()) {
+            if (null === $key) {
+                $key = serialize([(null === $obj->getUsuarioId() || is_scalar($obj->getUsuarioId()) || is_callable([$obj->getUsuarioId(), '__toString']) ? (string) $obj->getUsuarioId() : $obj->getUsuarioId()), (null === $obj->getGrupoId() || is_scalar($obj->getGrupoId()) || is_callable([$obj->getGrupoId(), '__toString']) ? (string) $obj->getGrupoId() : $obj->getGrupoId())]);
+            } // if key === null
+            self::$instances[$key] = $obj;
+        }
+    }
+
+    /**
+     * Removes an object from the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database.  In some cases -- especially when you override doDelete
+     * methods in your stub classes -- you may need to explicitly remove objects
+     * from the cache in order to prevent returning objects that no longer exist.
+     *
+     * @param mixed $value A \UsuarioGrupo object or a primary key value.
+     */
+    public static function removeInstanceFromPool($value)
+    {
+        if (Propel::isInstancePoolingEnabled() && null !== $value) {
+            if (is_object($value) && $value instanceof \UsuarioGrupo) {
+                $key = serialize([(null === $value->getUsuarioId() || is_scalar($value->getUsuarioId()) || is_callable([$value->getUsuarioId(), '__toString']) ? (string) $value->getUsuarioId() : $value->getUsuarioId()), (null === $value->getGrupoId() || is_scalar($value->getGrupoId()) || is_callable([$value->getGrupoId(), '__toString']) ? (string) $value->getGrupoId() : $value->getGrupoId())]);
+
+            } elseif (is_array($value) && count($value) === 2) {
+                // assume we've been passed a primary key";
+                $key = serialize([(null === $value[0] || is_scalar($value[0]) || is_callable([$value[0], '__toString']) ? (string) $value[0] : $value[0]), (null === $value[1] || is_scalar($value[1]) || is_callable([$value[1], '__toString']) ? (string) $value[1] : $value[1])]);
+            } elseif ($value instanceof Criteria) {
+                self::$instances = [];
+
+                return;
+            } else {
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \UsuarioGrupo object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
+                throw $e;
+            }
+
+            unset(self::$instances[$key]);
+        }
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -176,11 +226,11 @@ class TabladibujoTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return serialize([(null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)]), (null === $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)])]);
     }
 
     /**
@@ -197,11 +247,20 @@ class TabladibujoTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return (int) $row[
+            $pks = [];
+
+        $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)
         ];
+        $pks[] = (int) $row[
+            $indexType == TableMap::TYPE_NUM
+                ? 1 + $offset
+                : self::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)
+        ];
+
+        return $pks;
     }
 
     /**
@@ -217,7 +276,7 @@ class TabladibujoTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? TabladibujoTableMap::CLASS_DEFAULT : TabladibujoTableMap::OM_CLASS;
+        return $withPrefix ? UsuarioGrupoTableMap::CLASS_DEFAULT : UsuarioGrupoTableMap::OM_CLASS;
     }
 
     /**
@@ -231,22 +290,22 @@ class TabladibujoTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Tabladibujo object, last column rank)
+     * @return array           (UsuarioGrupo object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = TabladibujoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = TabladibujoTableMap::getInstanceFromPool($key))) {
+        $key = UsuarioGrupoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = UsuarioGrupoTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + TabladibujoTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + UsuarioGrupoTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = TabladibujoTableMap::OM_CLASS;
-            /** @var Tabladibujo $obj */
+            $cls = UsuarioGrupoTableMap::OM_CLASS;
+            /** @var UsuarioGrupo $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            TabladibujoTableMap::addInstanceToPool($obj, $key);
+            UsuarioGrupoTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -269,18 +328,18 @@ class TabladibujoTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = TabladibujoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = TabladibujoTableMap::getInstanceFromPool($key))) {
+            $key = UsuarioGrupoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = UsuarioGrupoTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Tabladibujo $obj */
+                /** @var UsuarioGrupo $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                TabladibujoTableMap::addInstanceToPool($obj, $key);
+                UsuarioGrupoTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -301,17 +360,11 @@ class TabladibujoTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(TabladibujoTableMap::COL_ID);
-            $criteria->addSelectColumn(TabladibujoTableMap::COL_CODIGO);
-            $criteria->addSelectColumn(TabladibujoTableMap::COL_MARCA);
-            $criteria->addSelectColumn(TabladibujoTableMap::COL_ESPECIFICACIONES);
-            $criteria->addSelectColumn(TabladibujoTableMap::COL_ESTADO);
+            $criteria->addSelectColumn(UsuarioGrupoTableMap::COL_USUARIOID);
+            $criteria->addSelectColumn(UsuarioGrupoTableMap::COL_GRUPOID);
         } else {
-            $criteria->addSelectColumn($alias . '.Id');
-            $criteria->addSelectColumn($alias . '.Codigo');
-            $criteria->addSelectColumn($alias . '.Marca');
-            $criteria->addSelectColumn($alias . '.Especificaciones');
-            $criteria->addSelectColumn($alias . '.Estado');
+            $criteria->addSelectColumn($alias . '.UsuarioId');
+            $criteria->addSelectColumn($alias . '.GrupoId');
         }
     }
 
@@ -324,7 +377,7 @@ class TabladibujoTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(TabladibujoTableMap::DATABASE_NAME)->getTable(TabladibujoTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(UsuarioGrupoTableMap::DATABASE_NAME)->getTable(UsuarioGrupoTableMap::TABLE_NAME);
     }
 
     /**
@@ -332,16 +385,16 @@ class TabladibujoTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(TabladibujoTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(TabladibujoTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new TabladibujoTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UsuarioGrupoTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(UsuarioGrupoTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new UsuarioGrupoTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Tabladibujo or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a UsuarioGrupo or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Tabladibujo object or primary key or array of primary keys
+     * @param mixed               $values Criteria or UsuarioGrupo object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -352,27 +405,37 @@ class TabladibujoTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioGrupoTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Tabladibujo) { // it's a model object
+        } elseif ($values instanceof \UsuarioGrupo) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(TabladibujoTableMap::DATABASE_NAME);
-            $criteria->add(TabladibujoTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(UsuarioGrupoTableMap::DATABASE_NAME);
+            // primary key is composite; we therefore, expect
+            // the primary key passed to be an array of pkey values
+            if (count($values) == count($values, COUNT_RECURSIVE)) {
+                // array is not multi-dimensional
+                $values = array($values);
+            }
+            foreach ($values as $value) {
+                $criterion = $criteria->getNewCriterion(UsuarioGrupoTableMap::COL_USUARIOID, $value[0]);
+                $criterion->addAnd($criteria->getNewCriterion(UsuarioGrupoTableMap::COL_GRUPOID, $value[1]));
+                $criteria->addOr($criterion);
+            }
         }
 
-        $query = TabladibujoQuery::create()->mergeWith($criteria);
+        $query = UsuarioGrupoQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            TabladibujoTableMap::clearInstancePool();
+            UsuarioGrupoTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                TabladibujoTableMap::removeInstanceFromPool($singleval);
+                UsuarioGrupoTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -380,20 +443,20 @@ class TabladibujoTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the TablaDibujo table.
+     * Deletes all rows from the UsuarioGrupo table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return TabladibujoQuery::create()->doDeleteAll($con);
+        return UsuarioGrupoQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Tabladibujo or Criteria object.
+     * Performs an INSERT on the database, given a UsuarioGrupo or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Tabladibujo object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or UsuarioGrupo object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -402,18 +465,18 @@ class TabladibujoTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioGrupoTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Tabladibujo object
+            $criteria = $criteria->buildCriteria(); // build Criteria from UsuarioGrupo object
         }
 
 
         // Set the correct dbName
-        $query = TabladibujoQuery::create()->mergeWith($criteria);
+        $query = UsuarioGrupoQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -422,7 +485,7 @@ class TabladibujoTableMap extends TableMap
         });
     }
 
-} // TabladibujoTableMap
+} // UsuarioGrupoTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-TabladibujoTableMap::buildTableMap();
+UsuarioGrupoTableMap::buildTableMap();

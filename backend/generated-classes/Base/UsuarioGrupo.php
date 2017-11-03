@@ -2,10 +2,14 @@
 
 namespace Base;
 
-use \TabladibujoQuery as ChildTabladibujoQuery;
+use \Grupo as ChildGrupo;
+use \GrupoQuery as ChildGrupoQuery;
+use \Usuario as ChildUsuario;
+use \UsuarioGrupoQuery as ChildUsuarioGrupoQuery;
+use \UsuarioQuery as ChildUsuarioQuery;
 use \Exception;
 use \PDO;
-use Map\TabladibujoTableMap;
+use Map\UsuarioGrupoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,18 +23,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'TablaDibujo' table.
+ * Base class that represents a row from the 'UsuarioGrupo' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class Tabladibujo implements ActiveRecordInterface
+abstract class UsuarioGrupo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\TabladibujoTableMap';
+    const TABLE_MAP = '\\Map\\UsuarioGrupoTableMap';
 
 
     /**
@@ -60,39 +64,28 @@ abstract class Tabladibujo implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the usuarioid field.
      *
      * @var        int
      */
-    protected $id;
+    protected $usuarioid;
 
     /**
-     * The value for the codigo field.
+     * The value for the grupoid field.
      *
-     * @var        string
+     * @var        int
      */
-    protected $codigo;
+    protected $grupoid;
 
     /**
-     * The value for the marca field.
-     *
-     * @var        string
+     * @var        ChildGrupo
      */
-    protected $marca;
+    protected $aGrupo;
 
     /**
-     * The value for the especificaciones field.
-     *
-     * @var        string
+     * @var        ChildUsuario
      */
-    protected $especificaciones;
-
-    /**
-     * The value for the estado field.
-     *
-     * @var        string
-     */
-    protected $estado;
+    protected $aUsuario;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -103,7 +96,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Tabladibujo object.
+     * Initializes internal state of Base\UsuarioGrupo object.
      */
     public function __construct()
     {
@@ -198,9 +191,9 @@ abstract class Tabladibujo implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Tabladibujo</code> instance.  If
-     * <code>obj</code> is an instance of <code>Tabladibujo</code>, delegates to
-     * <code>equals(Tabladibujo)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>UsuarioGrupo</code> instance.  If
+     * <code>obj</code> is an instance of <code>UsuarioGrupo</code>, delegates to
+     * <code>equals(UsuarioGrupo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -266,7 +259,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Tabladibujo The current object, for fluid interface
+     * @return $this|UsuarioGrupo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -328,154 +321,72 @@ abstract class Tabladibujo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [usuarioid] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getUsuarioId()
     {
-        return $this->id;
+        return $this->usuarioid;
     }
 
     /**
-     * Get the [codigo] column value.
+     * Get the [grupoid] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getCodigo()
+    public function getGrupoId()
     {
-        return $this->codigo;
+        return $this->grupoid;
     }
 
     /**
-     * Get the [marca] column value.
-     *
-     * @return string
-     */
-    public function getMarca()
-    {
-        return $this->marca;
-    }
-
-    /**
-     * Get the [especificaciones] column value.
-     *
-     * @return string
-     */
-    public function getEspecificaciones()
-    {
-        return $this->especificaciones;
-    }
-
-    /**
-     * Get the [estado] column value.
-     *
-     * @return string
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set the value of [id] column.
+     * Set the value of [usuarioid] column.
      *
      * @param int $v new value
-     * @return $this|\Tabladibujo The current object (for fluent API support)
+     * @return $this|\UsuarioGrupo The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setUsuarioId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[TabladibujoTableMap::COL_ID] = true;
+        if ($this->usuarioid !== $v) {
+            $this->usuarioid = $v;
+            $this->modifiedColumns[UsuarioGrupoTableMap::COL_USUARIOID] = true;
+        }
+
+        if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+            $this->aUsuario = null;
         }
 
         return $this;
-    } // setId()
+    } // setUsuarioId()
 
     /**
-     * Set the value of [codigo] column.
+     * Set the value of [grupoid] column.
      *
-     * @param string $v new value
-     * @return $this|\Tabladibujo The current object (for fluent API support)
+     * @param int $v new value
+     * @return $this|\UsuarioGrupo The current object (for fluent API support)
      */
-    public function setCodigo($v)
+    public function setGrupoId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->codigo !== $v) {
-            $this->codigo = $v;
-            $this->modifiedColumns[TabladibujoTableMap::COL_CODIGO] = true;
+        if ($this->grupoid !== $v) {
+            $this->grupoid = $v;
+            $this->modifiedColumns[UsuarioGrupoTableMap::COL_GRUPOID] = true;
+        }
+
+        if ($this->aGrupo !== null && $this->aGrupo->getId() !== $v) {
+            $this->aGrupo = null;
         }
 
         return $this;
-    } // setCodigo()
-
-    /**
-     * Set the value of [marca] column.
-     *
-     * @param string $v new value
-     * @return $this|\Tabladibujo The current object (for fluent API support)
-     */
-    public function setMarca($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->marca !== $v) {
-            $this->marca = $v;
-            $this->modifiedColumns[TabladibujoTableMap::COL_MARCA] = true;
-        }
-
-        return $this;
-    } // setMarca()
-
-    /**
-     * Set the value of [especificaciones] column.
-     *
-     * @param string $v new value
-     * @return $this|\Tabladibujo The current object (for fluent API support)
-     */
-    public function setEspecificaciones($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->especificaciones !== $v) {
-            $this->especificaciones = $v;
-            $this->modifiedColumns[TabladibujoTableMap::COL_ESPECIFICACIONES] = true;
-        }
-
-        return $this;
-    } // setEspecificaciones()
-
-    /**
-     * Set the value of [estado] column.
-     *
-     * @param string $v new value
-     * @return $this|\Tabladibujo The current object (for fluent API support)
-     */
-    public function setEstado($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->estado !== $v) {
-            $this->estado = $v;
-            $this->modifiedColumns[TabladibujoTableMap::COL_ESTADO] = true;
-        }
-
-        return $this;
-    } // setEstado()
+    } // setGrupoId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -513,20 +424,11 @@ abstract class Tabladibujo implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TabladibujoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuarioGrupoTableMap::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->usuarioid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TabladibujoTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->codigo = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TabladibujoTableMap::translateFieldName('Marca', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->marca = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TabladibujoTableMap::translateFieldName('Especificaciones', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->especificaciones = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TabladibujoTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->estado = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuarioGrupoTableMap::translateFieldName('GrupoId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->grupoid = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -535,10 +437,10 @@ abstract class Tabladibujo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = TabladibujoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = UsuarioGrupoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Tabladibujo'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\UsuarioGrupo'), 0, $e);
         }
     }
 
@@ -557,6 +459,12 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aUsuario !== null && $this->usuarioid !== $this->aUsuario->getId()) {
+            $this->aUsuario = null;
+        }
+        if ($this->aGrupo !== null && $this->grupoid !== $this->aGrupo->getId()) {
+            $this->aGrupo = null;
+        }
     } // ensureConsistency
 
     /**
@@ -580,13 +488,13 @@ abstract class Tabladibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(UsuarioGrupoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildTabladibujoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildUsuarioGrupoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -596,6 +504,8 @@ abstract class Tabladibujo implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aGrupo = null;
+            $this->aUsuario = null;
         } // if (deep)
     }
 
@@ -605,8 +515,8 @@ abstract class Tabladibujo implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Tabladibujo::setDeleted()
-     * @see Tabladibujo::isDeleted()
+     * @see UsuarioGrupo::setDeleted()
+     * @see UsuarioGrupo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -615,11 +525,11 @@ abstract class Tabladibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioGrupoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildTabladibujoQuery::create()
+            $deleteQuery = ChildUsuarioGrupoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -654,7 +564,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuarioGrupoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -673,7 +583,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                TabladibujoTableMap::addInstanceToPool($this);
+                UsuarioGrupoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -698,6 +608,25 @@ abstract class Tabladibujo implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aGrupo !== null) {
+                if ($this->aGrupo->isModified() || $this->aGrupo->isNew()) {
+                    $affectedRows += $this->aGrupo->save($con);
+                }
+                $this->setGrupo($this->aGrupo);
+            }
+
+            if ($this->aUsuario !== null) {
+                if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+                    $affectedRows += $this->aUsuario->save($con);
+                }
+                $this->setUsuario($this->aUsuario);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -732,24 +661,15 @@ abstract class Tabladibujo implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'Id';
+        if ($this->isColumnModified(UsuarioGrupoTableMap::COL_USUARIOID)) {
+            $modifiedColumns[':p' . $index++]  = 'UsuarioId';
         }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_CODIGO)) {
-            $modifiedColumns[':p' . $index++]  = 'Codigo';
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_MARCA)) {
-            $modifiedColumns[':p' . $index++]  = 'Marca';
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ESPECIFICACIONES)) {
-            $modifiedColumns[':p' . $index++]  = 'Especificaciones';
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ESTADO)) {
-            $modifiedColumns[':p' . $index++]  = 'Estado';
+        if ($this->isColumnModified(UsuarioGrupoTableMap::COL_GRUPOID)) {
+            $modifiedColumns[':p' . $index++]  = 'GrupoId';
         }
 
         $sql = sprintf(
-            'INSERT INTO TablaDibujo (%s) VALUES (%s)',
+            'INSERT INTO UsuarioGrupo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -758,20 +678,11 @@ abstract class Tabladibujo implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'Id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'UsuarioId':
+                        $stmt->bindValue($identifier, $this->usuarioid, PDO::PARAM_INT);
                         break;
-                    case 'Codigo':
-                        $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
-                        break;
-                    case 'Marca':
-                        $stmt->bindValue($identifier, $this->marca, PDO::PARAM_STR);
-                        break;
-                    case 'Especificaciones':
-                        $stmt->bindValue($identifier, $this->especificaciones, PDO::PARAM_STR);
-                        break;
-                    case 'Estado':
-                        $stmt->bindValue($identifier, $this->estado, PDO::PARAM_STR);
+                    case 'GrupoId':
+                        $stmt->bindValue($identifier, $this->grupoid, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -812,7 +723,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TabladibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = UsuarioGrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -829,19 +740,10 @@ abstract class Tabladibujo implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getUsuarioId();
                 break;
             case 1:
-                return $this->getCodigo();
-                break;
-            case 2:
-                return $this->getMarca();
-                break;
-            case 3:
-                return $this->getEspecificaciones();
-                break;
-            case 4:
-                return $this->getEstado();
+                return $this->getGrupoId();
                 break;
             default:
                 return null;
@@ -860,29 +762,59 @@ abstract class Tabladibujo implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Tabladibujo'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['UsuarioGrupo'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Tabladibujo'][$this->hashCode()] = true;
-        $keys = TabladibujoTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['UsuarioGrupo'][$this->hashCode()] = true;
+        $keys = UsuarioGrupoTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getCodigo(),
-            $keys[2] => $this->getMarca(),
-            $keys[3] => $this->getEspecificaciones(),
-            $keys[4] => $this->getEstado(),
+            $keys[0] => $this->getUsuarioId(),
+            $keys[1] => $this->getGrupoId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aGrupo) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'grupo';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'Grupo';
+                        break;
+                    default:
+                        $key = 'Grupo';
+                }
+
+                $result[$key] = $this->aGrupo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aUsuario) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'usuario';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'Usuario';
+                        break;
+                    default:
+                        $key = 'Usuario';
+                }
+
+                $result[$key] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -896,11 +828,11 @@ abstract class Tabladibujo implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Tabladibujo
+     * @return $this|\UsuarioGrupo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TabladibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = UsuarioGrupoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -911,25 +843,16 @@ abstract class Tabladibujo implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Tabladibujo
+     * @return $this|\UsuarioGrupo
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setUsuarioId($value);
                 break;
             case 1:
-                $this->setCodigo($value);
-                break;
-            case 2:
-                $this->setMarca($value);
-                break;
-            case 3:
-                $this->setEspecificaciones($value);
-                break;
-            case 4:
-                $this->setEstado($value);
+                $this->setGrupoId($value);
                 break;
         } // switch()
 
@@ -955,22 +878,13 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = TabladibujoTableMap::getFieldNames($keyType);
+        $keys = UsuarioGrupoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setUsuarioId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCodigo($arr[$keys[1]]);
-        }
-        if (array_key_exists($keys[2], $arr)) {
-            $this->setMarca($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setEspecificaciones($arr[$keys[3]]);
-        }
-        if (array_key_exists($keys[4], $arr)) {
-            $this->setEstado($arr[$keys[4]]);
+            $this->setGrupoId($arr[$keys[1]]);
         }
     }
 
@@ -991,7 +905,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Tabladibujo The current object, for fluid interface
+     * @return $this|\UsuarioGrupo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1011,22 +925,13 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(TabladibujoTableMap::DATABASE_NAME);
+        $criteria = new Criteria(UsuarioGrupoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ID)) {
-            $criteria->add(TabladibujoTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(UsuarioGrupoTableMap::COL_USUARIOID)) {
+            $criteria->add(UsuarioGrupoTableMap::COL_USUARIOID, $this->usuarioid);
         }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_CODIGO)) {
-            $criteria->add(TabladibujoTableMap::COL_CODIGO, $this->codigo);
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_MARCA)) {
-            $criteria->add(TabladibujoTableMap::COL_MARCA, $this->marca);
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ESPECIFICACIONES)) {
-            $criteria->add(TabladibujoTableMap::COL_ESPECIFICACIONES, $this->especificaciones);
-        }
-        if ($this->isColumnModified(TabladibujoTableMap::COL_ESTADO)) {
-            $criteria->add(TabladibujoTableMap::COL_ESTADO, $this->estado);
+        if ($this->isColumnModified(UsuarioGrupoTableMap::COL_GRUPOID)) {
+            $criteria->add(UsuarioGrupoTableMap::COL_GRUPOID, $this->grupoid);
         }
 
         return $criteria;
@@ -1044,8 +949,9 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildTabladibujoQuery::create();
-        $criteria->add(TabladibujoTableMap::COL_ID, $this->id);
+        $criteria = ChildUsuarioGrupoQuery::create();
+        $criteria->add(UsuarioGrupoTableMap::COL_USUARIOID, $this->usuarioid);
+        $criteria->add(UsuarioGrupoTableMap::COL_GRUPOID, $this->grupoid);
 
         return $criteria;
     }
@@ -1058,10 +964,25 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getId();
+        $validPk = null !== $this->getUsuarioId() &&
+            null !== $this->getGrupoId();
 
-        $validPrimaryKeyFKs = 0;
+        $validPrimaryKeyFKs = 2;
         $primaryKeyFKs = [];
+
+        //relation UsuarioGrupo_fk_8631f0 to table Grupo
+        if ($this->aGrupo && $hash = spl_object_hash($this->aGrupo)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
+
+        //relation UsuarioGrupo_fk_ad85c6 to table Usuario
+        if ($this->aUsuario && $hash = spl_object_hash($this->aUsuario)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
 
         if ($validPk) {
             return crc32(json_encode($this->getPrimaryKey(), JSON_UNESCAPED_UNICODE));
@@ -1073,23 +994,29 @@ abstract class Tabladibujo implements ActiveRecordInterface
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return int
+     * Returns the composite primary key for this object.
+     * The array elements will be in same order as specified in XML.
+     * @return array
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        $pks = array();
+        $pks[0] = $this->getUsuarioId();
+        $pks[1] = $this->getGrupoId();
+
+        return $pks;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Set the [composite] primary key.
      *
-     * @param       int $key Primary key.
+     * @param      array $keys The elements of the composite key (order must match the order in XML file).
      * @return void
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($keys)
     {
-        $this->setId($key);
+        $this->setUsuarioId($keys[0]);
+        $this->setGrupoId($keys[1]);
     }
 
     /**
@@ -1098,7 +1025,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getId();
+        return (null === $this->getUsuarioId()) && (null === $this->getGrupoId());
     }
 
     /**
@@ -1107,18 +1034,15 @@ abstract class Tabladibujo implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Tabladibujo (or compatible) type.
+     * @param      object $copyObj An object of \UsuarioGrupo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
-        $copyObj->setCodigo($this->getCodigo());
-        $copyObj->setMarca($this->getMarca());
-        $copyObj->setEspecificaciones($this->getEspecificaciones());
-        $copyObj->setEstado($this->getEstado());
+        $copyObj->setUsuarioId($this->getUsuarioId());
+        $copyObj->setGrupoId($this->getGrupoId());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1133,7 +1057,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Tabladibujo Clone of current object.
+     * @return \UsuarioGrupo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1147,17 +1071,122 @@ abstract class Tabladibujo implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildGrupo object.
+     *
+     * @param  ChildGrupo $v
+     * @return $this|\UsuarioGrupo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setGrupo(ChildGrupo $v = null)
+    {
+        if ($v === null) {
+            $this->setGrupoId(NULL);
+        } else {
+            $this->setGrupoId($v->getId());
+        }
+
+        $this->aGrupo = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildGrupo object, it will not be re-added.
+        if ($v !== null) {
+            $v->addUsuarioGrupo($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildGrupo object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildGrupo The associated ChildGrupo object.
+     * @throws PropelException
+     */
+    public function getGrupo(ConnectionInterface $con = null)
+    {
+        if ($this->aGrupo === null && ($this->grupoid != 0)) {
+            $this->aGrupo = ChildGrupoQuery::create()->findPk($this->grupoid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aGrupo->addUsuarioGrupos($this);
+             */
+        }
+
+        return $this->aGrupo;
+    }
+
+    /**
+     * Declares an association between this object and a ChildUsuario object.
+     *
+     * @param  ChildUsuario $v
+     * @return $this|\UsuarioGrupo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUsuario(ChildUsuario $v = null)
+    {
+        if ($v === null) {
+            $this->setUsuarioId(NULL);
+        } else {
+            $this->setUsuarioId($v->getId());
+        }
+
+        $this->aUsuario = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUsuario object, it will not be re-added.
+        if ($v !== null) {
+            $v->addUsuarioGrupo($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUsuario object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUsuario The associated ChildUsuario object.
+     * @throws PropelException
+     */
+    public function getUsuario(ConnectionInterface $con = null)
+    {
+        if ($this->aUsuario === null && ($this->usuarioid != 0)) {
+            $this->aUsuario = ChildUsuarioQuery::create()->findPk($this->usuarioid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUsuario->addUsuarioGrupos($this);
+             */
+        }
+
+        return $this->aUsuario;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
-        $this->id = null;
-        $this->codigo = null;
-        $this->marca = null;
-        $this->especificaciones = null;
-        $this->estado = null;
+        if (null !== $this->aGrupo) {
+            $this->aGrupo->removeUsuarioGrupo($this);
+        }
+        if (null !== $this->aUsuario) {
+            $this->aUsuario->removeUsuarioGrupo($this);
+        }
+        $this->usuarioid = null;
+        $this->grupoid = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1178,6 +1207,8 @@ abstract class Tabladibujo implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aGrupo = null;
+        $this->aUsuario = null;
     }
 
     /**
@@ -1187,7 +1218,7 @@ abstract class Tabladibujo implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(TabladibujoTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(UsuarioGrupoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

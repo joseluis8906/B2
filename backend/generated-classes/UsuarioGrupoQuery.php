@@ -1,9 +1,9 @@
 <?php
 
-use Base\Usuariogrupo as BaseUsuariogrupo;
+use Base\UsuarioGrupoQuery as BaseUsuarioGrupoQuery;
 
 /**
- * Skeleton subclass for representing a row from the 'UsuarioGrupo' table.
+ * Skeleton subclass for performing query and update operations on the 'UsuarioGrupo' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\Usuariogrupo as BaseUsuariogrupo;
  * long as it does not already exist in the output directory.
  *
  */
-class Usuariogrupo extends BaseUsuariogrupo
+class UsuarioGrupoQuery extends BaseUsuarioGrupoQuery
 {
 
 }

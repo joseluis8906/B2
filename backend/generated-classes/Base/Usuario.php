@@ -2,14 +2,16 @@
 
 namespace Base;
 
+use \Grupo as ChildGrupo;
+use \GrupoQuery as ChildGrupoQuery;
 use \Usuario as ChildUsuario;
+use \UsuarioGrupo as ChildUsuarioGrupo;
+use \UsuarioGrupoQuery as ChildUsuarioGrupoQuery;
 use \UsuarioQuery as ChildUsuarioQuery;
-use \Usuariogrupo as ChildUsuariogrupo;
-use \UsuariogrupoQuery as ChildUsuariogrupoQuery;
 use \Exception;
 use \PDO;
+use Map\UsuarioGrupoTableMap;
 use Map\UsuarioTableMap;
-use Map\UsuariogrupoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -142,10 +144,20 @@ abstract class Usuario implements ActiveRecordInterface
     protected $activo;
 
     /**
-     * @var        ObjectCollection|ChildUsuariogrupo[] Collection to store aggregation of ChildUsuariogrupo objects.
+     * @var        ObjectCollection|ChildUsuarioGrupo[] Collection to store aggregation of ChildUsuarioGrupo objects.
      */
-    protected $collUsuariogrupos;
-    protected $collUsuariogruposPartial;
+    protected $collUsuarioGrupos;
+    protected $collUsuarioGruposPartial;
+
+    /**
+     * @var        ObjectCollection|ChildGrupo[] Cross Collection to store aggregation of ChildGrupo objects.
+     */
+    protected $collGrupos;
+
+    /**
+     * @var bool
+     */
+    protected $collGruposPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -157,9 +169,15 @@ abstract class Usuario implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildUsuariogrupo[]
+     * @var ObjectCollection|ChildGrupo[]
      */
-    protected $usuariogruposScheduledForDeletion = null;
+    protected $gruposScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildUsuarioGrupo[]
+     */
+    protected $usuarioGruposScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Usuario object.
@@ -853,8 +871,9 @@ abstract class Usuario implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collUsuariogrupos = null;
+            $this->collUsuarioGrupos = null;
 
+            $this->collGrupos = null;
         } // if (deep)
     }
 
@@ -969,17 +988,46 @@ abstract class Usuario implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->usuariogruposScheduledForDeletion !== null) {
-                if (!$this->usuariogruposScheduledForDeletion->isEmpty()) {
-                    \UsuariogrupoQuery::create()
-                        ->filterByPrimaryKeys($this->usuariogruposScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->gruposScheduledForDeletion !== null) {
+                if (!$this->gruposScheduledForDeletion->isEmpty()) {
+                    $pks = array();
+                    foreach ($this->gruposScheduledForDeletion as $entry) {
+                        $entryPk = [];
+
+                        $entryPk[0] = $this->getId();
+                        $entryPk[1] = $entry->getId();
+                        $pks[] = $entryPk;
+                    }
+
+                    \UsuarioGrupoQuery::create()
+                        ->filterByPrimaryKeys($pks)
                         ->delete($con);
-                    $this->usuariogruposScheduledForDeletion = null;
+
+                    $this->gruposScheduledForDeletion = null;
+                }
+
+            }
+
+            if ($this->collGrupos) {
+                foreach ($this->collGrupos as $grupo) {
+                    if (!$grupo->isDeleted() && ($grupo->isNew() || $grupo->isModified())) {
+                        $grupo->save($con);
+                    }
                 }
             }
 
-            if ($this->collUsuariogrupos !== null) {
-                foreach ($this->collUsuariogrupos as $referrerFK) {
+
+            if ($this->usuarioGruposScheduledForDeletion !== null) {
+                if (!$this->usuarioGruposScheduledForDeletion->isEmpty()) {
+                    \UsuarioGrupoQuery::create()
+                        ->filterByPrimaryKeys($this->usuarioGruposScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->usuarioGruposScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collUsuarioGrupos !== null) {
+                foreach ($this->collUsuarioGrupos as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1221,20 +1269,20 @@ abstract class Usuario implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collUsuariogrupos) {
+            if (null !== $this->collUsuarioGrupos) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'usuariogrupos';
+                        $key = 'usuarioGrupos';
                         break;
                     case TableMap::TYPE_FIELDNAME:
                         $key = 'UsuarioGrupos';
                         break;
                     default:
-                        $key = 'Usuariogrupos';
+                        $key = 'UsuarioGrupos';
                 }
 
-                $result[$key] = $this->collUsuariogrupos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->collUsuarioGrupos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1539,9 +1587,9 @@ abstract class Usuario implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getUsuariogrupos() as $relObj) {
+            foreach ($this->getUsuarioGrupos() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addUsuariogrupo($relObj->copy($deepCopy));
+                    $copyObj->addUsuarioGrupo($relObj->copy($deepCopy));
                 }
             }
 
@@ -1585,38 +1633,38 @@ abstract class Usuario implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('Usuariogrupo' == $relationName) {
-            $this->initUsuariogrupos();
+        if ('UsuarioGrupo' == $relationName) {
+            $this->initUsuarioGrupos();
             return;
         }
     }
 
     /**
-     * Clears out the collUsuariogrupos collection
+     * Clears out the collUsuarioGrupos collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addUsuariogrupos()
+     * @see        addUsuarioGrupos()
      */
-    public function clearUsuariogrupos()
+    public function clearUsuarioGrupos()
     {
-        $this->collUsuariogrupos = null; // important to set this to NULL since that means it is uninitialized
+        $this->collUsuarioGrupos = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collUsuariogrupos collection loaded partially.
+     * Reset is the collUsuarioGrupos collection loaded partially.
      */
-    public function resetPartialUsuariogrupos($v = true)
+    public function resetPartialUsuarioGrupos($v = true)
     {
-        $this->collUsuariogruposPartial = $v;
+        $this->collUsuarioGruposPartial = $v;
     }
 
     /**
-     * Initializes the collUsuariogrupos collection.
+     * Initializes the collUsuarioGrupos collection.
      *
-     * By default this just sets the collUsuariogrupos collection to an empty array (like clearcollUsuariogrupos());
+     * By default this just sets the collUsuarioGrupos collection to an empty array (like clearcollUsuarioGrupos());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1625,20 +1673,20 @@ abstract class Usuario implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initUsuariogrupos($overrideExisting = true)
+    public function initUsuarioGrupos($overrideExisting = true)
     {
-        if (null !== $this->collUsuariogrupos && !$overrideExisting) {
+        if (null !== $this->collUsuarioGrupos && !$overrideExisting) {
             return;
         }
 
-        $collectionClassName = UsuariogrupoTableMap::getTableMap()->getCollectionClassName();
+        $collectionClassName = UsuarioGrupoTableMap::getTableMap()->getCollectionClassName();
 
-        $this->collUsuariogrupos = new $collectionClassName;
-        $this->collUsuariogrupos->setModel('\Usuariogrupo');
+        $this->collUsuarioGrupos = new $collectionClassName;
+        $this->collUsuarioGrupos->setModel('\UsuarioGrupo');
     }
 
     /**
-     * Gets an array of ChildUsuariogrupo objects which contain a foreign key that references this object.
+     * Gets an array of ChildUsuarioGrupo objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1648,111 +1696,111 @@ abstract class Usuario implements ActiveRecordInterface
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildUsuariogrupo[] List of ChildUsuariogrupo objects
+     * @return ObjectCollection|ChildUsuarioGrupo[] List of ChildUsuarioGrupo objects
      * @throws PropelException
      */
-    public function getUsuariogrupos(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getUsuarioGrupos(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collUsuariogruposPartial && !$this->isNew();
-        if (null === $this->collUsuariogrupos || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collUsuariogrupos) {
+        $partial = $this->collUsuarioGruposPartial && !$this->isNew();
+        if (null === $this->collUsuarioGrupos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collUsuarioGrupos) {
                 // return empty collection
-                $this->initUsuariogrupos();
+                $this->initUsuarioGrupos();
             } else {
-                $collUsuariogrupos = ChildUsuariogrupoQuery::create(null, $criteria)
+                $collUsuarioGrupos = ChildUsuarioGrupoQuery::create(null, $criteria)
                     ->filterByUsuario($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collUsuariogruposPartial && count($collUsuariogrupos)) {
-                        $this->initUsuariogrupos(false);
+                    if (false !== $this->collUsuarioGruposPartial && count($collUsuarioGrupos)) {
+                        $this->initUsuarioGrupos(false);
 
-                        foreach ($collUsuariogrupos as $obj) {
-                            if (false == $this->collUsuariogrupos->contains($obj)) {
-                                $this->collUsuariogrupos->append($obj);
+                        foreach ($collUsuarioGrupos as $obj) {
+                            if (false == $this->collUsuarioGrupos->contains($obj)) {
+                                $this->collUsuarioGrupos->append($obj);
                             }
                         }
 
-                        $this->collUsuariogruposPartial = true;
+                        $this->collUsuarioGruposPartial = true;
                     }
 
-                    return $collUsuariogrupos;
+                    return $collUsuarioGrupos;
                 }
 
-                if ($partial && $this->collUsuariogrupos) {
-                    foreach ($this->collUsuariogrupos as $obj) {
+                if ($partial && $this->collUsuarioGrupos) {
+                    foreach ($this->collUsuarioGrupos as $obj) {
                         if ($obj->isNew()) {
-                            $collUsuariogrupos[] = $obj;
+                            $collUsuarioGrupos[] = $obj;
                         }
                     }
                 }
 
-                $this->collUsuariogrupos = $collUsuariogrupos;
-                $this->collUsuariogruposPartial = false;
+                $this->collUsuarioGrupos = $collUsuarioGrupos;
+                $this->collUsuarioGruposPartial = false;
             }
         }
 
-        return $this->collUsuariogrupos;
+        return $this->collUsuarioGrupos;
     }
 
     /**
-     * Sets a collection of ChildUsuariogrupo objects related by a one-to-many relationship
+     * Sets a collection of ChildUsuarioGrupo objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $usuariogrupos A Propel collection.
+     * @param      Collection $usuarioGrupos A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
      * @return $this|ChildUsuario The current object (for fluent API support)
      */
-    public function setUsuariogrupos(Collection $usuariogrupos, ConnectionInterface $con = null)
+    public function setUsuarioGrupos(Collection $usuarioGrupos, ConnectionInterface $con = null)
     {
-        /** @var ChildUsuariogrupo[] $usuariogruposToDelete */
-        $usuariogruposToDelete = $this->getUsuariogrupos(new Criteria(), $con)->diff($usuariogrupos);
+        /** @var ChildUsuarioGrupo[] $usuarioGruposToDelete */
+        $usuarioGruposToDelete = $this->getUsuarioGrupos(new Criteria(), $con)->diff($usuarioGrupos);
 
 
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->usuariogruposScheduledForDeletion = clone $usuariogruposToDelete;
+        $this->usuarioGruposScheduledForDeletion = clone $usuarioGruposToDelete;
 
-        foreach ($usuariogruposToDelete as $usuariogrupoRemoved) {
-            $usuariogrupoRemoved->setUsuario(null);
+        foreach ($usuarioGruposToDelete as $usuarioGrupoRemoved) {
+            $usuarioGrupoRemoved->setUsuario(null);
         }
 
-        $this->collUsuariogrupos = null;
-        foreach ($usuariogrupos as $usuariogrupo) {
-            $this->addUsuariogrupo($usuariogrupo);
+        $this->collUsuarioGrupos = null;
+        foreach ($usuarioGrupos as $usuarioGrupo) {
+            $this->addUsuarioGrupo($usuarioGrupo);
         }
 
-        $this->collUsuariogrupos = $usuariogrupos;
-        $this->collUsuariogruposPartial = false;
+        $this->collUsuarioGrupos = $usuarioGrupos;
+        $this->collUsuarioGruposPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Usuariogrupo objects.
+     * Returns the number of related UsuarioGrupo objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related Usuariogrupo objects.
+     * @return int             Count of related UsuarioGrupo objects.
      * @throws PropelException
      */
-    public function countUsuariogrupos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countUsuarioGrupos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collUsuariogruposPartial && !$this->isNew();
-        if (null === $this->collUsuariogrupos || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collUsuariogrupos) {
+        $partial = $this->collUsuarioGruposPartial && !$this->isNew();
+        if (null === $this->collUsuarioGrupos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collUsuarioGrupos) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getUsuariogrupos());
+                return count($this->getUsuarioGrupos());
             }
 
-            $query = ChildUsuariogrupoQuery::create(null, $criteria);
+            $query = ChildUsuarioGrupoQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -1762,28 +1810,28 @@ abstract class Usuario implements ActiveRecordInterface
                 ->count($con);
         }
 
-        return count($this->collUsuariogrupos);
+        return count($this->collUsuarioGrupos);
     }
 
     /**
-     * Method called to associate a ChildUsuariogrupo object to this object
-     * through the ChildUsuariogrupo foreign key attribute.
+     * Method called to associate a ChildUsuarioGrupo object to this object
+     * through the ChildUsuarioGrupo foreign key attribute.
      *
-     * @param  ChildUsuariogrupo $l ChildUsuariogrupo
+     * @param  ChildUsuarioGrupo $l ChildUsuarioGrupo
      * @return $this|\Usuario The current object (for fluent API support)
      */
-    public function addUsuariogrupo(ChildUsuariogrupo $l)
+    public function addUsuarioGrupo(ChildUsuarioGrupo $l)
     {
-        if ($this->collUsuariogrupos === null) {
-            $this->initUsuariogrupos();
-            $this->collUsuariogruposPartial = true;
+        if ($this->collUsuarioGrupos === null) {
+            $this->initUsuarioGrupos();
+            $this->collUsuarioGruposPartial = true;
         }
 
-        if (!$this->collUsuariogrupos->contains($l)) {
-            $this->doAddUsuariogrupo($l);
+        if (!$this->collUsuarioGrupos->contains($l)) {
+            $this->doAddUsuarioGrupo($l);
 
-            if ($this->usuariogruposScheduledForDeletion and $this->usuariogruposScheduledForDeletion->contains($l)) {
-                $this->usuariogruposScheduledForDeletion->remove($this->usuariogruposScheduledForDeletion->search($l));
+            if ($this->usuarioGruposScheduledForDeletion and $this->usuarioGruposScheduledForDeletion->contains($l)) {
+                $this->usuarioGruposScheduledForDeletion->remove($this->usuarioGruposScheduledForDeletion->search($l));
             }
         }
 
@@ -1791,29 +1839,29 @@ abstract class Usuario implements ActiveRecordInterface
     }
 
     /**
-     * @param ChildUsuariogrupo $usuariogrupo The ChildUsuariogrupo object to add.
+     * @param ChildUsuarioGrupo $usuarioGrupo The ChildUsuarioGrupo object to add.
      */
-    protected function doAddUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
+    protected function doAddUsuarioGrupo(ChildUsuarioGrupo $usuarioGrupo)
     {
-        $this->collUsuariogrupos[]= $usuariogrupo;
-        $usuariogrupo->setUsuario($this);
+        $this->collUsuarioGrupos[]= $usuarioGrupo;
+        $usuarioGrupo->setUsuario($this);
     }
 
     /**
-     * @param  ChildUsuariogrupo $usuariogrupo The ChildUsuariogrupo object to remove.
+     * @param  ChildUsuarioGrupo $usuarioGrupo The ChildUsuarioGrupo object to remove.
      * @return $this|ChildUsuario The current object (for fluent API support)
      */
-    public function removeUsuariogrupo(ChildUsuariogrupo $usuariogrupo)
+    public function removeUsuarioGrupo(ChildUsuarioGrupo $usuarioGrupo)
     {
-        if ($this->getUsuariogrupos()->contains($usuariogrupo)) {
-            $pos = $this->collUsuariogrupos->search($usuariogrupo);
-            $this->collUsuariogrupos->remove($pos);
-            if (null === $this->usuariogruposScheduledForDeletion) {
-                $this->usuariogruposScheduledForDeletion = clone $this->collUsuariogrupos;
-                $this->usuariogruposScheduledForDeletion->clear();
+        if ($this->getUsuarioGrupos()->contains($usuarioGrupo)) {
+            $pos = $this->collUsuarioGrupos->search($usuarioGrupo);
+            $this->collUsuarioGrupos->remove($pos);
+            if (null === $this->usuarioGruposScheduledForDeletion) {
+                $this->usuarioGruposScheduledForDeletion = clone $this->collUsuarioGrupos;
+                $this->usuarioGruposScheduledForDeletion->clear();
             }
-            $this->usuariogruposScheduledForDeletion[]= clone $usuariogrupo;
-            $usuariogrupo->setUsuario(null);
+            $this->usuarioGruposScheduledForDeletion[]= clone $usuarioGrupo;
+            $usuarioGrupo->setUsuario(null);
         }
 
         return $this;
@@ -1825,7 +1873,7 @@ abstract class Usuario implements ActiveRecordInterface
      * an identical criteria, it returns the collection.
      * Otherwise if this Usuario is new, it will return
      * an empty collection; or if this Usuario has previously
-     * been saved, it will retrieve related Usuariogrupos from storage.
+     * been saved, it will retrieve related UsuarioGrupos from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
@@ -1834,14 +1882,257 @@ abstract class Usuario implements ActiveRecordInterface
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildUsuariogrupo[] List of ChildUsuariogrupo objects
+     * @return ObjectCollection|ChildUsuarioGrupo[] List of ChildUsuarioGrupo objects
      */
-    public function getUsuariogruposJoinGrupo(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getUsuarioGruposJoinGrupo(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
-        $query = ChildUsuariogrupoQuery::create(null, $criteria);
+        $query = ChildUsuarioGrupoQuery::create(null, $criteria);
         $query->joinWith('Grupo', $joinBehavior);
 
-        return $this->getUsuariogrupos($query, $con);
+        return $this->getUsuarioGrupos($query, $con);
+    }
+
+    /**
+     * Clears out the collGrupos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addGrupos()
+     */
+    public function clearGrupos()
+    {
+        $this->collGrupos = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Initializes the collGrupos crossRef collection.
+     *
+     * By default this just sets the collGrupos collection to an empty collection (like clearGrupos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @return void
+     */
+    public function initGrupos()
+    {
+        $collectionClassName = UsuarioGrupoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collGrupos = new $collectionClassName;
+        $this->collGruposPartial = true;
+        $this->collGrupos->setModel('\Grupo');
+    }
+
+    /**
+     * Checks if the collGrupos collection is loaded.
+     *
+     * @return bool
+     */
+    public function isGruposLoaded()
+    {
+        return null !== $this->collGrupos;
+    }
+
+    /**
+     * Gets a collection of ChildGrupo objects related by a many-to-many relationship
+     * to the current object by way of the UsuarioGrupo cross-reference table.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildUsuario is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria Optional query object to filter the query
+     * @param      ConnectionInterface $con Optional connection object
+     *
+     * @return ObjectCollection|ChildGrupo[] List of ChildGrupo objects
+     */
+    public function getGrupos(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collGruposPartial && !$this->isNew();
+        if (null === $this->collGrupos || null !== $criteria || $partial) {
+            if ($this->isNew()) {
+                // return empty collection
+                if (null === $this->collGrupos) {
+                    $this->initGrupos();
+                }
+            } else {
+
+                $query = ChildGrupoQuery::create(null, $criteria)
+                    ->filterByUsuario($this);
+                $collGrupos = $query->find($con);
+                if (null !== $criteria) {
+                    return $collGrupos;
+                }
+
+                if ($partial && $this->collGrupos) {
+                    //make sure that already added objects gets added to the list of the database.
+                    foreach ($this->collGrupos as $obj) {
+                        if (!$collGrupos->contains($obj)) {
+                            $collGrupos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGrupos = $collGrupos;
+                $this->collGruposPartial = false;
+            }
+        }
+
+        return $this->collGrupos;
+    }
+
+    /**
+     * Sets a collection of Grupo objects related by a many-to-many relationship
+     * to the current object by way of the UsuarioGrupo cross-reference table.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param  Collection $grupos A Propel collection.
+     * @param  ConnectionInterface $con Optional connection object
+     * @return $this|ChildUsuario The current object (for fluent API support)
+     */
+    public function setGrupos(Collection $grupos, ConnectionInterface $con = null)
+    {
+        $this->clearGrupos();
+        $currentGrupos = $this->getGrupos();
+
+        $gruposScheduledForDeletion = $currentGrupos->diff($grupos);
+
+        foreach ($gruposScheduledForDeletion as $toDelete) {
+            $this->removeGrupo($toDelete);
+        }
+
+        foreach ($grupos as $grupo) {
+            if (!$currentGrupos->contains($grupo)) {
+                $this->doAddGrupo($grupo);
+            }
+        }
+
+        $this->collGruposPartial = false;
+        $this->collGrupos = $grupos;
+
+        return $this;
+    }
+
+    /**
+     * Gets the number of Grupo objects related by a many-to-many relationship
+     * to the current object by way of the UsuarioGrupo cross-reference table.
+     *
+     * @param      Criteria $criteria Optional query object to filter the query
+     * @param      boolean $distinct Set to true to force count distinct
+     * @param      ConnectionInterface $con Optional connection object
+     *
+     * @return int the number of related Grupo objects
+     */
+    public function countGrupos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collGruposPartial && !$this->isNew();
+        if (null === $this->collGrupos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGrupos) {
+                return 0;
+            } else {
+
+                if ($partial && !$criteria) {
+                    return count($this->getGrupos());
+                }
+
+                $query = ChildGrupoQuery::create(null, $criteria);
+                if ($distinct) {
+                    $query->distinct();
+                }
+
+                return $query
+                    ->filterByUsuario($this)
+                    ->count($con);
+            }
+        } else {
+            return count($this->collGrupos);
+        }
+    }
+
+    /**
+     * Associate a ChildGrupo to this object
+     * through the UsuarioGrupo cross reference table.
+     *
+     * @param ChildGrupo $grupo
+     * @return ChildUsuario The current object (for fluent API support)
+     */
+    public function addGrupo(ChildGrupo $grupo)
+    {
+        if ($this->collGrupos === null) {
+            $this->initGrupos();
+        }
+
+        if (!$this->getGrupos()->contains($grupo)) {
+            // only add it if the **same** object is not already associated
+            $this->collGrupos->push($grupo);
+            $this->doAddGrupo($grupo);
+        }
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param ChildGrupo $grupo
+     */
+    protected function doAddGrupo(ChildGrupo $grupo)
+    {
+        $usuarioGrupo = new ChildUsuarioGrupo();
+
+        $usuarioGrupo->setGrupo($grupo);
+
+        $usuarioGrupo->setUsuario($this);
+
+        $this->addUsuarioGrupo($usuarioGrupo);
+
+        // set the back reference to this object directly as using provided method either results
+        // in endless loop or in multiple relations
+        if (!$grupo->isUsuariosLoaded()) {
+            $grupo->initUsuarios();
+            $grupo->getUsuarios()->push($this);
+        } elseif (!$grupo->getUsuarios()->contains($this)) {
+            $grupo->getUsuarios()->push($this);
+        }
+
+    }
+
+    /**
+     * Remove grupo of this object
+     * through the UsuarioGrupo cross reference table.
+     *
+     * @param ChildGrupo $grupo
+     * @return ChildUsuario The current object (for fluent API support)
+     */
+    public function removeGrupo(ChildGrupo $grupo)
+    {
+        if ($this->getGrupos()->contains($grupo)) {
+            $usuarioGrupo = new ChildUsuarioGrupo();
+            $usuarioGrupo->setGrupo($grupo);
+            if ($grupo->isUsuariosLoaded()) {
+                //remove the back reference if available
+                $grupo->getUsuarios()->removeObject($this);
+            }
+
+            $usuarioGrupo->setUsuario($this);
+            $this->removeUsuarioGrupo(clone $usuarioGrupo);
+            $usuarioGrupo->clear();
+
+            $this->collGrupos->remove($this->collGrupos->search($grupo));
+
+            if (null === $this->gruposScheduledForDeletion) {
+                $this->gruposScheduledForDeletion = clone $this->collGrupos;
+                $this->gruposScheduledForDeletion->clear();
+            }
+
+            $this->gruposScheduledForDeletion->push($grupo);
+        }
+
+
+        return $this;
     }
 
     /**
@@ -1880,14 +2171,20 @@ abstract class Usuario implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collUsuariogrupos) {
-                foreach ($this->collUsuariogrupos as $o) {
+            if ($this->collUsuarioGrupos) {
+                foreach ($this->collUsuarioGrupos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGrupos) {
+                foreach ($this->collGrupos as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        $this->collUsuariogrupos = null;
+        $this->collUsuarioGrupos = null;
+        $this->collGrupos = null;
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Tabladibujo as ChildTabladibujo;
-use \TabladibujoQuery as ChildTabladibujoQuery;
+use \TablaDibujo as ChildTablaDibujo;
+use \TablaDibujoQuery as ChildTablaDibujoQuery;
 use \Exception;
 use \PDO;
-use Map\TabladibujoTableMap;
+use Map\TablaDibujoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,83 +19,83 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildTabladibujoQuery orderById($order = Criteria::ASC) Order by the Id column
- * @method     ChildTabladibujoQuery orderByCodigo($order = Criteria::ASC) Order by the Codigo column
- * @method     ChildTabladibujoQuery orderByMarca($order = Criteria::ASC) Order by the Marca column
- * @method     ChildTabladibujoQuery orderByEspecificaciones($order = Criteria::ASC) Order by the Especificaciones column
- * @method     ChildTabladibujoQuery orderByEstado($order = Criteria::ASC) Order by the Estado column
+ * @method     ChildTablaDibujoQuery orderById($order = Criteria::ASC) Order by the Id column
+ * @method     ChildTablaDibujoQuery orderByCodigo($order = Criteria::ASC) Order by the Codigo column
+ * @method     ChildTablaDibujoQuery orderByMarca($order = Criteria::ASC) Order by the Marca column
+ * @method     ChildTablaDibujoQuery orderByEspecificaciones($order = Criteria::ASC) Order by the Especificaciones column
+ * @method     ChildTablaDibujoQuery orderByEstado($order = Criteria::ASC) Order by the Estado column
  *
- * @method     ChildTabladibujoQuery groupById() Group by the Id column
- * @method     ChildTabladibujoQuery groupByCodigo() Group by the Codigo column
- * @method     ChildTabladibujoQuery groupByMarca() Group by the Marca column
- * @method     ChildTabladibujoQuery groupByEspecificaciones() Group by the Especificaciones column
- * @method     ChildTabladibujoQuery groupByEstado() Group by the Estado column
+ * @method     ChildTablaDibujoQuery groupById() Group by the Id column
+ * @method     ChildTablaDibujoQuery groupByCodigo() Group by the Codigo column
+ * @method     ChildTablaDibujoQuery groupByMarca() Group by the Marca column
+ * @method     ChildTablaDibujoQuery groupByEspecificaciones() Group by the Especificaciones column
+ * @method     ChildTablaDibujoQuery groupByEstado() Group by the Estado column
  *
- * @method     ChildTabladibujoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildTabladibujoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildTabladibujoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildTablaDibujoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildTablaDibujoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildTablaDibujoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildTabladibujoQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildTabladibujoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildTabladibujoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildTablaDibujoQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTablaDibujoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTablaDibujoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildTabladibujo findOne(ConnectionInterface $con = null) Return the first ChildTabladibujo matching the query
- * @method     ChildTabladibujo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTabladibujo matching the query, or a new ChildTabladibujo object populated from the query conditions when no match is found
+ * @method     ChildTablaDibujo findOne(ConnectionInterface $con = null) Return the first ChildTablaDibujo matching the query
+ * @method     ChildTablaDibujo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTablaDibujo matching the query, or a new ChildTablaDibujo object populated from the query conditions when no match is found
  *
- * @method     ChildTabladibujo findOneById(int $Id) Return the first ChildTabladibujo filtered by the Id column
- * @method     ChildTabladibujo findOneByCodigo(string $Codigo) Return the first ChildTabladibujo filtered by the Codigo column
- * @method     ChildTabladibujo findOneByMarca(string $Marca) Return the first ChildTabladibujo filtered by the Marca column
- * @method     ChildTabladibujo findOneByEspecificaciones(string $Especificaciones) Return the first ChildTabladibujo filtered by the Especificaciones column
- * @method     ChildTabladibujo findOneByEstado(string $Estado) Return the first ChildTabladibujo filtered by the Estado column *
+ * @method     ChildTablaDibujo findOneById(int $Id) Return the first ChildTablaDibujo filtered by the Id column
+ * @method     ChildTablaDibujo findOneByCodigo(string $Codigo) Return the first ChildTablaDibujo filtered by the Codigo column
+ * @method     ChildTablaDibujo findOneByMarca(string $Marca) Return the first ChildTablaDibujo filtered by the Marca column
+ * @method     ChildTablaDibujo findOneByEspecificaciones(string $Especificaciones) Return the first ChildTablaDibujo filtered by the Especificaciones column
+ * @method     ChildTablaDibujo findOneByEstado(string $Estado) Return the first ChildTablaDibujo filtered by the Estado column *
 
- * @method     ChildTabladibujo requirePk($key, ConnectionInterface $con = null) Return the ChildTabladibujo by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTabladibujo requireOne(ConnectionInterface $con = null) Return the first ChildTabladibujo matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requirePk($key, ConnectionInterface $con = null) Return the ChildTablaDibujo by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOne(ConnectionInterface $con = null) Return the first ChildTablaDibujo matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildTabladibujo requireOneById(int $Id) Return the first ChildTabladibujo filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTabladibujo requireOneByCodigo(string $Codigo) Return the first ChildTabladibujo filtered by the Codigo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTabladibujo requireOneByMarca(string $Marca) Return the first ChildTabladibujo filtered by the Marca column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTabladibujo requireOneByEspecificaciones(string $Especificaciones) Return the first ChildTabladibujo filtered by the Especificaciones column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildTabladibujo requireOneByEstado(string $Estado) Return the first ChildTabladibujo filtered by the Estado column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOneById(int $Id) Return the first ChildTablaDibujo filtered by the Id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOneByCodigo(string $Codigo) Return the first ChildTablaDibujo filtered by the Codigo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOneByMarca(string $Marca) Return the first ChildTablaDibujo filtered by the Marca column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOneByEspecificaciones(string $Especificaciones) Return the first ChildTablaDibujo filtered by the Especificaciones column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTablaDibujo requireOneByEstado(string $Estado) Return the first ChildTablaDibujo filtered by the Estado column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildTabladibujo[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTabladibujo objects based on current ModelCriteria
- * @method     ChildTabladibujo[]|ObjectCollection findById(int $Id) Return ChildTabladibujo objects filtered by the Id column
- * @method     ChildTabladibujo[]|ObjectCollection findByCodigo(string $Codigo) Return ChildTabladibujo objects filtered by the Codigo column
- * @method     ChildTabladibujo[]|ObjectCollection findByMarca(string $Marca) Return ChildTabladibujo objects filtered by the Marca column
- * @method     ChildTabladibujo[]|ObjectCollection findByEspecificaciones(string $Especificaciones) Return ChildTabladibujo objects filtered by the Especificaciones column
- * @method     ChildTabladibujo[]|ObjectCollection findByEstado(string $Estado) Return ChildTabladibujo objects filtered by the Estado column
- * @method     ChildTabladibujo[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildTablaDibujo[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTablaDibujo objects based on current ModelCriteria
+ * @method     ChildTablaDibujo[]|ObjectCollection findById(int $Id) Return ChildTablaDibujo objects filtered by the Id column
+ * @method     ChildTablaDibujo[]|ObjectCollection findByCodigo(string $Codigo) Return ChildTablaDibujo objects filtered by the Codigo column
+ * @method     ChildTablaDibujo[]|ObjectCollection findByMarca(string $Marca) Return ChildTablaDibujo objects filtered by the Marca column
+ * @method     ChildTablaDibujo[]|ObjectCollection findByEspecificaciones(string $Especificaciones) Return ChildTablaDibujo objects filtered by the Especificaciones column
+ * @method     ChildTablaDibujo[]|ObjectCollection findByEstado(string $Estado) Return ChildTablaDibujo objects filtered by the Estado column
+ * @method     ChildTablaDibujo[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class TabladibujoQuery extends ModelCriteria
+abstract class TablaDibujoQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\TabladibujoQuery object.
+     * Initializes internal state of \Base\TablaDibujoQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\Tabladibujo', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\TablaDibujo', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildTabladibujoQuery object.
+     * Returns a new ChildTablaDibujoQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildTabladibujoQuery
+     * @return ChildTablaDibujoQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildTabladibujoQuery) {
+        if ($criteria instanceof ChildTablaDibujoQuery) {
             return $criteria;
         }
-        $query = new ChildTabladibujoQuery();
+        $query = new ChildTablaDibujoQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -118,7 +118,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildTabladibujo|array|mixed the result, formatted by the current formatter
+     * @return ChildTablaDibujo|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -127,7 +127,7 @@ abstract class TabladibujoQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -140,7 +140,7 @@ abstract class TabladibujoQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = TabladibujoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = TablaDibujoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -157,7 +157,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildTabladibujo A model object, or null if the key is not found
+     * @return ChildTablaDibujo A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
@@ -172,10 +172,10 @@ abstract class TabladibujoQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildTabladibujo $obj */
-            $obj = new ChildTabladibujo();
+            /** @var ChildTablaDibujo $obj */
+            $obj = new ChildTablaDibujo();
             $obj->hydrate($row);
-            TabladibujoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            TablaDibujoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -188,7 +188,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildTabladibujo|array|mixed the result, formatted by the current formatter
+     * @return ChildTablaDibujo|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -230,12 +230,12 @@ abstract class TabladibujoQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -243,12 +243,12 @@ abstract class TabladibujoQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -267,18 +267,18 @@ abstract class TabladibujoQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(TabladibujoTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(TabladibujoTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -289,7 +289,7 @@ abstract class TabladibujoQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -304,7 +304,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param     string $codigo The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByCodigo($codigo = null, $comparison = null)
     {
@@ -314,7 +314,7 @@ abstract class TabladibujoQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_CODIGO, $codigo, $comparison);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_CODIGO, $codigo, $comparison);
     }
 
     /**
@@ -329,7 +329,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param     string $marca The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByMarca($marca = null, $comparison = null)
     {
@@ -339,7 +339,7 @@ abstract class TabladibujoQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_MARCA, $marca, $comparison);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_MARCA, $marca, $comparison);
     }
 
     /**
@@ -354,7 +354,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param     string $especificaciones The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByEspecificaciones($especificaciones = null, $comparison = null)
     {
@@ -364,7 +364,7 @@ abstract class TabladibujoQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_ESPECIFICACIONES, $especificaciones, $comparison);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_ESPECIFICACIONES, $especificaciones, $comparison);
     }
 
     /**
@@ -379,7 +379,7 @@ abstract class TabladibujoQuery extends ModelCriteria
      * @param     string $estado The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
     public function filterByEstado($estado = null, $comparison = null)
     {
@@ -389,20 +389,20 @@ abstract class TabladibujoQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(TabladibujoTableMap::COL_ESTADO, $estado, $comparison);
+        return $this->addUsingAlias(TablaDibujoTableMap::COL_ESTADO, $estado, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildTabladibujo $tabladibujo Object to remove from the list of results
+     * @param   ChildTablaDibujo $tablaDibujo Object to remove from the list of results
      *
-     * @return $this|ChildTabladibujoQuery The current query, for fluid interface
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
      */
-    public function prune($tabladibujo = null)
+    public function prune($tablaDibujo = null)
     {
-        if ($tabladibujo) {
-            $this->addUsingAlias(TabladibujoTableMap::COL_ID, $tabladibujo->getId(), Criteria::NOT_EQUAL);
+        if ($tablaDibujo) {
+            $this->addUsingAlias(TablaDibujoTableMap::COL_ID, $tablaDibujo->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
@@ -417,7 +417,7 @@ abstract class TabladibujoQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -428,8 +428,8 @@ abstract class TabladibujoQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            TabladibujoTableMap::clearInstancePool();
-            TabladibujoTableMap::clearRelatedInstancePool();
+            TablaDibujoTableMap::clearInstancePool();
+            TablaDibujoTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -447,26 +447,26 @@ abstract class TabladibujoQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TabladibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(TabladibujoTableMap::DATABASE_NAME);
+        $criteria->setDbName(TablaDibujoTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            TabladibujoTableMap::removeInstanceFromPool($criteria);
+            TablaDibujoTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            TabladibujoTableMap::clearRelatedInstancePool();
+            TablaDibujoTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // TabladibujoQuery
+} // TablaDibujoQuery

@@ -1,9 +1,9 @@
 <?php
 
-use Base\VideobeanQuery as BaseVideobeanQuery;
+use Base\TablaDibujoQuery as BaseTablaDibujoQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'VideoBean' table.
+ * Skeleton subclass for performing query and update operations on the 'TablaDibujo' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\VideobeanQuery as BaseVideobeanQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class VideobeanQuery extends BaseVideobeanQuery
+class TablaDibujoQuery extends BaseTablaDibujoQuery
 {
 
 }

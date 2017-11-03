@@ -2,10 +2,10 @@
 
 namespace Base;
 
-use \VideobeanQuery as ChildVideobeanQuery;
+use \TablaDibujoQuery as ChildTablaDibujoQuery;
 use \Exception;
 use \PDO;
-use Map\VideobeanTableMap;
+use Map\TablaDibujoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,18 +19,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'VideoBean' table.
+ * Base class that represents a row from the 'TablaDibujo' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class Videobean implements ActiveRecordInterface
+abstract class TablaDibujo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\VideobeanTableMap';
+    const TABLE_MAP = '\\Map\\TablaDibujoTableMap';
 
 
     /**
@@ -81,25 +81,11 @@ abstract class Videobean implements ActiveRecordInterface
     protected $marca;
 
     /**
-     * The value for the modelo field.
-     *
-     * @var        string
-     */
-    protected $modelo;
-
-    /**
      * The value for the especificaciones field.
      *
      * @var        string
      */
     protected $especificaciones;
-
-    /**
-     * The value for the accesorios field.
-     *
-     * @var        string
-     */
-    protected $accesorios;
 
     /**
      * The value for the estado field.
@@ -117,7 +103,7 @@ abstract class Videobean implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Videobean object.
+     * Initializes internal state of Base\TablaDibujo object.
      */
     public function __construct()
     {
@@ -212,9 +198,9 @@ abstract class Videobean implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Videobean</code> instance.  If
-     * <code>obj</code> is an instance of <code>Videobean</code>, delegates to
-     * <code>equals(Videobean)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>TablaDibujo</code> instance.  If
+     * <code>obj</code> is an instance of <code>TablaDibujo</code>, delegates to
+     * <code>equals(TablaDibujo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -280,7 +266,7 @@ abstract class Videobean implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Videobean The current object, for fluid interface
+     * @return $this|TablaDibujo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -372,16 +358,6 @@ abstract class Videobean implements ActiveRecordInterface
     }
 
     /**
-     * Get the [modelo] column value.
-     *
-     * @return string
-     */
-    public function getModelo()
-    {
-        return $this->modelo;
-    }
-
-    /**
      * Get the [especificaciones] column value.
      *
      * @return string
@@ -389,16 +365,6 @@ abstract class Videobean implements ActiveRecordInterface
     public function getEspecificaciones()
     {
         return $this->especificaciones;
-    }
-
-    /**
-     * Get the [accesorios] column value.
-     *
-     * @return string
-     */
-    public function getAccesorios()
-    {
-        return $this->accesorios;
     }
 
     /**
@@ -415,7 +381,7 @@ abstract class Videobean implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
+     * @return $this|\TablaDibujo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -425,7 +391,7 @@ abstract class Videobean implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_ID] = true;
+            $this->modifiedColumns[TablaDibujoTableMap::COL_ID] = true;
         }
 
         return $this;
@@ -435,7 +401,7 @@ abstract class Videobean implements ActiveRecordInterface
      * Set the value of [codigo] column.
      *
      * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
+     * @return $this|\TablaDibujo The current object (for fluent API support)
      */
     public function setCodigo($v)
     {
@@ -445,7 +411,7 @@ abstract class Videobean implements ActiveRecordInterface
 
         if ($this->codigo !== $v) {
             $this->codigo = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_CODIGO] = true;
+            $this->modifiedColumns[TablaDibujoTableMap::COL_CODIGO] = true;
         }
 
         return $this;
@@ -455,7 +421,7 @@ abstract class Videobean implements ActiveRecordInterface
      * Set the value of [marca] column.
      *
      * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
+     * @return $this|\TablaDibujo The current object (for fluent API support)
      */
     public function setMarca($v)
     {
@@ -465,37 +431,17 @@ abstract class Videobean implements ActiveRecordInterface
 
         if ($this->marca !== $v) {
             $this->marca = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_MARCA] = true;
+            $this->modifiedColumns[TablaDibujoTableMap::COL_MARCA] = true;
         }
 
         return $this;
     } // setMarca()
 
     /**
-     * Set the value of [modelo] column.
-     *
-     * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
-     */
-    public function setModelo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->modelo !== $v) {
-            $this->modelo = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_MODELO] = true;
-        }
-
-        return $this;
-    } // setModelo()
-
-    /**
      * Set the value of [especificaciones] column.
      *
      * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
+     * @return $this|\TablaDibujo The current object (for fluent API support)
      */
     public function setEspecificaciones($v)
     {
@@ -505,37 +451,17 @@ abstract class Videobean implements ActiveRecordInterface
 
         if ($this->especificaciones !== $v) {
             $this->especificaciones = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_ESPECIFICACIONES] = true;
+            $this->modifiedColumns[TablaDibujoTableMap::COL_ESPECIFICACIONES] = true;
         }
 
         return $this;
     } // setEspecificaciones()
 
     /**
-     * Set the value of [accesorios] column.
-     *
-     * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
-     */
-    public function setAccesorios($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->accesorios !== $v) {
-            $this->accesorios = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_ACCESORIOS] = true;
-        }
-
-        return $this;
-    } // setAccesorios()
-
-    /**
      * Set the value of [estado] column.
      *
      * @param string $v new value
-     * @return $this|\Videobean The current object (for fluent API support)
+     * @return $this|\TablaDibujo The current object (for fluent API support)
      */
     public function setEstado($v)
     {
@@ -545,7 +471,7 @@ abstract class Videobean implements ActiveRecordInterface
 
         if ($this->estado !== $v) {
             $this->estado = $v;
-            $this->modifiedColumns[VideobeanTableMap::COL_ESTADO] = true;
+            $this->modifiedColumns[TablaDibujoTableMap::COL_ESTADO] = true;
         }
 
         return $this;
@@ -587,25 +513,19 @@ abstract class Videobean implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : VideobeanTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TablaDibujoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : VideobeanTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TablaDibujoTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->codigo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : VideobeanTableMap::translateFieldName('Marca', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TablaDibujoTableMap::translateFieldName('Marca', TableMap::TYPE_PHPNAME, $indexType)];
             $this->marca = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : VideobeanTableMap::translateFieldName('Modelo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->modelo = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : VideobeanTableMap::translateFieldName('Especificaciones', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TablaDibujoTableMap::translateFieldName('Especificaciones', TableMap::TYPE_PHPNAME, $indexType)];
             $this->especificaciones = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : VideobeanTableMap::translateFieldName('Accesorios', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->accesorios = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : VideobeanTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TablaDibujoTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
             $this->estado = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -615,10 +535,10 @@ abstract class Videobean implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = VideobeanTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = TablaDibujoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Videobean'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\TablaDibujo'), 0, $e);
         }
     }
 
@@ -660,13 +580,13 @@ abstract class Videobean implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildVideobeanQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildTablaDibujoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -685,8 +605,8 @@ abstract class Videobean implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Videobean::setDeleted()
-     * @see Videobean::isDeleted()
+     * @see TablaDibujo::setDeleted()
+     * @see TablaDibujo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -695,11 +615,11 @@ abstract class Videobean implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildVideobeanQuery::create()
+            $deleteQuery = ChildTablaDibujoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -734,7 +654,7 @@ abstract class Videobean implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(VideobeanTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -753,7 +673,7 @@ abstract class Videobean implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                VideobeanTableMap::addInstanceToPool($this);
+                TablaDibujoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -812,30 +732,24 @@ abstract class Videobean implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(VideobeanTableMap::COL_ID)) {
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'Id';
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_CODIGO)) {
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_CODIGO)) {
             $modifiedColumns[':p' . $index++]  = 'Codigo';
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_MARCA)) {
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_MARCA)) {
             $modifiedColumns[':p' . $index++]  = 'Marca';
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_MODELO)) {
-            $modifiedColumns[':p' . $index++]  = 'Modelo';
-        }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ESPECIFICACIONES)) {
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESPECIFICACIONES)) {
             $modifiedColumns[':p' . $index++]  = 'Especificaciones';
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ACCESORIOS)) {
-            $modifiedColumns[':p' . $index++]  = 'Accesorios';
-        }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ESTADO)) {
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESTADO)) {
             $modifiedColumns[':p' . $index++]  = 'Estado';
         }
 
         $sql = sprintf(
-            'INSERT INTO VideoBean (%s) VALUES (%s)',
+            'INSERT INTO TablaDibujo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -853,14 +767,8 @@ abstract class Videobean implements ActiveRecordInterface
                     case 'Marca':
                         $stmt->bindValue($identifier, $this->marca, PDO::PARAM_STR);
                         break;
-                    case 'Modelo':
-                        $stmt->bindValue($identifier, $this->modelo, PDO::PARAM_STR);
-                        break;
                     case 'Especificaciones':
                         $stmt->bindValue($identifier, $this->especificaciones, PDO::PARAM_STR);
-                        break;
-                    case 'Accesorios':
-                        $stmt->bindValue($identifier, $this->accesorios, PDO::PARAM_STR);
                         break;
                     case 'Estado':
                         $stmt->bindValue($identifier, $this->estado, PDO::PARAM_STR);
@@ -904,7 +812,7 @@ abstract class Videobean implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = VideobeanTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TablaDibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -930,15 +838,9 @@ abstract class Videobean implements ActiveRecordInterface
                 return $this->getMarca();
                 break;
             case 3:
-                return $this->getModelo();
-                break;
-            case 4:
                 return $this->getEspecificaciones();
                 break;
-            case 5:
-                return $this->getAccesorios();
-                break;
-            case 6:
+            case 4:
                 return $this->getEstado();
                 break;
             default:
@@ -964,19 +866,17 @@ abstract class Videobean implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
 
-        if (isset($alreadyDumpedObjects['Videobean'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['TablaDibujo'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Videobean'][$this->hashCode()] = true;
-        $keys = VideobeanTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['TablaDibujo'][$this->hashCode()] = true;
+        $keys = TablaDibujoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCodigo(),
             $keys[2] => $this->getMarca(),
-            $keys[3] => $this->getModelo(),
-            $keys[4] => $this->getEspecificaciones(),
-            $keys[5] => $this->getAccesorios(),
-            $keys[6] => $this->getEstado(),
+            $keys[3] => $this->getEspecificaciones(),
+            $keys[4] => $this->getEstado(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -996,11 +896,11 @@ abstract class Videobean implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Videobean
+     * @return $this|\TablaDibujo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = VideobeanTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TablaDibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1011,7 +911,7 @@ abstract class Videobean implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Videobean
+     * @return $this|\TablaDibujo
      */
     public function setByPosition($pos, $value)
     {
@@ -1026,15 +926,9 @@ abstract class Videobean implements ActiveRecordInterface
                 $this->setMarca($value);
                 break;
             case 3:
-                $this->setModelo($value);
-                break;
-            case 4:
                 $this->setEspecificaciones($value);
                 break;
-            case 5:
-                $this->setAccesorios($value);
-                break;
-            case 6:
+            case 4:
                 $this->setEstado($value);
                 break;
         } // switch()
@@ -1061,7 +955,7 @@ abstract class Videobean implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = VideobeanTableMap::getFieldNames($keyType);
+        $keys = TablaDibujoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
@@ -1073,16 +967,10 @@ abstract class Videobean implements ActiveRecordInterface
             $this->setMarca($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setModelo($arr[$keys[3]]);
+            $this->setEspecificaciones($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setEspecificaciones($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setAccesorios($arr[$keys[5]]);
-        }
-        if (array_key_exists($keys[6], $arr)) {
-            $this->setEstado($arr[$keys[6]]);
+            $this->setEstado($arr[$keys[4]]);
         }
     }
 
@@ -1103,7 +991,7 @@ abstract class Videobean implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Videobean The current object, for fluid interface
+     * @return $this|\TablaDibujo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1123,28 +1011,22 @@ abstract class Videobean implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(VideobeanTableMap::DATABASE_NAME);
+        $criteria = new Criteria(TablaDibujoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(VideobeanTableMap::COL_ID)) {
-            $criteria->add(VideobeanTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ID)) {
+            $criteria->add(TablaDibujoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_CODIGO)) {
-            $criteria->add(VideobeanTableMap::COL_CODIGO, $this->codigo);
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_CODIGO)) {
+            $criteria->add(TablaDibujoTableMap::COL_CODIGO, $this->codigo);
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_MARCA)) {
-            $criteria->add(VideobeanTableMap::COL_MARCA, $this->marca);
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_MARCA)) {
+            $criteria->add(TablaDibujoTableMap::COL_MARCA, $this->marca);
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_MODELO)) {
-            $criteria->add(VideobeanTableMap::COL_MODELO, $this->modelo);
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESPECIFICACIONES)) {
+            $criteria->add(TablaDibujoTableMap::COL_ESPECIFICACIONES, $this->especificaciones);
         }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ESPECIFICACIONES)) {
-            $criteria->add(VideobeanTableMap::COL_ESPECIFICACIONES, $this->especificaciones);
-        }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ACCESORIOS)) {
-            $criteria->add(VideobeanTableMap::COL_ACCESORIOS, $this->accesorios);
-        }
-        if ($this->isColumnModified(VideobeanTableMap::COL_ESTADO)) {
-            $criteria->add(VideobeanTableMap::COL_ESTADO, $this->estado);
+        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESTADO)) {
+            $criteria->add(TablaDibujoTableMap::COL_ESTADO, $this->estado);
         }
 
         return $criteria;
@@ -1162,8 +1044,8 @@ abstract class Videobean implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildVideobeanQuery::create();
-        $criteria->add(VideobeanTableMap::COL_ID, $this->id);
+        $criteria = ChildTablaDibujoQuery::create();
+        $criteria->add(TablaDibujoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1225,7 +1107,7 @@ abstract class Videobean implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Videobean (or compatible) type.
+     * @param      object $copyObj An object of \TablaDibujo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1235,9 +1117,7 @@ abstract class Videobean implements ActiveRecordInterface
         $copyObj->setId($this->getId());
         $copyObj->setCodigo($this->getCodigo());
         $copyObj->setMarca($this->getMarca());
-        $copyObj->setModelo($this->getModelo());
         $copyObj->setEspecificaciones($this->getEspecificaciones());
-        $copyObj->setAccesorios($this->getAccesorios());
         $copyObj->setEstado($this->getEstado());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1253,7 +1133,7 @@ abstract class Videobean implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Videobean Clone of current object.
+     * @return \TablaDibujo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1276,9 +1156,7 @@ abstract class Videobean implements ActiveRecordInterface
         $this->id = null;
         $this->codigo = null;
         $this->marca = null;
-        $this->modelo = null;
         $this->especificaciones = null;
-        $this->accesorios = null;
         $this->estado = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
@@ -1309,7 +1187,7 @@ abstract class Videobean implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(VideobeanTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(TablaDibujoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

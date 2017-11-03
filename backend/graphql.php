@@ -57,7 +57,7 @@ class GQLibro {
   }
 }
 
-class GQVidebean {
+class GQVideBean {
   public $Id;
   public $Codigo;
   public $marca;
@@ -71,7 +71,7 @@ class GQVidebean {
   }
 }
 
-class GQTabladibujo {
+class GQTablaDibujo {
   public $Id;
   public $Codigo;
   public $marca;
@@ -85,16 +85,16 @@ class GQTabladibujo {
 
 try {
   //Tipo de objeto Usuario
-  $Grupo = new ObjectType([
+  $GrupoHQL = new ObjectType([
     'name' => 'Grupo',
     'description' => 'Objeto que describe un grupo',
     'fields' => [
         'Id' => ['type' => Type::int()],
-        'Nombre' => ['type' => Type::string()],
+        'Nombre' => ['type' => Type::string()]
     ]
   ]);
 
-  $Usuario = new ObjectType([
+  $UsuarioHQL = new ObjectType([
     'name' => 'Usuario',
     'description' => 'Objeto que describe un usuario',
     'fields' => [
@@ -109,11 +109,11 @@ try {
         'Direccion' => ['type' => Type::string()],
         'Telefono' => ['type' => Type::string()],
         'Activo' => ['type' => Type::string()],
-        'Grupos' => ['type' => Type::listOf($Grupo)]
+        'Grupos' => ['type' => Type::listOf($GrupoHQL)]
     ]
   ]);
 
-  $Libro = new ObjectType([
+  $LibroHQL = new ObjectType([
     'name' => 'Libro',
     'description' => 'Objeto que describe un libro',
     'fields' => [
@@ -130,7 +130,7 @@ try {
   ]);
 
 
-  $Videobean = new ObjectType([
+  $VideoBeanHQL = new ObjectType([
     'name' => 'Videobean',
     'description' => 'Objeto que describe un videobean',
     'fields' => [
@@ -144,7 +144,7 @@ try {
     ]
   ]);
 
-  $Tabladibujo = new ObjectType([
+  $TabladibujoHQL = new ObjectType([
     'name' => 'Tabladibujo',
     'description' => 'Objeto que describe un videobean',
     'fields' => [
@@ -156,12 +156,13 @@ try {
     ]
   ]);
 
+
   //Tipo de objeto Query
   $queryType = new ObjectType([
       'name' => 'Query',
       'fields' => [
           'Usuarios' => [
-              'type' => Type::listOf($Usuario),
+              'type' => Type::listOf($UsuarioHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'UserName' => ['type' => Type::string()],
@@ -223,7 +224,7 @@ try {
               }
           ],
           'Grupos' => [
-              'type' => Type::listOf($Grupo),
+              'type' => Type::listOf($GrupoHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Nombre' => ['type' => Type::string()]
@@ -246,7 +247,7 @@ try {
               }
           ],
           'Libros' => [
-              'type' => Type::listOf($Libro),
+              'type' => Type::listOf($LibroHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Categoria' => ['type' => Type::string()],
@@ -290,7 +291,7 @@ try {
               }
           ],
           'Videobeans' => [
-              'type' => Type::listOf($Videobean),
+              'type' => Type::listOf($VideobeanHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Codigo' => ['type' => Type::string()],
@@ -328,7 +329,7 @@ try {
               }
           ],
           'Tabladibujos' => [
-              'type' => Type::listOf($Tabladibujo),
+              'type' => Type::listOf($TabladibujoHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Codigo' => ['type' => Type::string()],
@@ -366,7 +367,7 @@ try {
       'name' => 'Mutation',
       'fields' => [
           'CreateUsuario' => [
-            'type' => $Usuario,
+            'type' => $UsuarioHQL,
             'args' => [
               'UserName' => ['type' => Type::string()],
               'Password' => ['type' => Type::string()],
@@ -385,7 +386,7 @@ try {
               if(is_null($usuario)) {
 
                 $usuario = new Usuario();
-                $usuario->setUserName($args['UserName']);
+                $usuario->setUsername($args['UserName']);
                 $usuario->setPassword($args['Password']);
                 $usuario->setCedula($args['Cedula']);
                 $usuario->setNombre($args['Nombre']);
@@ -401,7 +402,7 @@ try {
 
                 $R = new GQUsuario([
                   'Id' => $usuario->getId(),
-                  "UserName" => $usuario->getUserName(),
+                  "UserName" => $usuario->getUsername(),
                   "Password" => $usuario->getPassword(),
                   "Cedula" => $usuario->getCedula(),
                   "Nombre" => $usuario->getNombre(),
@@ -433,7 +434,7 @@ try {
             }
           ],
           'UpdateUsuario' => [
-            'type' => $Usuario,
+            'type' => $UsuarioHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'UserName' => ['type' => Type::string()],
@@ -451,7 +452,7 @@ try {
               $usuario = UsuarioQuery::create()->filterById($args['Id'])->findOne();
 
               if($usuario){
-                if(isset($args['UserName'])) {$usuario->setUserName($args['UserName']);}
+                if(isset($args['UserName'])) {$usuario->setUsername($args['UserName']);}
                 if(isset($args['Password'])) {$usuario->setPassword($args['Password']);}
                 if(isset($args['Cedula'])) {$usuario->setCedula($args['Cedula']);}
                 if(isset($args['Nombre'])) {$usuario->setNombre($args['Nombre']);}
@@ -465,7 +466,7 @@ try {
 
                 $R = new GQUsuario([
                   'Id' => $usuario->getId(),
-                  "UserName" => $usuario->getUserName(),
+                  "UserName" => $usuario->getUsername(),
                   "Password" => $usuario->getPassword(),
                   "Cedula" => $usuario->getCedula(),
                   "Nombre" => $usuario->getNombre(),
@@ -497,7 +498,7 @@ try {
             }
           ],
           'CreateGrupo' => [
-            'type' => $Grupo,
+            'type' => $GrupoHQL,
             'args' => [
               'Nombre' => ['type' => Type::string()],
             ],
@@ -528,7 +529,7 @@ try {
             }
           ],
           'UpdateGrupo' => [
-            'type' => $Usuario,
+            'type' => $UsuarioHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Nombre' => ['type' => Type::string()]
@@ -556,7 +557,7 @@ try {
             }
           ],
           'UsuarioAddGrupo' => [
-            'type' => $Usuario,
+            'type' => $UsuarioHQL,
             'args' => [
               'UsuarioId' => ['type' => Type::int()],
               'GrupoId' => ['type' => Type::int()]
@@ -600,7 +601,7 @@ try {
             }
           ],
           'UsuarioRemoveGrupo' => [
-            'type' => $Usuario,
+            'type' => $UsuarioHQL,
             'args' => [
               'UsuarioId' => ['type' => Type::int()],
               'GrupoId' => ['type' => Type::int()]
@@ -644,7 +645,7 @@ try {
             }
           ],
           'CreateLibro' => [
-            'type' => $Libro,
+            'type' => $LibroHQL,
             'args' => [
               'Categoria' => ['type' => Type::string()],
               'Isbn' => ['type' => Type::string()],
@@ -703,7 +704,7 @@ try {
             }
           ],
           'UpdateLibro' => [
-            'type' => $Libro,
+            'type' => $LibroHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Categoria' => ['type' => Type::string()],
@@ -758,7 +759,7 @@ try {
             }
           ],
           'CreateVideobean' => [
-            'type' => $Videobean,
+            'type' => $VideobeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
               'Marca' => ['type' => Type::string()],
@@ -809,7 +810,7 @@ try {
             }
           ],
           'UpdateVideobean' => [
-            'type' => $Videobean,
+            'type' => $VideobeanHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Codigo' => ['type' => Type::string()],
@@ -856,7 +857,7 @@ try {
             }
           ],
           'CreateTabladibujo' => [
-            'type' => $Videobean,
+            'type' => $VideobeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
               'Marca' => ['type' => Type::string()],
@@ -899,7 +900,7 @@ try {
             }
           ],
           'UpdateTabladibujo' => [
-            'type' => $Tabladibujo,
+            'type' => $TabladibujoHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Codigo' => ['type' => Type::string()],

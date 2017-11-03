@@ -34,17 +34,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildGrupoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildGrupoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildGrupoQuery leftJoinUsuariogrupo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuariogrupo relation
- * @method     ChildGrupoQuery rightJoinUsuariogrupo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuariogrupo relation
- * @method     ChildGrupoQuery innerJoinUsuariogrupo($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuariogrupo relation
+ * @method     ChildGrupoQuery leftJoinUsuarioGrupo($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioGrupo relation
+ * @method     ChildGrupoQuery rightJoinUsuarioGrupo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioGrupo relation
+ * @method     ChildGrupoQuery innerJoinUsuarioGrupo($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioGrupo relation
  *
- * @method     ChildGrupoQuery joinWithUsuariogrupo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Usuariogrupo relation
+ * @method     ChildGrupoQuery joinWithUsuarioGrupo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UsuarioGrupo relation
  *
- * @method     ChildGrupoQuery leftJoinWithUsuariogrupo() Adds a LEFT JOIN clause and with to the query using the Usuariogrupo relation
- * @method     ChildGrupoQuery rightJoinWithUsuariogrupo() Adds a RIGHT JOIN clause and with to the query using the Usuariogrupo relation
- * @method     ChildGrupoQuery innerJoinWithUsuariogrupo() Adds a INNER JOIN clause and with to the query using the Usuariogrupo relation
+ * @method     ChildGrupoQuery leftJoinWithUsuarioGrupo() Adds a LEFT JOIN clause and with to the query using the UsuarioGrupo relation
+ * @method     ChildGrupoQuery rightJoinWithUsuarioGrupo() Adds a RIGHT JOIN clause and with to the query using the UsuarioGrupo relation
+ * @method     ChildGrupoQuery innerJoinWithUsuarioGrupo() Adds a INNER JOIN clause and with to the query using the UsuarioGrupo relation
  *
- * @method     \UsuariogrupoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \UsuarioGrupoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildGrupo findOne(ConnectionInterface $con = null) Return the first ChildGrupo matching the query
  * @method     ChildGrupo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildGrupo matching the query, or a new ChildGrupo object populated from the query conditions when no match is found
@@ -316,40 +316,40 @@ abstract class GrupoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Usuariogrupo object
+     * Filter the query by a related \UsuarioGrupo object
      *
-     * @param \Usuariogrupo|ObjectCollection $usuariogrupo the related object to use as filter
+     * @param \UsuarioGrupo|ObjectCollection $usuarioGrupo the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildGrupoQuery The current query, for fluid interface
      */
-    public function filterByUsuariogrupo($usuariogrupo, $comparison = null)
+    public function filterByUsuarioGrupo($usuarioGrupo, $comparison = null)
     {
-        if ($usuariogrupo instanceof \Usuariogrupo) {
+        if ($usuarioGrupo instanceof \UsuarioGrupo) {
             return $this
-                ->addUsingAlias(GrupoTableMap::COL_ID, $usuariogrupo->getGrupoid(), $comparison);
-        } elseif ($usuariogrupo instanceof ObjectCollection) {
+                ->addUsingAlias(GrupoTableMap::COL_ID, $usuarioGrupo->getGrupoId(), $comparison);
+        } elseif ($usuarioGrupo instanceof ObjectCollection) {
             return $this
-                ->useUsuariogrupoQuery()
-                ->filterByPrimaryKeys($usuariogrupo->getPrimaryKeys())
+                ->useUsuarioGrupoQuery()
+                ->filterByPrimaryKeys($usuarioGrupo->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByUsuariogrupo() only accepts arguments of type \Usuariogrupo or Collection');
+            throw new PropelException('filterByUsuarioGrupo() only accepts arguments of type \UsuarioGrupo or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Usuariogrupo relation
+     * Adds a JOIN clause to the query using the UsuarioGrupo relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildGrupoQuery The current query, for fluid interface
      */
-    public function joinUsuariogrupo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinUsuarioGrupo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Usuariogrupo');
+        $relationMap = $tableMap->getRelation('UsuarioGrupo');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -364,14 +364,14 @@ abstract class GrupoQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Usuariogrupo');
+            $this->addJoinObject($join, 'UsuarioGrupo');
         }
 
         return $this;
     }
 
     /**
-     * Use the Usuariogrupo relation Usuariogrupo object
+     * Use the UsuarioGrupo relation UsuarioGrupo object
      *
      * @see useQuery()
      *
@@ -379,13 +379,30 @@ abstract class GrupoQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \UsuariogrupoQuery A secondary query class using the current class as primary query
+     * @return \UsuarioGrupoQuery A secondary query class using the current class as primary query
      */
-    public function useUsuariogrupoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useUsuarioGrupoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinUsuariogrupo($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Usuariogrupo', '\UsuariogrupoQuery');
+            ->joinUsuarioGrupo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'UsuarioGrupo', '\UsuarioGrupoQuery');
+    }
+
+    /**
+     * Filter the query by a related Usuario object
+     * using the UsuarioGrupo table as cross reference
+     *
+     * @param Usuario $usuario the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildGrupoQuery The current query, for fluid interface
+     */
+    public function filterByUsuario($usuario, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useUsuarioGrupoQuery()
+            ->filterByUsuario($usuario, $comparison)
+            ->endUse();
     }
 
     /**

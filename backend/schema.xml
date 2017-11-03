@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="nochange">
   <table name="Grupo" idMethod="native" phpName="Grupo">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
@@ -21,7 +21,7 @@
       <unique-column name="Isbn"/>
     </unique>
   </table>
-  <table name="TablaDibujo" idMethod="native" phpName="Tabladibujo">
+  <table name="TablaDibujo" idMethod="native" phpName="TablaDibujo">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
     <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
@@ -53,9 +53,9 @@
       <unique-column name="UserName"/>
     </unique>
   </table>
-  <table name="UsuarioGrupo" idMethod="native" phpName="Usuariogrupo">
-    <column name="UsuarioId" phpName="Usuarioid" type="INTEGER" primaryKey="true"/>
-    <column name="GrupoId" phpName="Grupoid" type="INTEGER" primaryKey="true"/>
+  <table name="UsuarioGrupo" idMethod="native" phpName="UsuarioGrupo" isCrossRef="True">
+    <column name="UsuarioId" phpName="UsuarioId" type="INTEGER" primaryKey="true"/>
+    <column name="GrupoId" phpName="GrupoId" type="INTEGER" primaryKey="true"/>
     <foreign-key foreignTable="Grupo" name="UsuarioGrupo_fk_8631f0" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="GrupoId" foreign="Id"/>
     </foreign-key>
@@ -67,7 +67,7 @@
       <unique-column name="GrupoId"/>
     </unique>
   </table>
-  <table name="VideoBean" idMethod="native" phpName="Videobean">
+  <table name="VideoBean" idMethod="native" phpName="VideoBean">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
     <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
