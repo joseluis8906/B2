@@ -49,6 +49,7 @@ app.post('/login/', (req, res, next) => {
       {
           //if(err){console.log(phpErrors)}
           var Data = JSON.parse(output);
+          //console.log(Data)
           if(Data.Result === 1){
             Bcrypt.compare(Data.PlainPassword, Data.Password, (Err, Res) => {
               if(Res) {
@@ -57,7 +58,7 @@ app.post('/login/', (req, res, next) => {
                               {expiresIn: "365d" /*expires in 365 dias*/});
 
                 if(Token){
-                    res.send({ Result: 1, Token: Token});
+                    res.send({ Result: 1, Token: Token, UserName: Data.UserName, Roles: Data.Roles });
                 } else {
                     res.send({ Result: 0, Err: `Error generando token`});
                 }

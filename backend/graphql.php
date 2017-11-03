@@ -144,7 +144,7 @@ try {
     ]
   ]);
 
-  $TabladibujoHQL = new ObjectType([
+  $TablaDibujoHQL = new ObjectType([
     'name' => 'Tabladibujo',
     'description' => 'Objeto que describe un videobean',
     'fields' => [
@@ -290,8 +290,8 @@ try {
                 return $R;
               }
           ],
-          'Videobeans' => [
-              'type' => Type::listOf($VideobeanHQL),
+          'VideoBeans' => [
+              'type' => Type::listOf($VideoBeanHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Codigo' => ['type' => Type::string()],
@@ -302,7 +302,7 @@ try {
                   'Estado' => ['type' => Type::string()]
               ],
               'resolve' => function ($db, $args) {
-                $videobeans = VideobeanQuery::create();
+                $videobeans = VideoBeanQuery::create();
                 if(isset($args['Id'])) {$videobeans->filterById($args['Id']);}
                 if(isset($args['Codigo'])) {$videobeans->filterByCodigo($args['Codigo']);}
                 if(isset($args['Marca'])) {$videobeans->filterByMarca($args['Marca']);}
@@ -315,7 +315,7 @@ try {
                 $R = [];
 
                 foreach ($videobeans as $videobean) {
-                    $R[] = new GQVidebean([
+                    $R[] = new GQVideBean([
                       'Id' => $videobean->getId(),
                       "Codigo" => $videobean->getCodigo(),
                       "Marca" => $videobean->getMarca(),
@@ -329,7 +329,7 @@ try {
               }
           ],
           'Tabladibujos' => [
-              'type' => Type::listOf($TabladibujoHQL),
+              'type' => Type::listOf($TablaDibujoHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
                   'Codigo' => ['type' => Type::string()],
@@ -338,7 +338,7 @@ try {
                   'Estado' => ['type' => Type::string()]
               ],
               'resolve' => function ($db, $args) {
-                $tabladibujos = TabladibujoQuery::create();
+                $tabladibujos = TablaDibujoQuery::create();
                 if(isset($args['Id'])) {$tabladibujos->filterById($args['Id']);}
                 if(isset($args['Codigo'])) {$tabladibujos->filterByCodigo($args['Codigo']);}
                 if(isset($args['Marca'])) {$tabladibujos->filterByMarca($args['Marca']);}
@@ -349,7 +349,7 @@ try {
                 $R = [];
 
                 foreach ($tabladibujos as $tabladibujo) {
-                    $R[] = new GQTabladibujo([
+                    $R[] = new GQTablaDibujo([
                       'Id' => $tabladibujo->getId(),
                       "Codigo" => $tabladibujo->getCodigo(),
                       "Marca" => $tabladibujo->getMarca(),
@@ -386,7 +386,7 @@ try {
               if(is_null($usuario)) {
 
                 $usuario = new Usuario();
-                $usuario->setUsername($args['UserName']);
+                $usuario->setUserName($args['UserName']);
                 $usuario->setPassword($args['Password']);
                 $usuario->setCedula($args['Cedula']);
                 $usuario->setNombre($args['Nombre']);
@@ -402,7 +402,7 @@ try {
 
                 $R = new GQUsuario([
                   'Id' => $usuario->getId(),
-                  "UserName" => $usuario->getUsername(),
+                  "UserName" => $usuario->getUserName(),
                   "Password" => $usuario->getPassword(),
                   "Cedula" => $usuario->getCedula(),
                   "Nombre" => $usuario->getNombre(),
@@ -452,7 +452,7 @@ try {
               $usuario = UsuarioQuery::create()->filterById($args['Id'])->findOne();
 
               if($usuario){
-                if(isset($args['UserName'])) {$usuario->setUsername($args['UserName']);}
+                if(isset($args['UserName'])) {$usuario->setUserName($args['UserName']);}
                 if(isset($args['Password'])) {$usuario->setPassword($args['Password']);}
                 if(isset($args['Cedula'])) {$usuario->setCedula($args['Cedula']);}
                 if(isset($args['Nombre'])) {$usuario->setNombre($args['Nombre']);}
@@ -466,7 +466,7 @@ try {
 
                 $R = new GQUsuario([
                   'Id' => $usuario->getId(),
-                  "UserName" => $usuario->getUsername(),
+                  "UserName" => $usuario->getUserName(),
                   "Password" => $usuario->getPassword(),
                   "Cedula" => $usuario->getCedula(),
                   "Nombre" => $usuario->getNombre(),
@@ -759,7 +759,7 @@ try {
             }
           ],
           'CreateVideobean' => [
-            'type' => $VideobeanHQL,
+            'type' => $VideoBeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
               'Marca' => ['type' => Type::string()],
@@ -769,11 +769,11 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $videobean = VideoBeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
               if(is_null($videobean)) {
 
-                $videobean = new Videobean();
+                $videobean = new VideoBean();
                 $videobean->setCodigo($args['Codigo']);
                 $videobean->setMarca($args['Marca']);
                 $videobean->setModelo($args['Modelo']);
@@ -782,9 +782,9 @@ try {
                 $videobean->setEstado($args['Estado']);
                 $videobean->save();
 
-                $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+                $videobean = VideoBeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
-                $R = new GQVidebean([
+                $R = new GQVideoBean([
                   'Id' => $videobean->getId(),
                   "Codigo" => $videobean->getCodigo(),
                   "Marca" => $videobean->getMarca(),
@@ -796,7 +796,7 @@ try {
                 return $R;
 
               } else {
-                $R = new GQVidebean([
+                $R = new GQVideoBean([
                   'Id' => null,
                   "Codigo" => null,
                   "Marca" => null,
@@ -810,7 +810,7 @@ try {
             }
           ],
           'UpdateVideobean' => [
-            'type' => $VideobeanHQL,
+            'type' => $VideoBeanHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Codigo' => ['type' => Type::string()],
@@ -821,7 +821,7 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $videobean = VideobeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $videobean = VideoBeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
               if($videobean){
                 if(isset($args['Marca'])) {$videobean->setMarca($args['Marca']);}
@@ -831,7 +831,7 @@ try {
                 if(isset($args['Estado'])) {$videobean->setEstado($args['Estado']);}
                 $videobean->save();
 
-                $R = new GQVideobean([
+                $R = new GQVideoBean([
                   'Id' => $videobean->getId(),
                   "Codigo" => $videobean->getCodigo(),
                   "Marca" => $videobean->getMarca(),
@@ -843,7 +843,7 @@ try {
                 return $R;
 
               } else {
-                $R = new GQVideobean([
+                $R = new GQVideoBean([
                   'Id' => null,
                   "Codigo" => null,
                   "Marca" => null,
@@ -857,7 +857,7 @@ try {
             }
           ],
           'CreateTabladibujo' => [
-            'type' => $VideobeanHQL,
+            'type' => $VideoBeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
               'Marca' => ['type' => Type::string()],
@@ -865,20 +865,20 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $tabladibujo = TablaDibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
               if(is_null($tabladibujo)) {
 
-                $tabladibujo = new Tabladibujo();
+                $tabladibujo = new TablaDibujo();
                 $tabladibujo->setCodigo($args['Codigo']);
                 $tabladibujo->setMarca($args['Marca']);
                 $tabladibujo->setEspecificaciones($args['Especificaciones']);
                 $tabladibujo->setEstado($args['Estado']);
                 $tabladibujo->save();
 
-                $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+                $tabladibujo = TablaDibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
-                $R = new GQTabladibujo([
+                $R = new GQTablaDibujo([
                   'Id' => $tabladibujo->getId(),
                   "Codigo" => $tabladibujo->getCodigo(),
                   "Marca" => $tabladibujo->getMarca(),
@@ -900,7 +900,7 @@ try {
             }
           ],
           'UpdateTabladibujo' => [
-            'type' => $TabladibujoHQL,
+            'type' => $TablaDibujoHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'Codigo' => ['type' => Type::string()],
@@ -909,7 +909,7 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $tabladibujo = TabladibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $tabladibujo = TablaDibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
 
               if($tabladibujo){
                 if(isset($args['Marca'])) {$tabladibujo->setMarca($args['Marca']);}
@@ -917,7 +917,7 @@ try {
                 if(isset($args['Estado'])) {$tabladibujo->setEstado($args['Estado']);}
                 $tabladibujo->save();
 
-                $R = new GQTabladibujo([
+                $R = new GQTablaDibujo([
                   'Id' => $tabladibujo->getId(),
                   "Codigo" => $tabladibujo->getCodigo(),
                   "Marca" => $tabladibujo->getMarca(),
@@ -927,7 +927,7 @@ try {
                 return $R;
 
               } else {
-                $R = new GQTabladibujo([
+                $R = new GQTablaDibujo([
                   'Id' => null,
                   "Codigo" => null,
                   "Marca" => null,

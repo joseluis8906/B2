@@ -11,14 +11,23 @@ $obj = json_decode($entityBody);
 
 $usuario = UsuarioQuery::create()->filterByUserName($obj->UserName)->findOne();
 
+
 if(!is_null($usuario)) {
+
+  $grupos = $usuario->getGrupos();
+  $G = [];
+
+  foreach($grupos as $grupo){
+    $G[] = $grupo->getNombre();
+  }
 
   echo json_encode([
     'Result' => 1,
     'Id' => $usuario->getId(),
     'UserName' => $usuario->getUserName(),
     'Password' => $usuario->getPassword(),
-    'PlainPassword' => $obj->Password
+    'PlainPassword' => $obj->Password,
+    'Roles' => $G
   ]);
 
 } else {
