@@ -13,7 +13,7 @@ mutation UpdateLibro (
     Id: $Id,
     Categoria: $Categoria,
     Isbn: $Isbn,
-    Nombre: Nombre,
+    Nombre: $Nombre,
     Editorial: $Editorial,
     Edicion: $Edicion,
     Fecha: $Fecha,
@@ -25,6 +25,7 @@ mutation UpdateLibro (
     Isbn
     Nombre
     Editorial
+    Edicion
     Fecha
     Lugar
     Estado

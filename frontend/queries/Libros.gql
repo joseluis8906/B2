@@ -4,6 +4,7 @@ query Libros(
   $Isbn: String,
   $Nombre: String,
   $Editorial: String,
+  $Edicion: String,
   $Fecha: String,
   $Lugar: String,
   $Estado: String
@@ -14,6 +15,7 @@ query Libros(
     Isbn: $Isbn,
     Nombre: $Nombre,
     Editorial: $Editorial,
+    Edicion: $Edicion,
     Fecha: $Fecha,
     Lugar: $Lugar,
     Estado: $Estado
@@ -23,6 +25,7 @@ query Libros(
     Isbn
     Nombre
     Editorial
+    Edicion
     Fecha
     Lugar
     Estado

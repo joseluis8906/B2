@@ -11,7 +11,7 @@ mutation CreateLibro(
   CreateLibro(
     Categoria: $Categoria,
     Isbn: $Isbn,
-    Nombre: Nombre,
+    Nombre: $Nombre,
     Editorial: $Editorial,
     Edicion: $Edicion,
     Fecha: $Fecha,
@@ -23,6 +23,7 @@ mutation CreateLibro(
     Isbn
     Nombre
     Editorial
+		Edicion
     Fecha
     Lugar
     Estado

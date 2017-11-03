@@ -44,6 +44,7 @@ module.exports = {
   },
   plugins: [
     '~plugins/vuetify.js',
+    {src: '~plugins/vue-mqtt.js', ssr: false},
     '~plugins/vue-awesome-swiper.js',
     {src: '~plugins/vue-chartjs.js', ssr: false},
     {src: '~plugins/apollo-client.js', injectAs: 'apolloProvider'}
