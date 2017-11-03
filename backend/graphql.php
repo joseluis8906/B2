@@ -328,7 +328,7 @@ try {
                 return $R;
               }
           ],
-          'Tabladibujos' => [
+          'TablaDibujos' => [
               'type' => Type::listOf($TablaDibujoHQL),
               'args' => [
                   'Id' => ['type' => Type::int()],
@@ -856,7 +856,7 @@ try {
               }
             }
           ],
-          'CreateTabladibujo' => [
+          'CreateTablaDibujo' => [
             'type' => $VideoBeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
@@ -899,7 +899,7 @@ try {
               }
             }
           ],
-          'UpdateTabladibujo' => [
+          'UpdateTablaDibujo' => [
             'type' => $TablaDibujoHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
