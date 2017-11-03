@@ -68,6 +68,9 @@ h5.bold
 </style>
 
 <script>
+import LIBROS from '~/queries/Libros.gql'
+import VIDEOBEANS from '~/queries/VideoBeans.gql'
+
 export default {
   data () {
     return {
@@ -114,6 +117,35 @@ export default {
       loading: 0,
     }
   },
+  apollo:{
+    Libros: {
+      query: LIBROS,
+      variables () {
+        return {
+          Categoria: this.Libro.Categoria || 'null',
+          Isbn: this.Libro.Isbn || 'null',
+          Estado: 'Disponible'
+        }
+      },
+      loadingKey: 'loading',
+      update (data) {
+        console.log(data.Libros)
+      }
+    },
+    Libros: {
+      query: VIDEOBEANS,
+      variables () {
+        return {
+          Codigo: this.VideoBean.Codigo || 'null',
+          Estado: 'Disponible'
+        }
+      },
+      loadingKey: 'loading',
+      update (data) {
+        console.log(data)
+      }
+    },
+  },
   methods: {
     Reset () {
       this.Tipo = null
@@ -140,6 +172,42 @@ export default {
         Marca: null,
         Especificaciones: null,
         Estado: null,
+      }
+    },
+    Guardar () {
+      if(this.Tipo === 'Libro') GuardarLibro();
+      else if(this.Tipo === 'VideoBean') GuardarVideoBean();
+      else if(this.Tipo === 'TablaDibujo') GuardarTablaDibujo();
+      else return null;
+    },
+    GuardarLibro (){
+      const Libro = {
+        Categoria: this.Libro.Categoria,
+        Isbn: this.Libro.Isbn,
+        Nombre: this.Libro.Nombre,
+        Editorial: this.Libro.Editorial,
+        Edicion: this.Libro.Edicion,
+        Fecha: this.Libro.Fecha,
+        Lugar: this.Libro.Lugar,
+        Estado: this.Libro.Estado
+      }
+    },
+    GuardarVideoBean (){
+      const VideoBean = {
+        Codigo: this.VideoBean.Codigo,
+        Marca: this.VideoBean.Marca,
+        Modelo: this.VideoBean.Modelo,
+        Especificaciones: this.VideoBean.Especificaciones,
+        Accesorios: this.VideoBean.Accesorios,
+        Estado: this.VideoBean.Estado
+      }
+    },
+    GuardarTablaDibujo (){
+      const TablaDibujo = {
+        Codigo: this.TablaDibujo.Codigo,
+        Marca: this.TablaDibujo.Marca,
+        Especificaciones: this.TablaDibujo.Especificaciones,
+        Estado: this.TablaDibujo.Estado
       }
     }
   }

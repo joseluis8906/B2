@@ -1,19 +1,27 @@
-mutation CreateTabladibujo (
+mutation UpdateVideoBean (
+	$Id: Int,
 	$Codigo: String,
 	$Marca: String,
+	$Modelo: String,
 	$Especificaciones: String,
+	$Accesorios: String,
 	$Estado: String
 ){
-  CreateTabladibujo (
+  UpdateVideoBean (
+    Id: $Id,
     Codigo: $Codigo,
     Marca: $Marca,
+    Modelo: $Modelo,
     Especificaciones: $Especificaciones,
+    Accesorios: $Accesorios,
     Estado: $Estado
   ) {
     Id
     Codigo
     Marca
+    Modelo
     Especificaciones
+    Accesorios
     Estado
   }
 }

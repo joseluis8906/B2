@@ -1,12 +1,10 @@
-mutation UpdateTabladibujo (
-	$Id: Int,
+mutation CreateTablaDibujo (
 	$Codigo: String,
 	$Marca: String,
 	$Especificaciones: String,
-	$Estado: String,
+	$Estado: String
 ){
-  UpdateTabladibujo (
-    Id: $Id,
+  CreateTablaDibujo (
     Codigo: $Codigo,
     Marca: $Marca,
     Especificaciones: $Especificaciones,

@@ -7,7 +7,7 @@ query Videobeans (
 	$Accesorios: String,
 	$Estado: String
 ){
-  Videobeans (
+  VideoBeans (
     Id: $Id,
     Codigo: $Codigo,
     Marca: $Marca,

@@ -1,27 +1,21 @@
-mutation UpdateVideobean (
+mutation UpdateTablaDibujo (
 	$Id: Int,
 	$Codigo: String,
 	$Marca: String,
-	$Modelo: String,
 	$Especificaciones: String,
-	$Accesorios: String,
-	$Estado: String
+	$Estado: String,
 ){
-  UpdateVideobean (
+  UpdateTablaDibujo (
     Id: $Id,
     Codigo: $Codigo,
     Marca: $Marca,
-    Modelo: $Modelo,
     Especificaciones: $Especificaciones,
-    Accesorios: $Accesorios,
     Estado: $Estado
   ) {
     Id
     Codigo
     Marca
-    Modelo
     Especificaciones
-    Accesorios
     Estado
   }
 }

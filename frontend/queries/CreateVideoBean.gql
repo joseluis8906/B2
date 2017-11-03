@@ -1,4 +1,4 @@
-mutation CreateVideobean (
+mutation CreateVideoBean (
 	$Codigo: String,
 	$Marca: String,
 	$Modelo: String,
@@ -6,7 +6,7 @@ mutation CreateVideobean (
 	$Accesorios: String,
 	$Estado: String
 ){
-  CreateVideobean (
+  CreateVideoBean (
     Codigo: $Codigo,
     Marca: $Marca,
     Modelo: $Modelo,

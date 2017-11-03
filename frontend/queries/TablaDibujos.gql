@@ -1,11 +1,11 @@
-query Tabladibujos (
+query TablaDibujos (
 	$Id: Int,
 	$Codigo: String,
 	$Marca: String,
 	$Especificaciones: String,
 	$Estado: String,
 ){
-  Tabladibujos (
+  TablaDibujos (
     Id: $Id,
     Codigo: $Codigo,
     Marca: $Marca,
