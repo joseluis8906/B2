@@ -70,6 +70,7 @@ h5.bold
 <script>
 import LIBROS from '~/queries/Libros.gql'
 import VIDEOBEANS from '~/queries/VideoBeans.gql'
+import TABLADIBUJOS from '~/queries/TablaDibujos.gql'
 
 export default {
   data () {
@@ -132,7 +133,7 @@ export default {
         console.log(data.Libros)
       }
     },
-    Libros: {
+    VideoBeans: {
       query: VIDEOBEANS,
       variables () {
         return {
@@ -142,7 +143,20 @@ export default {
       },
       loadingKey: 'loading',
       update (data) {
-        console.log(data)
+        console.log(data.VideoBeans)
+      }
+    },
+    TablaDibujos: {
+      query: TABLADIBUJOS,
+      variables () {
+        return {
+          Codigo: this.TablaDibujo.Codigo || 'null',
+          Estado: 'Disponible'
+        }
+      },
+      loadingKey: 'loading',
+      update (data) {
+        console.log(data.VideoBeans)
       }
     },
   },
