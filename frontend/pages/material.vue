@@ -64,7 +64,36 @@ v-layout( align-center justify-center )
                 v-text-field(label="Nombre" v-model="Libro.Nombre" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
                 v-text-field(label="Editorial" v-model="Libro.Editorial" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
                 v-text-field(label="Edición" v-model="Libro.Edicion" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-                v-text-field(label="Fecha" v-model="Libro.Fecha" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                //- v-text-field(label="Fecha" v-model="Libro.Fecha" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-menu( v-show="Tipo==='Libro'"
+                        lazy
+                        :close-on-content-click="true"
+                        v-model="Libro.Fecha"
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        :nudge-left="40"
+                        max-width="290px" )
+
+                  v-text-field( slot="activator"
+                                label="Fecha"
+                                v-model="Libro.Fecha"
+                                :rules="[rules.required]"
+                                readonly
+                                dark )
+
+                  v-date-picker( :months="months"
+                                 :days="days"
+                                 first-day-of-week="D"
+                                 :header-date-format="({ monthName, year }) => { return `${monthName} ${year}` }"
+                                 v-model="Libro.Fecha"
+                                 no-title
+                                 autosave
+                                 :rules="[rules.required]"
+                                 dark )
+                   template( scope="{ save, cancel }" )
+                     v-card-actions
+                       v-btn( dark warning @click.native="Libo.Fecha=null" ) Limpiar
                 v-text-field(label="Lugar" v-model="Libro.Lugar" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
 
                 // Video Bean
@@ -196,6 +225,20 @@ export default {
           return pattern.test(value) || 'Correo Inválido.'
         }
       },
+      months: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'],
+      days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
       ItemsTipo: ['Libro', 'VideoBean', 'Tabla de Dibujo'],
       Tipo: null,
       TipoListar: null,
