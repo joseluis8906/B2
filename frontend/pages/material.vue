@@ -134,7 +134,7 @@ v-layout( align-center justify-center )
 
                    template(slot="items" scope="props")
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Categoria.length*12)+'px'}") {{ props.item.Categoria }}
-                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Isbn.length*12)+'px'}") {{ props.item.Isbn }}
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Isbn.length*14)+'px'}") {{ props.item.Isbn }}
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Nombre.length*12)+'px'}") {{ props.item.Nombre }}
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Editorial.length*12)+'px'}") {{ props.item.Editorial }}
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Edicion.length*12)+'px'}") {{ props.item.Edicion }}
