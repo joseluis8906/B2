@@ -52,6 +52,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
           { icon: 'person', text: 'Usuario', to: '/usuario', Roles: ['Administrador'] },
           { icon: 'group', text: 'Grupo', to: '/grupo', Roles: ['Administrador'] },
           { icon: 'book', text: 'Material', to: '/material', Roles: ['Administrador'] },
+          { icon: 'assignment_turned_in', text: ' Reserva', to: '/reserva', Roles: ['Usuario'] },
           //{ icon: 'local_shipping', text: 'Oferta', to: '/oferta' },
           //{ icon: 'shopping_cart', text: 'Demanda', to: '/demanda' },
           //{ icon: 'backup', text: 'Cargue Masivo', to: '/carguemasivo' },
