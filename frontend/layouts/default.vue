@@ -62,7 +62,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
     },
     methods: {
       logout () {
-        sessionStorage.removeItem("x-access-token")
+        sessionStorage.clear()
         this.$router.push('/')
       },
       EvaluarRoles (Roles) {
