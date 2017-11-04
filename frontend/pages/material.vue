@@ -800,7 +800,7 @@ export default {
 
       for(let i=0; i<this.ItemsVideoBean.length; i++){
         if(this.ItemsVideoBean[i].Id === VideoBean.Id){
-          this.ItemsVideoBean[i].Codigo = VidedeoBean.Codigo
+          this.ItemsVideoBean[i].Codigo = VideoBean.Codigo
           this.ItemsVideoBean[i].Marca = VideoBean.Marca
           this.ItemsVideoBean[i].Modelo = VideoBean.Modelo
           this.ItemsVideoBean[i].Especificaciones = VideoBean.Especificaciones
