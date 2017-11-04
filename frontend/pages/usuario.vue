@@ -147,7 +147,7 @@ export default {
       }
 
       //this.$mqtt.subscribe('b2/apollo/mutation')
-    }
+    })
   },
   apollo: {
     Usuarios: {
