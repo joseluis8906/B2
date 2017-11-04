@@ -37,7 +37,7 @@ v-layout( align-center justify-center )
             v-icon(ma) book
             |  Material
 
-      v-tabs(dark fixed icons centered)
+      v-tabs(dark fixed icons centered v-model="TabActive")
         v-tabs-bar(slot="activators" class="light-blue darken-4")
           v-tabs-slider(class="success")
           v-tabs-item(href="#tab-1" @click.native="Reset")
@@ -96,7 +96,6 @@ v-layout( align-center justify-center )
 
                 v-data-table(v-bind:headers="HeadersLibro"
                            :items="ItemsLibro"
-                           hide-actions
                            class="elevation-5 grey lighten-1 grey--text text--darken-4"
                            v-show="TipoListar === 'Libro'" )
 
@@ -111,13 +110,12 @@ v-layout( align-center justify-center )
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Editorial.length*12)+'px'}") {{ props.item.Editorial }}
                      td(class="text-xs-center" :style="{minWidth: ''+(props.item.Edicion.length*12)+'px'}") {{ props.item.Edicion }}
                      td(class="text-xs-center")
-                       v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                       v-btn(fab small class="teal" dark @click.native="Editar(props.item)")
                          v-icon create
 
 
                 v-data-table(v-bind:headers="HeadersVideoBean"
                           :items="ItemsVideoBean"
-                          hide-actions
                           class="elevation-5 grey lighten-1 grey--text text--darken-4"
                           v-show="TipoListar === 'VideoBean'" )
 
@@ -132,13 +130,12 @@ v-layout( align-center justify-center )
                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Accesorios.length*12)+'px'}") {{ props.item.Accesorios }}
                     td(class="text-xs-center")
-                      v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                      v-btn(fab small class="teal" dark @click.native="Editar(props.item)")
                         v-icon create
 
 
                 v-data-table(v-bind:headers="HeadersTablaDibujo"
                           :items="ItemsTablaDibujo"
-                          hide-actions
                           class="elevation-5 grey lighten-1 grey--text text--darken-4"
                           v-show="TipoListar === 'Tabla de Dibujo'" )
 
@@ -151,7 +148,7 @@ v-layout( align-center justify-center )
                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Marca.length*12)+'px'}") {{ props.item.Marca }}
                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
                     td(class="text-xs-center")
-                      v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                      v-btn(fab small class="teal" dark @click.native="Editar(props.item)")
                         v-icon create
 
 
@@ -253,6 +250,7 @@ export default {
         {text: 'Especificaciones', value: 'Especificaciones'},
       ],
       ItemsTablaDibujo: [],
+      TabActive: null,
       loading: 0
     }
   },
@@ -271,7 +269,7 @@ export default {
   },
   mqtt: {
     'b2/apollo/mutation': function (val) {
-      console.log('mqtt material')
+      //console.log('mqtt material')
       var res = (JSON.parse(val))
       var Method = res.Method
       var Obj = res.Obj
@@ -534,7 +532,7 @@ export default {
         }).then(() => {
           this.Notificaciones('Guardado', 'Exitoso')
         }).catch( Err => {
-          console.log(Er)
+          //console.log(Er)
           this.Notificaciones('Guardado', 'Error')
         })
       }else{
@@ -556,7 +554,7 @@ export default {
         }).then( () => {
           this.Notificaciones('Actualización', 'Exitosa')
         }).catch((Err) => {
-          console.log(Err)
+          //console.log(Err)
           this.Notificaciones('Actualización', 'Error')
         })
       }
@@ -831,7 +829,7 @@ export default {
           query: LIBROS,
           loadingKey: 'loading'
         }).then( res => {
-          console.log(res)
+          //console.log(res)
           this.ItemsLibro = []
           for (let i=0; i<res.data.Libros.length; i++) {
             var tmp = {
@@ -840,7 +838,9 @@ export default {
               Isbn: res.data.Libros[i].Isbn,
               Nombre: res.data.Libros[i].Nombre,
               Editorial: res.data.Libros[i].Editorial,
-              Edicion: res.data.Libros[i].Edicion
+              Edicion: res.data.Libros[i].Edicion,
+              Fecha: res.data.Libros[i].Fecha,
+              Lugar: res.data.Libros[i].Lugar
             }
             this.ItemsLibro.push(tmp)
           }
@@ -851,7 +851,7 @@ export default {
           query: VIDEOBEANS,
           loadingKey: 'loading'
         }).then( res => {
-          console.log(res)
+          //console.log(res)
           this.ItemsVideoBean = []
           for (let i=0; i<res.data.VideoBeans.length; i++) {
             var tmp = {
@@ -871,7 +871,7 @@ export default {
           query: TABLADIBUJOS,
           loadingKey: 'loading'
         }).then( res => {
-          console.log(res)
+          //console.log(res)
           this.ItemsTablaDibujo = []
           for (let i=0; i<res.data.TablaDibujos.length; i++) {
             var tmp = {
@@ -885,6 +885,42 @@ export default {
         });
       }
 
+    },
+    Editar (Item) {
+      if(this.TipoListar === 'Libro'){
+        this.Tipo = 'Libro'
+        this.Libro = {
+          Id: Item.Id,
+          Categoria: Item.Categoria,
+          Isbn: Item.Isbn,
+          Nombre: Item.Nombre,
+          Editorial: Item.Editorial,
+          Edicion: Item.Edicion,
+          Fecha: Item.Fecha,
+          Lugar: Item.Lugar
+        }
+      }
+      else if(this.TipoListar === 'VideoBean'){
+        this.Tipo = 'VideoBean'
+        this.VideoBean = {
+          Id: Item.Id,
+          Codigo: Item.Codigo,
+          Marca: Item.Marca,
+          Modelo: Item.Modelo,
+          Especificaciones: Item.Especificaciones,
+          Accesorios: Item.Accesorios,
+        }
+      }
+      else if(this.TipoListar === 'Tabla de Dibujo'){
+        this.Tipo = 'Tabla de Dibujo'
+        this.TablaDibujo = {
+          Id: Item.Id,
+          Codigo: Item.Codigo,
+          Marca: Item.Marca,
+          Especificaciones: Item.Especificaciones,
+        }
+      }
+      this.TabActive = "tab-1"
     }
   }
 }
