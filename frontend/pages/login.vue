@@ -14,7 +14,7 @@
         h6(class="grey--text text--lighten-4 mb-0") {{ $store.state.notificaciones.Msg }}
         v-icon {{ $store.state.notificaciones.Icon }}
 
-    v-flex(xs12 sm3)
+    v-flex(xs12 sm3 )
       v-card(class="mt-5 pa-3")
         v-card-text
           div(class="text-xs-center")
@@ -77,7 +77,6 @@
           Password: this.Password
         }).then(res => {
           if(res.data.Result === 1){
-            //console.log(res.data)
             sessionStorage.setItem('x-access-username', UserName)
             sessionStorage.setItem('x-access-token', res.data.Token)
             sessionStorage.setItem('x-access-roles', JSON.stringify(res.data.Roles))

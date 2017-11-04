@@ -101,9 +101,9 @@ import axios from 'axios'
 export default {
   data: () => ({
     snackbar: {
-      context: 'secondary',
+      context: 'primary',
       mode: '',
-      timeout: 6000,
+      timeout: 3000,
       text: 'Cargando'
     },
     rules: {

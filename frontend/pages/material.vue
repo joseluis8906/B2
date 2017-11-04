@@ -82,7 +82,7 @@ v-layout( align-center justify-center )
           v-card-actions
             v-spacer
             v-btn( dark @click.native="Reset" ) Cancelar
-            v-btn( dark primary @click.native="Guardar" ) Guardar
+            v-btn( dark primary @click.native="Guardar" :disabled="!Completo") Guardar
 
         v-tabs-content(id="tab-2")
           v-card-text
@@ -152,7 +152,6 @@ v-layout( align-center justify-center )
                         v-icon create
 
 
-
 </template>
 
 <style lang="stylus" scoped>
@@ -185,7 +184,7 @@ export default {
   data () {
     return {
       snackbar: {
-        context: 'secondary',
+        context: 'primary',
         mode: '',
         timeout: 3000,
         text: 'Cargando'
@@ -250,7 +249,9 @@ export default {
         {text: 'Especificaciones', value: 'Especificaciones'},
       ],
       ItemsTablaDibujo: [],
+      AccionEditar: false,
       TabActive: null,
+      Completo: false,
       loading: 0
     }
   },
@@ -263,8 +264,24 @@ export default {
     this.$mqtt.unsubscribe('b2/apollo/mutation')
   },
   watch: {
+    Tipo () {
+      if(!this.AccionEditar) {
+        this.Reset2 ()
+      }else{
+        this.AccionEditar = false
+      };
+    },
     TipoListar () {
       this.CargarTipoListar()
+    },
+    Libro () {
+      this.Validar()
+    },
+    VideoBean () {
+      this.Validar()
+    },
+    TablaDibujo () {
+      this.Validar()
     }
   },
   mqtt: {
@@ -404,6 +421,40 @@ export default {
       this.ItemsLibro = []
       this.ItemsVideoBean = []
       this.ItemsTablaDibujo = []
+      this.Completo = false
+      this.Libro = {
+        Id: null,
+        Categoria: null,
+        Isbn: null,
+        Nombre: null,
+        Editorial: null,
+        Edicion: null,
+        Fecha: null,
+        Lugar: null,
+        Estado: null,
+      }
+      this.VideoBean = {
+        Id: null,
+        Codigo: null,
+        Marca: null,
+        Modelo: null,
+        Especificaciones: null,
+        Accesorios: null,
+        Estado: null,
+      }
+      this.TablaDibujo = {
+        Id: null,
+        Codigo: null,
+        Marca: null,
+        Especificaciones: null,
+        Estado: null,
+      }
+    },
+    Reset2 () {
+      this.ItemsLibro = []
+      this.ItemsVideoBean = []
+      this.ItemsTablaDibujo = []
+      this.Completo = false
       this.Libro = {
         Id: null,
         Categoria: null,
@@ -887,6 +938,7 @@ export default {
 
     },
     Editar (Item) {
+      this.AccionEditar = true
       if(this.TipoListar === 'Libro'){
         this.Tipo = 'Libro'
         this.Libro = {
@@ -921,7 +973,49 @@ export default {
         }
       }
       this.TabActive = "tab-1"
-    }
+    },
+    Validar () {
+      this.Completo = false
+      if(this.Tipo === 'Libro'){
+        if (
+          this.Libro.Categoria === null ||
+          this.Libro.Isbn === null ||
+          this.Libro.Nombre === null ||
+          this.Libro.Editorial === null ||
+          this.Libro.Edicion === null ||
+          this.Libro.Fecha === null ||
+          this.Libro.Lugar === null
+        ){
+          this.Completo = false
+        }else{
+          this.Completo = true
+        }
+      }
+      else if(this.Tipo === 'VideoBean'){
+        if (
+          this.VideoBean.Codigo === null ||
+          this.VideoBean.Marca === null ||
+          this.VideoBean.Modelo === null ||
+          this.VideoBean.Especificaciones === null ||
+          this.VideoBean.Accesorios === null
+        ){
+          this.Completo = false
+        }else{
+          this.Completo = true
+        }
+      }
+      else if(this.Tipo === 'Tabla de Dibujo'){
+        if (
+          this.TablaDibujo.Codigo === null ||
+          this.TablaDibujo.Marca === null ||
+          this.TablaDibujo.Especificaciones === null
+        ){
+          this.Completo = false
+        }else{
+          this.Completo = true
+        }
+      }
+    },
   }
 }
 </script>
