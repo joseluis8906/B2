@@ -93,7 +93,7 @@ v-layout( align-center justify-center )
                                  dark )
                    template( scope="{ save, cancel }" )
                      v-card-actions
-                       v-btn( dark warning @click.native="Libo.Fecha=null" ) Limpiar
+                       v-btn( dark warning @click.native="Libro.Fecha=null" ) Limpiar
                 v-text-field(label="Lugar" v-model="Libro.Lugar" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
 
                 // Video Bean
