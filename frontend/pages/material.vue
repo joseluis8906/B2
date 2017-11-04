@@ -68,7 +68,7 @@ v-layout( align-center justify-center )
                 v-menu( v-show="Tipo==='Libro'"
                         lazy
                         :close-on-content-click="true"
-                        v-model="Libro.Fecha"
+                        v-model="menu1"
                         transition="scale-transition"
                         offset-y
                         full-width
@@ -240,6 +240,7 @@ export default {
         'Diciembre'],
       days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
       ItemsTipo: ['Libro', 'VideoBean', 'Tabla de Dibujo'],
+      menu1: false,
       Tipo: null,
       TipoListar: null,
       ItemsTipoLibro: ['Libro', 'Revista', 'Enciclopedia', 'Diccionario'],
