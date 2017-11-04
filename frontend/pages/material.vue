@@ -257,6 +257,13 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      if (sessionStorage.getItem('x-access-token') === null || sessionStorage.getItem('x-access-token') === null) {
+        this.$router.push('/')
+      } else {
+        var Roles = JSON.parse(sessionStorage.getItem('x-access-roles'))
+        this.$store.commit('security/AddRoles', Roles);
+      }
+
       this.$mqtt.subscribe('b2/apollo/mutation')
     })
   },

@@ -4,7 +4,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
   v-navigation-drawer(v-model="primaryDrawer.model" persistent='persistent')
     v-list(dense)
       template(v-for="(item, i) in items")
-        v-list-tile(:key="i" nuxt link :to="item.to")
+        v-list-tile(:key="i" nuxt link :to="item.to" v-if="EvaluarRoles(item.Roles)")
           v-list-tile-action
             v-icon {{ item.icon }}
 
