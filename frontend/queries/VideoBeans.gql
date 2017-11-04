@@ -19,6 +19,7 @@ query Videobeans (
     Id
     Codigo
     Marca
+		Modelo
     Especificaciones
     Accesorios
     Estado

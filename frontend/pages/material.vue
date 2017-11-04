@@ -36,40 +36,126 @@ v-layout( align-center justify-center )
           h5(class="grey--text text--lighten-4 text-xs-center bold")
             v-icon(ma) book
             |  Material
-      v-card-text
-        v-layout( row wrap)
-          v-flex( xs12 )
-            v-select(label="Tipo"
-                     v-bind:items="ItemsTipo"
-                     v-model="Tipo"
-                     dark
-                     :rules="[rules.required]")
 
-            // libros
-            v-select(label="Categoria", v-bind:items="ItemsLibro" v-model="Libro.Categoria" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Isbn" v-model="Libro.Isbn" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Nombre" v-model="Libro.Nombre" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Editorial" v-model="Libro.Editorial" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Edición" v-model="Libro.Edicion" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Fecha" v-model="Libro.Fecha" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
-            v-text-field(label="Lugar" v-model="Libro.Lugar" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+      v-tabs(dark fixed icons centered)
+        v-tabs-bar(slot="activators" class="light-blue darken-4")
+          v-tabs-slider(class="success")
+          v-tabs-item(href="#tab-1" @click.native="Reset")
+            v-icon create
+            h6(class="body-2 grey--text text--lighten-4") Editar
 
-            // Video Bean
-            v-text-field(label="Codigo" v-model="VideoBean.Codigo" dark :rules="[rules.required]" v-show="Tipo==='Video Bean'")
-            v-text-field(label="Marca" v-model="VideoBean.Marca" dark :rules="[rules.required]" v-show="Tipo==='Video Bean'")
-            v-text-field(label="Modelo" v-model="VideoBean.Modelo" dark :rules="[rules.required]" v-show="Tipo==='Video Bean'")
-            v-text-field(label="Especificaciones" v-model="VideoBean.Especificaciones" multi-line dark :rules="[rules.required]" v-show="Tipo==='Video Bean'")
-            v-text-field(label="Accesorios" v-model="VideoBean.Accesorios" multi-line dark :rules="[rules.required]" v-show="Tipo==='Video Bean'")
+          v-tabs-item(href="#tab-2" @click.native="Reset")
+            v-icon search
+            h6(class="body-2 grey--text text--lighten-4") Listar
 
-            // Tabla de Dibujo
-            v-text-field(label="Codigo" v-model="TablaDibujo.Codigo" dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
-            v-text-field(label="Marca" v-model="TablaDibujo.Marca" dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
-            v-text-field(label="Especificaciones" v-model="TablaDibujo.Especificaciones" multi-line dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
+        v-tabs-content(id="tab-1")
+          v-card-text
+            v-layout( row wrap)
+              v-flex( xs12 )
+                v-select(label="Tipo"
+                         v-bind:items="ItemsTipo"
+                         v-model="Tipo"
+                         dark
+                         :rules="[rules.required]")
 
-      v-card-actions
-        v-spacer
-        v-btn( dark @click.native="Reset" ) Cancelar
-        v-btn( dark primary @click.native="Guardar" ) Guardar
+                // libros
+                v-select(label="Categoria", v-bind:items="ItemsTipoLibro" v-model="Libro.Categoria" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Isbn" v-model="Libro.Isbn" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Nombre" v-model="Libro.Nombre" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Editorial" v-model="Libro.Editorial" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Edición" v-model="Libro.Edicion" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Fecha" v-model="Libro.Fecha" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+                v-text-field(label="Lugar" v-model="Libro.Lugar" dark :rules="[rules.required]" v-show="Tipo==='Libro'")
+
+                // Video Bean
+                v-text-field(label="Codigo" v-model="VideoBean.Codigo" dark :rules="[rules.required]" v-show="Tipo==='VideoBean'")
+                v-text-field(label="Marca" v-model="VideoBean.Marca" dark :rules="[rules.required]" v-show="Tipo==='VideoBean'")
+                v-text-field(label="Modelo" v-model="VideoBean.Modelo" dark :rules="[rules.required]" v-show="Tipo==='VideoBean'")
+                v-text-field(label="Especificaciones" v-model="VideoBean.Especificaciones" multi-line dark :rules="[rules.required]" v-show="Tipo==='VideoBean'")
+                v-text-field(label="Accesorios" v-model="VideoBean.Accesorios" multi-line dark :rules="[rules.required]" v-show="Tipo==='VideoBean'")
+
+                // Tabla de Dibujo
+                v-text-field(label="Codigo" v-model="TablaDibujo.Codigo" dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
+                v-text-field(label="Marca" v-model="TablaDibujo.Marca" dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
+                v-text-field(label="Especificaciones" v-model="TablaDibujo.Especificaciones" multi-line dark :rules="[rules.required]" v-show="Tipo==='Tabla de Dibujo'")
+
+          v-card-actions
+            v-spacer
+            v-btn( dark @click.native="Reset" ) Cancelar
+            v-btn( dark primary @click.native="Guardar" ) Guardar
+
+        v-tabs-content(id="tab-2")
+          v-card-text
+            v-layout( row wrap)
+              v-flex( xs12 )
+                v-select(label="Tipo"
+                         v-bind:items="ItemsTipo"
+                         v-model="TipoListar"
+                         dark
+                         :rules="[rules.required]")
+
+                v-data-table(v-bind:headers="HeadersLibro"
+                           :items="ItemsLibro"
+                           hide-actions
+                           class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                           v-show="TipoListar === 'Libro'" )
+
+                   template(slot="headers" scope="props")
+                     th(v-for="header in props.headers" :key="header"
+                       class="text-xs-center") {{ header.text }}
+
+                   template(slot="items" scope="props")
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Categoria.length*12)+'px'}") {{ props.item.Categoria }}
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Isbn.length*12)+'px'}") {{ props.item.Isbn }}
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Nombre.length*12)+'px'}") {{ props.item.Nombre }}
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Editorial.length*12)+'px'}") {{ props.item.Editorial }}
+                     td(class="text-xs-center" :style="{minWidth: ''+(props.item.Edicion.length*12)+'px'}") {{ props.item.Edicion }}
+                     td(class="text-xs-center")
+                       v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                         v-icon create
+
+
+                v-data-table(v-bind:headers="HeadersVideoBean"
+                          :items="ItemsVideoBean"
+                          hide-actions
+                          class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                          v-show="TipoListar === 'VideoBean'" )
+
+                  template(slot="headers" scope="props")
+                    th(v-for="header in props.headers" :key="header"
+                      class="text-xs-center") {{ header.text }}
+
+                  template(slot="items" scope="props")
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*12)+'px'}") {{ props.item.Codigo }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Marca.length*12)+'px'}") {{ props.item.Marca }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Modelo.length*12)+'px'}") {{ props.item.Modelo }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Accesorios.length*12)+'px'}") {{ props.item.Accesorios }}
+                    td(class="text-xs-center")
+                      v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                        v-icon create
+
+
+                v-data-table(v-bind:headers="HeadersTablaDibujo"
+                          :items="ItemsTablaDibujo"
+                          hide-actions
+                          class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                          v-show="TipoListar === 'Tabla de Dibujo'" )
+
+                  template(slot="headers" scope="props")
+                    th(v-for="header in props.headers" :key="header"
+                      class="text-xs-center") {{ header.text }}
+
+                  template(slot="items" scope="props")
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*12)+'px'}") {{ props.item.Codigo }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Marca.length*12)+'px'}") {{ props.item.Marca }}
+                    td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
+                    td(class="text-xs-center")
+                      v-btn(fab small class="teal" dark @click.native="Pagar(props.item)")
+                        v-icon create
+
+
+
 </template>
 
 <style lang="stylus" scoped>
@@ -114,9 +200,10 @@ export default {
           return pattern.test(value) || 'Correo Inválido.'
         }
       },
-      ItemsTipo: ['Libro', 'Video Bean', 'Tabla de Dibujo'],
+      ItemsTipo: ['Libro', 'VideoBean', 'Tabla de Dibujo'],
       Tipo: null,
-      ItemsLibro: ['Libro', 'Revista', 'Enciclopedia', 'Diccionario'],
+      TipoListar: null,
+      ItemsTipoLibro: ['Libro', 'Revista', 'Enciclopedia', 'Diccionario'],
       Libro: {
         Id: null,
         Categoria: null,
@@ -144,7 +231,29 @@ export default {
         Especificaciones: null,
         Estado: null,
       },
-      loading: 0,
+      HeadersLibro: [
+        {text: 'Categoria', value: 'Categoria'},
+        {text: 'Isbn', value: 'Isbn'},
+        {text: 'Nombre', value: 'Nombre'},
+        {text: 'Editorial', value: 'Editorial'},
+        {text: 'Edición', value: 'Edicion'},
+      ],
+      ItemsLibro: [],
+      HeadersVideoBean: [
+        {text: 'Codigo', value: 'Codigo'},
+        {text: 'Marca', value: 'Marca'},
+        {text: 'Modelo', value: 'Modelo'},
+        {text: 'Especificaciones', value: 'Especificaciones'},
+        {text: 'Accesorios', value: 'Accesorios'},
+      ],
+      ItemsVideoBean: [],
+      HeadersTablaDibujo: [
+        {text: 'Codigo', value: 'Codigo'},
+        {text: 'Marca', value: 'Marca'},
+        {text: 'Especificaciones', value: 'Especificaciones'},
+      ],
+      ItemsTablaDibujo: [],
+      loading: 0
     }
   },
   mounted () {
@@ -154,6 +263,11 @@ export default {
   },
   beforeDestroy () {
     this.$mqtt.unsubscribe('b2/apollo/mutation')
+  },
+  watch: {
+    TipoListar () {
+      this.CargarTipoListar()
+    }
   },
   mqtt: {
     'b2/apollo/mutation': function (val) {
@@ -167,8 +281,8 @@ export default {
           this.StoreLibro(Obj)
           break;
 
-        case 'StoreVideBean':
-          this.StoreVideBean(Obj)
+        case 'StoreVideoBean':
+          this.StoreVideoBean(Obj)
           break;
 
         case 'StoreTablaDibujo':
@@ -228,15 +342,27 @@ export default {
       },
       loadingKey: 'loading',
       update (data) {
-        console.log(data.VideoBeans)
+        //console.log(data.VideoBeans)
         for(let i=0; i<data.VideoBeans.length; i++){
           this.VideoBean = {
-
+            Id: data.VideoBeans[0].Id,
+            Codigo: data.VideoBeans[0].Codigo,
+            Marca: data.VideoBeans[0].Marca,
+            Modelo: data.VideoBeans[0].Modelo,
+            Especificaciones: data.VideoBeans[0].Especificaciones,
+            Accesorios: data.VideoBeans[0].Accesorios,
+            Estado: data.VideoBeans[0].Estado,
           }
         }
         if(data.VideoBeans.length === 0){
           this.VideoBean = {
-
+            Id: null,
+            Codigo: this.VideoBean.Codigo,
+            Marca: null,
+            Modelo: null,
+            Especificaciones: null,
+            Accesorios: null,
+            Estado: null,
           }
         }
       }
@@ -251,13 +377,35 @@ export default {
       },
       loadingKey: 'loading',
       update (data) {
-        console.log(data.TablaDibujos)
+        //console.log(data.TablaDibujos)
+        for(let i=0; i<data.TablaDibujos.length; i++){
+          this.TablaDibujo = {
+            Id: data.TablaDibujos[0].Id,
+            Codigo: this.TablaDibujo.Codigo,
+            Marca: data.TablaDibujos[0].Marca,
+            Especificaciones: data.TablaDibujos[0].Especificaciones,
+            Estado: data.TablaDibujos[0].Estado,
+          }
+        }
+        if(data.TablaDibujos.length === 0){
+          this.TablaDibujo = {
+            Id: null,
+            Codigo: this.TablaDibujo.Codigo,
+            Marca: null,
+            Especificaciones: null,
+            Estado: null,
+          }
+        }
       }
     },
   },
   methods: {
     Reset () {
       this.Tipo = null
+      this.TipoListar = null
+      this.ItemsLibro = []
+      this.ItemsVideoBean = []
+      this.ItemsTablaDibujo = []
       this.Libro = {
         Id: null,
         Categoria: null,
@@ -289,7 +437,7 @@ export default {
     Guardar () {
       if(this.Tipo === 'Libro') this.GuardarLibro();
       else if(this.Tipo === 'VideoBean') this.GuardarVideoBean();
-      else if(this.Tipo === 'TablaDibujo') this.GuardarTablaDibujo();
+      else if(this.Tipo === 'Tabla de Dibujo') this.GuardarTablaDibujo();
       else return null;
     },
     GuardarLibro () {
@@ -354,7 +502,6 @@ export default {
         })
       }
 
-
     },
     GuardarVideoBean (){
       const VideoBean = {
@@ -366,7 +513,54 @@ export default {
         Accesorios: this.VideoBean.Accesorios,
         Estado: this.VideoBean.Estado
       }
+
       this.Reset()
+
+      if(VideoBean.Id === null){
+        this.$apollo.mutate ({
+          mutation: CREATE_VIDEOBEAN,
+          variables: {
+            Codigo: VideoBean.Codigo,
+            Marca: VideoBean.Marca,
+            Modelo: VideoBean.Modelo,
+            Especificaciones: VideoBean.Especificaciones,
+            Accesorios: VideoBean.Accesorios,
+            Estado: 'Disponible'
+          },
+          loadingKey: 'loading',
+          update: (store, { data: res }) => {
+            this.$mqtt.publish('b2/apollo/mutation', JSON.stringify({Method: 'StoreVideoBean', Obj: res.CreateVideoBean}))
+          }
+        }).then(() => {
+          this.Notificaciones('Guardado', 'Exitoso')
+        }).catch( Err => {
+          console.log(Er)
+          this.Notificaciones('Guardado', 'Error')
+        })
+      }else{
+        this.$apollo.mutate ({
+          mutation: UPDATE_VIDEOBEAN,
+          variables: {
+            Id: VideoBean.Id,
+            Codigo: VideoBean.Codigo,
+            Marca: VideoBean.Marca,
+            Modelo: VideoBean.Modelo,
+            Especificaciones: VideoBean.Especificaciones,
+            Accesorios: VideoBean.Accesorios,
+            Estado: VideoBean.Estado
+          },
+          loadingKey: 'loading',
+          update: (store, { data: res }) => {
+            this.$mqtt.publish('b2/apollo/mutation', JSON.stringify({Method: 'StoreVideoBean', Obj: res.UpdateVideoBean}))
+          }
+        }).then( () => {
+          this.Notificaciones('Actualización', 'Exitosa')
+        }).catch((Err) => {
+          console.log(Err)
+          this.Notificaciones('Actualización', 'Error')
+        })
+      }
+
     },
     GuardarTablaDibujo (){
       const TablaDibujo = {
@@ -376,11 +570,53 @@ export default {
         Especificaciones: this.TablaDibujo.Especificaciones,
         Estado: this.TablaDibujo.Estado
       }
+
       this.Reset()
+
+      if(TablaDibujo.Id === null){
+        this.$apollo.mutate ({
+          mutation: CREATE_TABLADIBUJO,
+          variables: {
+            Codigo: TablaDibujo.Codigo,
+            Marca: TablaDibujo.Marca,
+            Especificaciones: TablaDibujo.Especificaciones,
+            Estado: 'Disponible'
+          },
+          loadingKey: 'loading',
+          update: (store, { data: res }) => {
+            this.$mqtt.publish('b2/apollo/mutation', JSON.stringify({Method: 'StoreTablaDibujo', Obj: res.CreateTablaDibujo}))
+          }
+        }).then(() => {
+          this.Notificaciones('Guardado', 'Exitoso')
+        }).catch( Err => {
+          this.Notificaciones('Guardado', 'Error')
+        })
+      }else{
+        this.$apollo.mutate ({
+          mutation: UPDATE_TABLADIBUJO,
+          variables: {
+            Id: TablaDibujo.Id,
+            Codigo: TablaDibujo.Codigo,
+            Marca: TablaDibujo.Marca,
+            Especificaciones: TablaDibujo.Especificaciones,
+            Estado: TablaDibujo.Estado
+          },
+          loadingKey: 'loading',
+          update: (store, { data: res }) => {
+            this.$mqtt.publish('b2/apollo/mutation', JSON.stringify({Method: 'StoreTablaDibujo', Obj: res.UpdateTablaDibujo}))
+          }
+        }).then( () => {
+          this.Notificaciones('Actualización', 'Exitosa')
+        }).catch((Err) => {
+          this.Notificaciones('Actualización', 'Error')
+        })
+      }
+
     },
     StoreLibro (Libro) {
       var store = this.$apollo.provider.defaultClient
 
+      //libros por filtro
       try {
         var data = store.readQuery({
           query: LIBROS,
@@ -413,10 +649,37 @@ export default {
         })
 
       } catch (Err) {console.log(Err)}
+
+      //libros general
+      try {
+        var data = store.readQuery({
+          query: LIBROS,
+        })
+
+        var Existe = false
+
+        for (let i=0; i<data.Libros.length; i++) {
+          if (data.Libros[i].Id === Libro.Id) {
+            Existe = true
+            data.Libros[i] = Libro
+          }
+        }
+
+        (!Existe) ? data.Libros.push(Usuario) : null;
+
+        store.writeQuery({
+          query: LIBROS,
+          data: data
+        })
+
+      } catch (Err) {console.log(Err)}
+
+
     },
-    StoreVideBean (VideoBean) {
+    StoreVideoBean (VideoBean) {
       var store = this.$apollo.provider.defaultClient
 
+      //videobeans por filtro
       try {
         var data = store.readQuery({
           query: VIDEOBEANS,
@@ -447,10 +710,37 @@ export default {
         })
 
       } catch (Err) {console.log(Err)}
+
+
+      //videobeans general
+      try {
+        var data = store.readQuery({
+          query: VIDEOBEANS,
+        })
+
+        var Existe = false
+
+        for (let i=0; i<data.VideoBeans.length; i++) {
+          if (data.VideoBeans[i].Id === VideoBean.Id) {
+            Existe = true
+            data.VideoBeans[i] = VideoBean
+          }
+        }
+
+        (!Existe) ? data.VideoBeans.push(VideoBean) : null;
+
+        store.writeQuery({
+          query: VIDEOBEANS,
+          data: data
+        })
+
+      } catch (Err) {console.log(Err)}
+
     },
     StoreTablaDibujo (TablaDibujo) {
       var store = this.$apollo.provider.defaultClient
 
+      //tabladibujo por filtro
       try {
         var data = store.readQuery({
           query: TABLADIBUJOS,
@@ -481,6 +771,32 @@ export default {
         })
 
       } catch (Err) {console.log(Err)}
+
+
+      //tabladibujo general
+      try {
+        var data = store.readQuery({
+          query: TABLADIBUJOS
+        })
+
+        var Existe = false
+
+        for (let i=0; i<data.TablaDibujos.length; i++) {
+          if (data.TablaDibujos[i].Id === TablaDibujo.Id) {
+            Existe = true
+            data.TablaDibujos[i] = TablaDibujo
+          }
+        }
+
+        (!Existe) ? data.TablaDibujos.push(TablaDibujo) : null;
+
+        store.writeQuery({
+          query: TABLADIBUJOS,
+          data: data
+        })
+
+      } catch (Err) {console.log(Err)}
+
     },
     Notificaciones (Tipo, Estado) {
       if(Tipo === 'Guardado'){
@@ -508,6 +824,67 @@ export default {
           this.$store.commit('notificaciones/changeState', 1)
         }
       }
+    },
+    CargarTipoListar () {
+      if(this.TipoListar === 'Libro'){
+        this.$apollo.query({
+          query: LIBROS,
+          loadingKey: 'loading'
+        }).then( res => {
+          console.log(res)
+          this.ItemsLibro = []
+          for (let i=0; i<res.data.Libros.length; i++) {
+            var tmp = {
+              Id: res.data.Libros[i].Id,
+              Categoria: res.data.Libros[i].Categoria,
+              Isbn: res.data.Libros[i].Isbn,
+              Nombre: res.data.Libros[i].Nombre,
+              Editorial: res.data.Libros[i].Editorial,
+              Edicion: res.data.Libros[i].Edicion
+            }
+            this.ItemsLibro.push(tmp)
+          }
+        });
+      }
+      else if(this.TipoListar === 'VideoBean'){
+        this.$apollo.query({
+          query: VIDEOBEANS,
+          loadingKey: 'loading'
+        }).then( res => {
+          console.log(res)
+          this.ItemsVideoBean = []
+          for (let i=0; i<res.data.VideoBeans.length; i++) {
+            var tmp = {
+              Id: res.data.VideoBeans[i].Id,
+              Codigo: res.data.VideoBeans[i].Codigo,
+              Marca: res.data.VideoBeans[i].Marca,
+              Modelo: res.data.VideoBeans[i].Modelo,
+              Especificaciones: res.data.VideoBeans[i].Especificaciones,
+              Accesorios: res.data.VideoBeans[i].Accesorios,
+            }
+            this.ItemsVideoBean.push(tmp)
+          }
+        });
+      }
+      else if(this.TipoListar === 'Tabla de Dibujo'){
+        this.$apollo.query({
+          query: TABLADIBUJOS,
+          loadingKey: 'loading'
+        }).then( res => {
+          console.log(res)
+          this.ItemsTablaDibujo = []
+          for (let i=0; i<res.data.TablaDibujos.length; i++) {
+            var tmp = {
+              Id: res.data.TablaDibujos[i].Id,
+              Codigo: res.data.TablaDibujos[i].Codigo,
+              Marca: res.data.TablaDibujos[i].Marca,
+              Especificaciones: res.data.TablaDibujos[i].Especificaciones,
+            }
+            this.ItemsTablaDibujo.push(tmp)
+          }
+        });
+      }
+
     }
   }
 }

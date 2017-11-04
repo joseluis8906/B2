@@ -57,10 +57,10 @@ class GQLibro {
   }
 }
 
-class GQVideBean {
+class GQVideoBean {
   public $Id;
   public $Codigo;
-  public $marca;
+  public $Marca;
   public $Modelo;
   public $Especificaciones;
   public $Accesorios;
@@ -74,7 +74,7 @@ class GQVideBean {
 class GQTablaDibujo {
   public $Id;
   public $Codigo;
-  public $marca;
+  public $Marca;
   public $Especificaciones;
   public $Estado;
   public function __construct(array $data)
@@ -315,7 +315,7 @@ try {
                 $R = [];
 
                 foreach ($videobeans as $videobean) {
-                    $R[] = new GQVideBean([
+                    $R[] = new GQVideoBean([
                       'Id' => $videobean->getId(),
                       "Codigo" => $videobean->getCodigo(),
                       "Marca" => $videobean->getMarca(),
@@ -758,7 +758,7 @@ try {
               }
             }
           ],
-          'CreateVideobean' => [
+          'CreateVideoBean' => [
             'type' => $VideoBeanHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
@@ -809,7 +809,7 @@ try {
               }
             }
           ],
-          'UpdateVideobean' => [
+          'UpdateVideoBean' => [
             'type' => $VideoBeanHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
@@ -857,7 +857,7 @@ try {
             }
           ],
           'CreateTablaDibujo' => [
-            'type' => $VideoBeanHQL,
+            'type' => $TablaDibujoHQL,
             'args' => [
               'Codigo' => ['type' => Type::string()],
               'Marca' => ['type' => Type::string()],
