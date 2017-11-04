@@ -1072,13 +1072,13 @@ export default {
       this.Completo = false
       if(this.Tipo === 'Libro'){
         if (
-          this.Libro.Categoria === null ||
-          this.Libro.Isbn === null ||
-          this.Libro.Nombre === null ||
-          this.Libro.Editorial === null ||
-          this.Libro.Edicion === null ||
-          this.Libro.Fecha === null ||
-          this.Libro.Lugar === null
+          this.Libro.Categoria === null || this.Libro.Categoria === '' ||
+          this.Libro.Isbn === null || this.Libro.Isbn === '' ||
+          this.Libro.Nombre === null || this.Libro.Nombre === '' ||
+          this.Libro.Editorial === null || this.Libro.Editorial === '' ||
+          this.Libro.Edicion === null || this.Libro.Edicion === '' ||
+          this.Libro.Fecha === null || this.Libro.Fecha === '' ||
+          this.Libro.Lugar === null || this.Libro.Lugar === ''
         ){
           this.Completo = false
         }else{
@@ -1087,11 +1087,11 @@ export default {
       }
       else if(this.Tipo === 'VideoBean'){
         if (
-          this.VideoBean.Codigo === null ||
-          this.VideoBean.Marca === null ||
-          this.VideoBean.Modelo === null ||
-          this.VideoBean.Especificaciones === null ||
-          this.VideoBean.Accesorios === null
+          this.VideoBean.Codigo === null || this.VideoBean.Codigo === '' ||
+          this.VideoBean.Marca === null || this.VideoBean.Marca === '' ||
+          this.VideoBean.Modelo === null || this.VideoBean.Modelo === '' ||
+          this.VideoBean.Especificaciones === null || this.VideoBean.Especificaciones === '' ||
+          this.VideoBean.Accesorios === null || this.VideoBean.Accesorios === ''
         ){
           this.Completo = false
         }else{
@@ -1100,9 +1100,9 @@ export default {
       }
       else if(this.Tipo === 'Tabla de Dibujo'){
         if (
-          this.TablaDibujo.Codigo === null ||
-          this.TablaDibujo.Marca === null ||
-          this.TablaDibujo.Especificaciones === null
+          this.TablaDibujo.Codigo === null || this.TablaDibujo.Codigo === '' ||
+          this.TablaDibujo.Marca === null || this.TablaDibujo.Marca === '' ||
+          this.TablaDibujo.Especificaciones === null || this.TablaDibujo.Especificaciones === ''
         ){
           this.Completo = false
         }else{
