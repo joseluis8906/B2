@@ -547,6 +547,7 @@ export default {
         }).then( () => {
           this.Notificaciones('Actualización', 'Exitosa')
         }).catch((Err) => {
+          console.log(Err)
           this.Notificaciones('Actualización', 'Error')
         })
       }
