@@ -845,13 +845,13 @@ export default {
 
       if(!Existe) {
         let tmp = {
-          Id: Libro.Id,
-          Codigo: Libro.Codigo,
-          Marca: Libro.Marca,
-          Modelo: Libro.Modelo,
-          Especificaciones: Libro.Especificaciones,
-          Accesorios: Libro.Accesorios,
-          Estado: Libro.Estado
+          Id: VideoBean.Id,
+          Codigo: VideoBean.Codigo,
+          Marca: VideoBean.Marca,
+          Modelo: VideoBean.Modelo,
+          Especificaciones: VideoBean.Especificaciones,
+          Accesorios: VideoBean.Accesorios,
+          Estado: VideoBean.Estado
         }
 
         this.ItemsVideoBean.push(tmp)
@@ -930,11 +930,11 @@ export default {
 
       if(!Existe) {
         let tmp = {
-          Id: Libro.Id,
-          Codigo: Libro.Codigo,
-          Marca: Libro.Marca,
-          Especificaciones: Libro.Especificaciones,
-          Estado: Libro.Estado
+          Id: TablaDibujo.Id,
+          Codigo: TablaDibujo.Codigo,
+          Marca: TablaDibujo.Marca,
+          Especificaciones: TablaDibujo.Especificaciones,
+          Estado: TablaDibujo.Estado
         }
 
         this.ItemsTablaDibujo.push(tmp)
