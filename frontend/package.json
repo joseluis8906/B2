@@ -4,9 +4,9 @@
   "description": "Nuxt.js + Vuetify.js project",
   "author": "Jose Luis Cáceres Escudero <joseluis8906@opmbx.org>",
   "scripts": {
-    "dev": "HOST=127.0.0.1 PORT=3001 nuxt",
+    "dev": "HOST=127.0.0.1 PORT=3003 nuxt",
     "build": "nuxt build",
-    "serve": "HOST=127.0.0.1 PORT=3001 nuxt start",
+    "serve": "HOST=127.0.0.1 PORT=3003 nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
