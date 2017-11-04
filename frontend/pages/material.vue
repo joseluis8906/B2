@@ -724,8 +724,10 @@ export default {
 
       } catch (Err) {console.log(Err)}
 
+      var Existe = false
       for(let i=0; i<this.ItemsLibro.length; i++){
         if(this.ItemsLibro[i].Id === Libro.Id){
+          Existe = true
           this.ItemsLibro[i].Categoria = Libro.Categoria
           this.ItemsLibro[i].Isbn = Libro.Isbn
           this.ItemsLibro[i].Nombre = Libro.Nombre
@@ -735,6 +737,20 @@ export default {
           this.ItemsLibro[i].Lugar = Libro.Lugar
           this.ItemsLibro[i].Estado = Libro.Estado
         }
+      }
+      if(!Existe){
+        let tmp = {
+          Id: Libro.Id,
+          Categoria: Libro.Categoria,
+          Isbn: Libro.Isbn,
+          Nombre: Libro.Nombre,
+          Editorial: Libro.Editorial,
+          Edicion: Libro.Edicion,
+          Fecha: Libro.Fecha,
+          Lugar: Libro.Lugar,
+          Estado: Libro.Estado,
+        }
+        this.ItemsLibro.push(tmp)
       }
 
     },
@@ -798,14 +814,30 @@ export default {
 
       } catch (Err) {console.log(Err)}
 
+      var Existe = false
       for(let i=0; i<this.ItemsVideoBean.length; i++){
         if(this.ItemsVideoBean[i].Id === VideoBean.Id){
+          Existe = true
           this.ItemsVideoBean[i].Codigo = VideoBean.Codigo
           this.ItemsVideoBean[i].Marca = VideoBean.Marca
           this.ItemsVideoBean[i].Modelo = VideoBean.Modelo
           this.ItemsVideoBean[i].Especificaciones = VideoBean.Especificaciones
           this.ItemsVideoBean[i].Accesorios = VideoBean.Accesorios
         }
+      }
+
+      if(!Existe) {
+        let tmp = {
+          Id: Libro.Id,
+          Codigo: Libro.Codigo,
+          Marca: Libro.Marca,
+          Modelo: Libro.Modelo,
+          Especificaciones: Libro.Especificaciones,
+          Accesorios: Libro.Accesorios,
+          Estado: Libro.Estado
+        }
+
+        this.ItemsVideoBean.push(tmp)
       }
 
     },
@@ -869,12 +901,26 @@ export default {
 
       } catch (Err) {console.log(Err)}
 
+      var Existe = false
       for(let i=0; i<this.ItemsTablaDibujo.length; i++){
         if(this.ItemsTablaDibujo[i].Id === TablaDibujo.Id){
+          Existe = true
           this.ItemsTablaDibujo[i].Codigo = TablaDibujo.Codigo
           this.ItemsTablaDibujo[i].Marca = TablaDibujo.Marca
           this.ItemsTablaDibujo[i].Especificaciones = TablaDibujo.Especificaciones
         }
+      }
+
+      if(!Existe) {
+        let tmp = {
+          Id: Libro.Id,
+          Codigo: Libro.Codigo,
+          Marca: Libro.Marca,
+          Especificaciones: Libro.Especificaciones,
+          Estado: Libro.Estado
+        }
+
+        this.ItemsTablaDibujo.push(tmp)
       }
 
     },
