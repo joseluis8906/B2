@@ -282,14 +282,23 @@ export default {
     TipoListar () {
       this.CargarTipoListar()
     },
-    Libro () {
-      this.Validar()
+    Libro: {
+      handler: function () {
+        this.Validar()
+      },
+      deep: true
     },
-    VideoBean () {
-      this.Validar()
+    VideoBean: {
+      handler: function () {
+        this.Validar()
+      },
+      deep: true
     },
-    TablaDibujo () {
-      this.Validar()
+    TablaDibujo: {
+      handler: function () {
+          this.Validar()
+      },
+      deep: true
     }
   },
   mqtt: {
