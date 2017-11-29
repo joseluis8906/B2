@@ -201,6 +201,13 @@ class UsuarioTableMap extends TableMap
     1 => ':Id',
   ),
 ), 'CASCADE', 'CASCADE', 'UsuarioGrupos', false);
+        $this->addRelation('Prestamo', '\\Prestamo', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':UsuarioId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', 'Prestamos', false);
         $this->addRelation('Grupo', '\\Grupo', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'CASCADE', 'Grupos');
     } // buildRelations()
     /**
@@ -211,6 +218,7 @@ class UsuarioTableMap extends TableMap
         // Invalidate objects in related instance pools,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         UsuarioGrupoTableMap::clearInstancePool();
+        PrestamoTableMap::clearInstancePool();
     }
 
     /**

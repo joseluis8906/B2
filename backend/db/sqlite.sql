@@ -56,3 +56,16 @@ CREATE TABLE IF NOT EXISTS "TablaDibujo" (
   "Especificaciones" TEXT,
   "Estado" TEXT
 );
+
+CREATE TABLE IF NOT EXISTS "Prestamo" (
+  "Id" INTEGER PRIMARY KEY,
+  "UsuarioId" INTEGER REFERENCES "Usuario"("Id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "LibroId" INTEGER REFERENCES "Libro"("Id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "VideoBeanId" INTEGER REFERENCES "VideoBean"("Id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "TablaDibujoId" INTEGER REFERENCES "TablaDibujo"("Id") ON DELETE CASCADE ON UPDATE CASCADE,
+  "FechaReserva" DATE,
+  "FechaPrestamo" DATE,
+  "FechaDevolucion" DATE,
+  "Estado" TEXT,
+  "Sancion" DECIMAL
+);

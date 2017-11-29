@@ -79,4 +79,28 @@
       <unique-column name="Codigo"/>
     </unique>
   </table>
+  <table name="Prestamo" idMethod="native" phpName="Prestamo">
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="UsuarioId" phpName="UsuarioId" type="INTEGER"/>
+    <column name="LibroId" phpName="LibroId" type="INTEGER"/>
+    <column name="VideoBeanId" phpName="VideoBeanId" type="INTEGER"/>
+    <column name="TablaDibujoId" phpName="TablaDibujoId" type="INTEGER"/>
+    <column name="FechaReserva" phpName="FechaReserva" type="DATE"/>
+    <column name="FechaPrestamo" phpName="FechaPrestamo" type="DATE"/>
+    <column name="FechaDevolucion" phpName="FechaDevolucion" type="DATE"/>
+    <column name="Estado" phpName="Estado" type="LONGVARCHAR"/>
+    <column name="Sancion" phpName="Sancion" type="DECIMAL"/>
+    <foreign-key foreignTable="TablaDibujo" name="Prestamo_fk_52ed3d" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="TablaDibujoId" foreign="Id"/>
+    </foreign-key>
+    <foreign-key foreignTable="VideoBean" name="Prestamo_fk_c8e5c5" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="VideoBeanId" foreign="Id"/>
+    </foreign-key>
+    <foreign-key foreignTable="Libro" name="Prestamo_fk_2decc6" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="LibroId" foreign="Id"/>
+    </foreign-key>
+    <foreign-key foreignTable="Usuario" name="Prestamo_fk_ad85c6" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="UsuarioId" foreign="Id"/>
+    </foreign-key>
+  </table>
 </database>

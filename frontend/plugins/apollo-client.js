@@ -5,7 +5,6 @@ import VueApollo from 'vue-apollo';
 const networkInterface = createBatchingNetworkInterface({
     uri: '/backend/graphql',
     //credentials: 'same-origin',
-    dataIdFromObject: o => o.Id
 });
 
 networkInterface.use([{
@@ -20,7 +19,8 @@ networkInterface.use([{
 }]);
 
 const apolloClient = new ApolloClient({
-    networkInterface
+    networkInterface,
+    dataIdFromObject: object => object.__typename+'_'+object.Id
 });
 
 Vue.use(VueApollo);

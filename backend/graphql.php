@@ -83,6 +83,23 @@ class GQTablaDibujo {
   }
 }
 
+Class GQPrestamo {
+  public $Id;
+  public $UsuarioId;
+  public $LibroId;
+  public $VideoBeanId;
+  public $TablaDibujoId;
+  public $FechaReserva;
+  public $FechaPrestamo;
+  public $FechaDevolucion;
+  public $Estado;
+  public $Sancion;
+  public function __construct(array $data)
+  {
+      Utils::assign($this, $data);
+  }
+}
+
 try {
   //Tipo de objeto Usuario
   $GrupoHQL = new ObjectType([
@@ -153,6 +170,23 @@ try {
         'Marca' => ['type' => Type::string()],
         'Especificaciones' => ['type' => Type::string()],
         'Estado' => ['type' => Type::string()]
+    ]
+  ]);
+
+  $PrestamoHQL = new ObjectType([
+    'name' => 'Prestamo',
+    'description' => 'Objeto que describe un prestamo',
+    'fields' => [
+      'Id' => ['type' => Type::int()],
+      'UsuarioId' => ['type' => Type::int()],
+      'LibroId' => ['type' => Type::int()],
+      'VideoBeanId' => ['type' => Type::int()],
+      'TablaDibujoId' => ['type' => Type::int()],
+      'FechaReserva' => ['type' => Type::string()],
+      'FechaPrestamo' => ['type' => Type::string()],
+      'FechaDevolucion' => ['type' => Type::string()],
+      'Estado' => ['type' => Type::string()],
+      'Sancion' => ['type' => Type::float()]
     ]
   ]);
 
@@ -355,6 +389,53 @@ try {
                       "Marca" => $tabladibujo->getMarca(),
                       "Especificaciones" => $tabladibujo->getEspecificaciones(),
                       "Estado" => $tabladibujo->getEstado()
+                    ]);
+                }
+                return $R;
+              }
+          ],
+          'Prestamos' => [
+              'type' => Type::listOf($PrestamoHQL),
+              'args' => [
+                  'Id' => ['type' => Type::int()],
+                  'UsuarioId' => ['type' => Type::int()],
+                  'LibroId' => ['type' => Type::int()],
+                  'VideoBeanId' => ['type' => Type::int()],
+                  'TablaDibujoId' => ['type' => Type::int()],
+                  'FechaReserva' => ['type' => Type::string()],
+                  'FechaPrestamo' => ['type' => Type::string()],
+                  'FechaDevolucion' => ['type' => Type::string()],
+                  'Estado' => ['type' => Type::string()],
+                  'Sancion' => ['type' => Type::float()],
+              ],
+              'resolve' => function ($db, $args) {
+                $prestamos = PrestamoQuery::create();
+                if(isset($args['Id'])) {$prestamos->filterById($args['Id']);}
+                if(isset($args['UsuarioId'])) {$prestamos->filterByUsuarioId($args['UsuarioId']);}
+                if(isset($args['LibroId'])) {$prestamos->filterByLibroId($args['LibroId']);}
+                if(isset($args['VideoBeanId'])) {$prestamos->filterByVideoBeanId($args['VideBeanId']);}
+                if(isset($args['TablaDibujoId'])) {$prestamos->filterByTablaDibujoId($args['TablaDibujoId']);}
+                if(isset($args['FechaReserva'])) {$prestamos->filterByFechaReserva($args['FechaReserva']);}
+                if(isset($args['FechaPrestamo'])) {$prestamos->filterByFechaPrestamo($args['FechaPrestamo']);}
+                if(isset($args['FechaDevolucion'])) {$prestamos->filterByFechaDevolucion($args['FechaDevolucion']);}
+                if(isset($args['Estado'])) {$prestamos->filterByEstado($args['Estado']);}
+                if(isset($args['Sancion'])) {$prestamos->filterBySancion($args['Sancion']);}
+                $prestamos->find();
+
+                $R = [];
+
+                foreach ($prestamos as $prestamo) {
+                    $R[] = new GQPrestamo([
+                      "Id" => $prestamo->getId(),
+                      "UsuarioId" => $prestamo->getUsuarioId(),
+                      "LibroId" => $prestamo->getLibroId(),
+                      "VideoBeanId" => $prestamo->getVideoBeanId(),
+                      "TablaDibujoId" => $prestamo->getTablaDibujoId(),
+                      "FechaReserva" => $prestamo->getFechaReserva()->format('Y-m-d'),
+                      "FechaPrestamo" => $prestamo->getFechaPrestamo()->format('Y-m-d'),
+                      "FechaDevolucion" => $prestamo->getFechaDevolucion()->format('Y-m-d'),
+                      "Estado" => $prestamo->getEstado(),
+                      "Sancion" => $prestamo->getSancion()
                     ]);
                 }
                 return $R;
@@ -933,6 +1014,132 @@ try {
                   "Marca" => null,
                   "Especificaciones" => null,
                   "Estado" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'CreatePrestamo' => [
+            'type' => $PrestamoHQL,
+            'args' => [
+              'UsuarioId' => ['type' => Type::int()],
+              'LibroId' => ['type' => Type::int()],
+              'VideoBeanId' => ['type' => Type::int()],
+              'TablaDibujoId' => ['type' => Type::int()],
+              'FechaReserva' => ['type' => Type::string()],
+              'FechaPrestamo' => ['type' => Type::string()],
+              'FechaDevolucion' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()],
+              'Sancion' => ['type' => Type::float()]
+            ],
+            'resolve' => function ($root, $args) {
+              $prestamo = PrestamoQuery::create();
+              $prestamo->filterByUsuarioId($args['UsuarioId']);
+              if(isset($args['LibroId'])) {$prestamo->filterByLibroId($args['LibroId']);}
+              if(isset($args['VideoBeanId'])) {$prestamo->filterByVideoBeanId($args['VideoBeanId']);}
+              if(isset($args['TablaDibujoId'])) {$prestamo->filterByTablaDibujoId($args['TablaDibujoId']);}
+              $prestamo->filterByFechaReserva($args['FechaReserva']);
+              $prestamo->findOne();
+
+              if(is_null($prestamo)) {
+                $prestamo = new Prestamo();
+                $prestamo->setUsuarioId($args['UsuarioId']);
+                if(isset($args['LibroId'])) {$prestamo->setLibroId($args['LibroId']);}
+                if(isset($args['VideoBeanId'])) {$prestamo->setVideoBeanId($args['VideoBeanId']);}
+                if(isset($args['TablaDibujoId'])) {$prestamo->setTablaDibujoId($args['TablaDibujoId']);}
+                $prestamo->setFechaReserva($args['FechaReserva']);
+                $prestamo->setEstado('Reservado');
+                $prestamo->save();
+
+                $prestamo = PrestamoQuery::create();
+                $prestamo->filterByUsuarioId($args['UsuarioId']);
+                if(isset($args['LibroId'])) {$prestamo->filterByLibroId($args['LibroId']);}
+                if(isset($args['VideoBeanId'])) {$prestamo->filterByVideoBeanId($args['VideoBeanId']);}
+                if(isset($args['TablaDibujoId'])) {$prestamo->filterByTablaDibujoId($args['TablaDibujoId']);}
+                $prestamo->filterByFechaReserva($args['FechaReserva']);
+                $prestamo->findOne();
+
+                $R = new GQPrestamo([
+                  'Id' => $prestamo->getId(),
+                  "UsuarioId" => $prestamo->getUsuarioId(),
+                  "LibroId" => $prestamo->getLibroId(),
+                  "VideoBeanId" => $prestamo->getVideoBeanId(),
+                  "TablaDibujoId" => $prestamo->getTablaDibujoId(),
+                  "FechaReserva" => $prestamo->getFechaReserva(),
+                  "FechaPrestamo" => $prestamo->getFechaPrestamo(),
+                  "FechaDevolucion" => $prestamo->getFechaDevolucion(),
+                  "Estado" => $prestamo->getEstado(),
+                  "Sancion" => $prestamo->getSancion()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQPrestamo([
+                  'Id' => null,
+                  "UsuarioId" => null,
+                  "LibroId" => null,
+                  "VideoBeanId" => null,
+                  "TablaDibujoId" => null,
+                  "FechaReserva" => null,
+                  "FechaPrestamo" => null,
+                  "FechaDevolucion" => null,
+                  "Estado" => null,
+                  "Sancion" => null
+                ]);
+                return $R;
+              }
+            }
+          ],
+          'UpdatePrestamo' => [
+            'type' => $TablaDibujoHQL,
+            'args' => [
+              'Id' => ['type' => Type::int()],
+              'UsuarioId' => ['type' => Type::int()],
+              'LibroId' => ['type' => Type::int()],
+              'VideoBeanId' => ['type' => Type::int()],
+              'TablaDibujoId' => ['type' => Type::int()],
+              'FechaReserva' => ['type' => Type::string()],
+              'FechaPrestamo' => ['type' => Type::string()],
+              'FechaDevolucion' => ['type' => Type::string()],
+              'Estado' => ['type' => Type::string()],
+              'Sancion' => ['type' => Type::float()]
+            ],
+            'resolve' => function ($root, $args) {
+              $prestamo = PrestamoQuery::create()->filterById($args['Id'])->findOne();
+
+              if($prestamo){
+                if(isset($args['FechaPrestamo'])) {$prestamo->setFechaPrestamo($args['FechaPrestamo']);}
+                if(isset($args['FechaDevolucion'])) {$tabladibujo->setFechaDevolucion($args['FechaDevolucion']);}
+                if(isset($args['Estado'])) {$tabladibujo->setEstado($args['Estado']);}
+                if(isset($args['Sancion'])) {$tabladibujo->setEstado($args['Sancion']);}
+                $prestamo->save();
+
+                $R = new GQPrestamo([
+                  "Id" => $prestamo->getId(),
+                  "UsuarioId" => $prestamo->getUsuarioId(),
+                  "LibroId" => $prestamo->getLibroId(),
+                  "VideoBeanId" => $prestamo->getVideoBeanId(),
+                  "TablaDibujoId" => $prestamo->getTablaDibujoId(),
+                  "FechaReserva" => $prestamo->getFechaReserva(),
+                  "FechaPrestamo" => $prestamo->getFechaPrestamo(),
+                  "FechaDevolucion" => $prestamo->getFechaDevolucion(),
+                  "Estado" => $prestamo->getEstado(),
+                  "Sancion" => $prestamo->getSancion()
+                ]);
+                return $R;
+
+              } else {
+                $R = new GQPrestamo([
+                  "Id" => null,
+                  "UsuarioId" => null,
+                  "LibroId" => null,
+                  "VideoBeanId" => null,
+                  "TablaDibujoId" => null,
+                  "FechaReserva" => null,
+                  "FechaPrestamo" => null,
+                  "FechaDevolucion" => null,
+                  "Estado" => null,
+                  "Sancion" => null
                 ]);
                 return $R;
               }

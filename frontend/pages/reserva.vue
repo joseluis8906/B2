@@ -45,37 +45,62 @@ v-layout( align-center justify-center )
                      dark
                      :rules="[rules.required]")
 
-            v-select(label="Libro"
-                     v-bind:items="ItemsLibro"
-                     v-model="Libro"
-                     dark
-                     :rules="[rules.required]"
-                     item-text="Isbn"
-                     return-object
-                     v-show="Tipo==='Libro'")
+            v-data-table(v-bind:headers="HeadersLibro"
+                       :items="ItemsLibro"
+                       class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                       v-show="Tipo === 'Libro'" )
 
-            v-select(label="VideoBean"
-                    v-bind:items="ItemsVideoBean"
-                    v-model="VideoBean"
-                    dark
-                    :rules="[rules.required]"
-                    item-text="Codigo"
-                    return-object
-                    v-show="Tipo==='VideoBean'")
+               template(slot="headers" scope="props")
+                 th(v-for="header in props.headers" :key="header"
+                   class="text-xs-center") {{ header.text }}
 
-            v-select(label="Tabla de Dibujo "
-                    v-bind:items="ItemsTablaDibujo"
-                    v-model="TablaDibujo"
-                    dark
-                    :rules="[rules.required]"
-                    item-text="Codigo"
-                    return-object
-                    v-show="Tipo==='Tabla de Dibujo'")
+               template(slot="items" scope="props")
+                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Categoria.length*12)+'px'}") {{ props.item.Categoria }}
+                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Isbn.length*16)+'px'}") {{ props.item.Isbn }}
+                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Nombre.length*12)+'px'}") {{ props.item.Nombre }}
+                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Editorial.length*12)+'px'}") {{ props.item.Editorial }}
+                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Edicion.length*12)+'px'}") {{ props.item.Edicion }}
+                 td(class="text-xs-center")
+                   v-btn(small icon class="teal" dark @click.native="Reservar(props.item)")
+                     v-icon compare_arrows
 
-      v-card-actions
-        v-spacer
-        v-btn( dark @click.native="Reset" ) Cancelar
-        v-btn( dark primary @click.native="Apartar" ) Apartar
+
+            v-data-table(v-bind:headers="HeadersVideoBean"
+                      :items="ItemsVideoBean"
+                      class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                      v-show="Tipo === 'VideoBean'" )
+
+              template(slot="headers" scope="props")
+                th(v-for="header in props.headers" :key="header"
+                  class="text-xs-center") {{ header.text }}
+
+              template(slot="items" scope="props")
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*12)+'px'}") {{ props.item.Codigo }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Marca.length*12)+'px'}") {{ props.item.Marca }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Modelo.length*12)+'px'}") {{ props.item.Modelo }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Accesorios.length*12)+'px'}") {{ props.item.Accesorios }}
+                td(class="text-xs-center")
+                  v-btn(small icon class="teal" dark @click.native="Reservar(props.item)")
+                    v-icon compare_arrows
+
+
+            v-data-table(v-bind:headers="HeadersTablaDibujo"
+                      :items="ItemsTablaDibujo"
+                      class="elevation-5 grey lighten-1 grey--text text--darken-4"
+                      v-show="Tipo === 'Tabla de Dibujo'" )
+
+              template(slot="headers" scope="props")
+                th(v-for="header in props.headers" :key="header"
+                  class="text-xs-center") {{ header.text }}
+
+              template(slot="items" scope="props")
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*12)+'px'}") {{ props.item.Codigo }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Marca.length*12)+'px'}") {{ props.item.Marca }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Especificaciones.length*12)+'px'}") {{ props.item.Especificaciones }}
+                td(class="text-xs-center")
+                  v-btn(small icon class="teal" dark @click.native="Reservar(props.item)")
+                    v-icon compare_arrows
 </template>
 
 <script>
@@ -96,6 +121,28 @@ export default {
     Id: null,
     Nombre: null,
     Tipo: null,
+    HeadersLibro: [
+      {text: 'Categoria', value: 'Categoria'},
+      {text: 'Isbn', value: 'Isbn'},
+      {text: 'Nombre', value: 'Nombre'},
+      {text: 'Editorial', value: 'Editorial'},
+      {text: 'Edición', value: 'Edicion'},
+      {text: 'Reservar', value: 'Reservar'},
+    ],
+    HeadersTablaDibujo: [
+      {text: 'Codigo', value: 'Codigo'},
+      {text: 'Marca', value: 'Marca'},
+      {text: 'Especificaciones', value: 'Especificaciones'},
+      {text: 'Reservar', value: 'Reservar'},
+    ],
+    HeadersVideoBean: [
+      {text: 'Codigo', value: 'Codigo'},
+      {text: 'Marca', value: 'Marca'},
+      {text: 'Modelo', value: 'Modelo'},
+      {text: 'Especificaciones', value: 'Especificaciones'},
+      {text: 'Accesorios', value: 'Accesorios'},
+      {text: 'Reservar', value: 'Reservar'},
+    ],
     ItemsTipo: ['Libro', 'VideoBean', 'Tabla de Dibujo'],
     ItemsLibro: [],
     Libro: {
@@ -146,8 +193,11 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      //this.$mqtt.subscribe('b2/apollo/mutation')
+      this.$mqtt.subscribe('b2/apollo/mutation')
     })
+  },
+  beforeDestroy () {
+    this.$mqtt.unsubscribe('b2/apollo/mutation')
   },
   apollo: {
     Libros: {
@@ -167,7 +217,9 @@ export default {
             Lugar: data.Libros[i].Lugar,
             Estado: data.Libros[i].Estado,
           }
-          this.ItemsLibro.push(tmp)
+          if(tmp.Estado === 'Disponible'){
+            this.ItemsLibro.push(tmp)
+          }
         }
       }
     },
@@ -187,7 +239,9 @@ export default {
             Accesorios: data.VideoBeans[i].Accesorios,
             Estado: data.VideoBeans[i].Estado,
           }
-          this.ItemsVideoBean.push(tmp)
+          if(tmp.Estado === 'Disponible'){
+            this.ItemsVideoBean.push(tmp)
+          }
         }
       }
     },
@@ -205,7 +259,9 @@ export default {
             Especificaciones: data.TablaDibujos[i].Especificaciones,
             Estado: data.TablaDibujos[i].Estado,
           }
-          this.ItemsTablaDibujo.push(tmp)
+          if(tmp.Estado === 'Disponible'){
+            this.ItemsTablaDibujo.push(tmp)
+          }
         }
       }
     },
@@ -244,35 +300,21 @@ export default {
         Estado: null,
       }
     },
-    Apartar () {
-      this.Notificaciones('Guardado', 'Exitoso')
+    Reservar () {
+      this.Notificaciones('Error', 'Error en apartado')
       this.Reset()
     },
-    Notificaciones (Tipo, Estado) {
-      if(Tipo === 'Guardado'){
-        if(Estado === 'Exitoso'){
-          this.$store.commit('notificaciones/changeContext', 'success')
-          this.$store.commit('notificaciones/changeIcon', 'done_all')
-          this.$store.commit('notificaciones/changeMsg', 'Guardado Exitoso')
-          this.$store.commit('notificaciones/changeState', 1)
-        }else{
-          this.$store.commit('notificaciones/changeContext', 'error')
-          this.$store.commit('notificaciones/changeIcon', 'error_outline')
-          this.$store.commit('notificaciones/changeMsg', 'Error en Guardado')
-          this.$store.commit('notificaciones/changeState', 1)
-        }
-      }else if(Tipo === 'Actualización'){
-        if(Estado === 'Exitosa'){
-          this.$store.commit('notificaciones/changeContext', 'success')
-          this.$store.commit('notificaciones/changeIcon', 'done_all')
-          this.$store.commit('notificaciones/changeMsg', 'Actualización Exitosa')
-          this.$store.commit('notificaciones/changeState', 1)
-        }else{
-          this.$store.commit('notificaciones/changeContext', 'error')
-          this.$store.commit('notificaciones/changeIcon', 'error_outline')
-          this.$store.commit('notificaciones/changeMsg', 'Error en Actualización')
-          this.$store.commit('notificaciones/changeState', 1)
-        }
+    Notificaciones (Tipo, Message) {
+      if(Tipo === 'Success'){
+        this.$store.commit('notificaciones/changeContext', 'success')
+        this.$store.commit('notificaciones/changeIcon', 'done_all')
+        this.$store.commit('notificaciones/changeMsg', Message)
+        this.$store.commit('notificaciones/changeState', 1)
+      }else if(Tipo === 'Error'){
+        this.$store.commit('notificaciones/changeContext', 'error')
+        this.$store.commit('notificaciones/changeIcon', 'error_outline')
+        this.$store.commit('notificaciones/changeMsg', Message)
+        this.$store.commit('notificaciones/changeState', 1)
       }
     },
   }

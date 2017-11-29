@@ -10,6 +10,7 @@ use Map\TablaDibujoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -38,6 +39,18 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTablaDibujoQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
  * @method     ChildTablaDibujoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildTablaDibujoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
+ * @method     ChildTablaDibujoQuery leftJoinPrestamo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Prestamo relation
+ * @method     ChildTablaDibujoQuery rightJoinPrestamo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Prestamo relation
+ * @method     ChildTablaDibujoQuery innerJoinPrestamo($relationAlias = null) Adds a INNER JOIN clause to the query using the Prestamo relation
+ *
+ * @method     ChildTablaDibujoQuery joinWithPrestamo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Prestamo relation
+ *
+ * @method     ChildTablaDibujoQuery leftJoinWithPrestamo() Adds a LEFT JOIN clause and with to the query using the Prestamo relation
+ * @method     ChildTablaDibujoQuery rightJoinWithPrestamo() Adds a RIGHT JOIN clause and with to the query using the Prestamo relation
+ * @method     ChildTablaDibujoQuery innerJoinWithPrestamo() Adds a INNER JOIN clause and with to the query using the Prestamo relation
+ *
+ * @method     \PrestamoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildTablaDibujo findOne(ConnectionInterface $con = null) Return the first ChildTablaDibujo matching the query
  * @method     ChildTablaDibujo findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTablaDibujo matching the query, or a new ChildTablaDibujo object populated from the query conditions when no match is found
@@ -390,6 +403,79 @@ abstract class TablaDibujoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TablaDibujoTableMap::COL_ESTADO, $estado, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Prestamo object
+     *
+     * @param \Prestamo|ObjectCollection $prestamo the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTablaDibujoQuery The current query, for fluid interface
+     */
+    public function filterByPrestamo($prestamo, $comparison = null)
+    {
+        if ($prestamo instanceof \Prestamo) {
+            return $this
+                ->addUsingAlias(TablaDibujoTableMap::COL_ID, $prestamo->getTablaDibujoId(), $comparison);
+        } elseif ($prestamo instanceof ObjectCollection) {
+            return $this
+                ->usePrestamoQuery()
+                ->filterByPrimaryKeys($prestamo->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByPrestamo() only accepts arguments of type \Prestamo or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Prestamo relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildTablaDibujoQuery The current query, for fluid interface
+     */
+    public function joinPrestamo($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Prestamo');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Prestamo');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Prestamo relation Prestamo object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \PrestamoQuery A secondary query class using the current class as primary query
+     */
+    public function usePrestamoQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinPrestamo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Prestamo', '\PrestamoQuery');
     }
 
     /**

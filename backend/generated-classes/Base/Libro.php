@@ -2,16 +2,21 @@
 
 namespace Base;
 
+use \Libro as ChildLibro;
 use \LibroQuery as ChildLibroQuery;
+use \Prestamo as ChildPrestamo;
+use \PrestamoQuery as ChildPrestamoQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
 use Map\LibroTableMap;
+use Map\PrestamoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -125,12 +130,24 @@ abstract class Libro implements ActiveRecordInterface
     protected $estado;
 
     /**
+     * @var        ObjectCollection|ChildPrestamo[] Collection to store aggregation of ChildPrestamo objects.
+     */
+    protected $collPrestamos;
+    protected $collPrestamosPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildPrestamo[]
+     */
+    protected $prestamosScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Libro object.
@@ -768,6 +785,8 @@ abstract class Libro implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collPrestamos = null;
+
         } // if (deep)
     }
 
@@ -880,6 +899,23 @@ abstract class Libro implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->prestamosScheduledForDeletion !== null) {
+                if (!$this->prestamosScheduledForDeletion->isEmpty()) {
+                    \PrestamoQuery::create()
+                        ->filterByPrimaryKeys($this->prestamosScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->prestamosScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collPrestamos !== null) {
+                foreach ($this->collPrestamos as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -1068,10 +1104,11 @@ abstract class Libro implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['Libro'][$this->hashCode()])) {
@@ -1099,6 +1136,23 @@ abstract class Libro implements ActiveRecordInterface
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->collPrestamos) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'prestamos';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'Prestamos';
+                        break;
+                    default:
+                        $key = 'Prestamos';
+                }
+
+                $result[$key] = $this->collPrestamos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -1375,6 +1429,20 @@ abstract class Libro implements ActiveRecordInterface
         $copyObj->setFecha($this->getFecha());
         $copyObj->setLugar($this->getLugar());
         $copyObj->setEstado($this->getEstado());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getPrestamos() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addPrestamo($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1400,6 +1468,323 @@ abstract class Libro implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('Prestamo' == $relationName) {
+            $this->initPrestamos();
+            return;
+        }
+    }
+
+    /**
+     * Clears out the collPrestamos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addPrestamos()
+     */
+    public function clearPrestamos()
+    {
+        $this->collPrestamos = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collPrestamos collection loaded partially.
+     */
+    public function resetPartialPrestamos($v = true)
+    {
+        $this->collPrestamosPartial = $v;
+    }
+
+    /**
+     * Initializes the collPrestamos collection.
+     *
+     * By default this just sets the collPrestamos collection to an empty array (like clearcollPrestamos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initPrestamos($overrideExisting = true)
+    {
+        if (null !== $this->collPrestamos && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = PrestamoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collPrestamos = new $collectionClassName;
+        $this->collPrestamos->setModel('\Prestamo');
+    }
+
+    /**
+     * Gets an array of ChildPrestamo objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildLibro is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     * @throws PropelException
+     */
+    public function getPrestamos(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collPrestamosPartial && !$this->isNew();
+        if (null === $this->collPrestamos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collPrestamos) {
+                // return empty collection
+                $this->initPrestamos();
+            } else {
+                $collPrestamos = ChildPrestamoQuery::create(null, $criteria)
+                    ->filterByLibro($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collPrestamosPartial && count($collPrestamos)) {
+                        $this->initPrestamos(false);
+
+                        foreach ($collPrestamos as $obj) {
+                            if (false == $this->collPrestamos->contains($obj)) {
+                                $this->collPrestamos->append($obj);
+                            }
+                        }
+
+                        $this->collPrestamosPartial = true;
+                    }
+
+                    return $collPrestamos;
+                }
+
+                if ($partial && $this->collPrestamos) {
+                    foreach ($this->collPrestamos as $obj) {
+                        if ($obj->isNew()) {
+                            $collPrestamos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collPrestamos = $collPrestamos;
+                $this->collPrestamosPartial = false;
+            }
+        }
+
+        return $this->collPrestamos;
+    }
+
+    /**
+     * Sets a collection of ChildPrestamo objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $prestamos A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildLibro The current object (for fluent API support)
+     */
+    public function setPrestamos(Collection $prestamos, ConnectionInterface $con = null)
+    {
+        /** @var ChildPrestamo[] $prestamosToDelete */
+        $prestamosToDelete = $this->getPrestamos(new Criteria(), $con)->diff($prestamos);
+
+
+        $this->prestamosScheduledForDeletion = $prestamosToDelete;
+
+        foreach ($prestamosToDelete as $prestamoRemoved) {
+            $prestamoRemoved->setLibro(null);
+        }
+
+        $this->collPrestamos = null;
+        foreach ($prestamos as $prestamo) {
+            $this->addPrestamo($prestamo);
+        }
+
+        $this->collPrestamos = $prestamos;
+        $this->collPrestamosPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Prestamo objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Prestamo objects.
+     * @throws PropelException
+     */
+    public function countPrestamos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collPrestamosPartial && !$this->isNew();
+        if (null === $this->collPrestamos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collPrestamos) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getPrestamos());
+            }
+
+            $query = ChildPrestamoQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByLibro($this)
+                ->count($con);
+        }
+
+        return count($this->collPrestamos);
+    }
+
+    /**
+     * Method called to associate a ChildPrestamo object to this object
+     * through the ChildPrestamo foreign key attribute.
+     *
+     * @param  ChildPrestamo $l ChildPrestamo
+     * @return $this|\Libro The current object (for fluent API support)
+     */
+    public function addPrestamo(ChildPrestamo $l)
+    {
+        if ($this->collPrestamos === null) {
+            $this->initPrestamos();
+            $this->collPrestamosPartial = true;
+        }
+
+        if (!$this->collPrestamos->contains($l)) {
+            $this->doAddPrestamo($l);
+
+            if ($this->prestamosScheduledForDeletion and $this->prestamosScheduledForDeletion->contains($l)) {
+                $this->prestamosScheduledForDeletion->remove($this->prestamosScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildPrestamo $prestamo The ChildPrestamo object to add.
+     */
+    protected function doAddPrestamo(ChildPrestamo $prestamo)
+    {
+        $this->collPrestamos[]= $prestamo;
+        $prestamo->setLibro($this);
+    }
+
+    /**
+     * @param  ChildPrestamo $prestamo The ChildPrestamo object to remove.
+     * @return $this|ChildLibro The current object (for fluent API support)
+     */
+    public function removePrestamo(ChildPrestamo $prestamo)
+    {
+        if ($this->getPrestamos()->contains($prestamo)) {
+            $pos = $this->collPrestamos->search($prestamo);
+            $this->collPrestamos->remove($pos);
+            if (null === $this->prestamosScheduledForDeletion) {
+                $this->prestamosScheduledForDeletion = clone $this->collPrestamos;
+                $this->prestamosScheduledForDeletion->clear();
+            }
+            $this->prestamosScheduledForDeletion[]= $prestamo;
+            $prestamo->setLibro(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Libro is new, it will return
+     * an empty collection; or if this Libro has previously
+     * been saved, it will retrieve related Prestamos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Libro.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     */
+    public function getPrestamosJoinTablaDibujo(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildPrestamoQuery::create(null, $criteria);
+        $query->joinWith('TablaDibujo', $joinBehavior);
+
+        return $this->getPrestamos($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Libro is new, it will return
+     * an empty collection; or if this Libro has previously
+     * been saved, it will retrieve related Prestamos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Libro.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     */
+    public function getPrestamosJoinVideoBean(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildPrestamoQuery::create(null, $criteria);
+        $query->joinWith('VideoBean', $joinBehavior);
+
+        return $this->getPrestamos($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Libro is new, it will return
+     * an empty collection; or if this Libro has previously
+     * been saved, it will retrieve related Prestamos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Libro.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     */
+    public function getPrestamosJoinUsuario(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildPrestamoQuery::create(null, $criteria);
+        $query->joinWith('Usuario', $joinBehavior);
+
+        return $this->getPrestamos($query, $con);
     }
 
     /**
@@ -1436,8 +1821,14 @@ abstract class Libro implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collPrestamos) {
+                foreach ($this->collPrestamos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collPrestamos = null;
     }
 
     /**

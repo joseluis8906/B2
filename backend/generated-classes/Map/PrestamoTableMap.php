@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Libro;
-use \LibroQuery;
+use \Prestamo;
+use \PrestamoQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'Libro' table.
+ * This class defines the structure of the 'Prestamo' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class LibroTableMap extends TableMap
+class PrestamoTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class LibroTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.LibroTableMap';
+    const CLASS_NAME = '.Map.PrestamoTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class LibroTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'Libro';
+    const TABLE_NAME = 'Prestamo';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Libro';
+    const OM_CLASS = '\\Prestamo';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Libro';
+    const CLASS_DEFAULT = 'Prestamo';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 10;
 
     /**
      * The number of lazy-loaded columns
@@ -69,52 +69,57 @@ class LibroTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /**
      * the column name for the Id field
      */
-    const COL_ID = 'Libro.Id';
+    const COL_ID = 'Prestamo.Id';
 
     /**
-     * the column name for the Isbn field
+     * the column name for the UsuarioId field
      */
-    const COL_ISBN = 'Libro.Isbn';
+    const COL_USUARIOID = 'Prestamo.UsuarioId';
 
     /**
-     * the column name for the Categoria field
+     * the column name for the LibroId field
      */
-    const COL_CATEGORIA = 'Libro.Categoria';
+    const COL_LIBROID = 'Prestamo.LibroId';
 
     /**
-     * the column name for the Nombre field
+     * the column name for the VideoBeanId field
      */
-    const COL_NOMBRE = 'Libro.Nombre';
+    const COL_VIDEOBEANID = 'Prestamo.VideoBeanId';
 
     /**
-     * the column name for the Editorial field
+     * the column name for the TablaDibujoId field
      */
-    const COL_EDITORIAL = 'Libro.Editorial';
+    const COL_TABLADIBUJOID = 'Prestamo.TablaDibujoId';
 
     /**
-     * the column name for the Edicion field
+     * the column name for the FechaReserva field
      */
-    const COL_EDICION = 'Libro.Edicion';
+    const COL_FECHARESERVA = 'Prestamo.FechaReserva';
 
     /**
-     * the column name for the Fecha field
+     * the column name for the FechaPrestamo field
      */
-    const COL_FECHA = 'Libro.Fecha';
+    const COL_FECHAPRESTAMO = 'Prestamo.FechaPrestamo';
 
     /**
-     * the column name for the Lugar field
+     * the column name for the FechaDevolucion field
      */
-    const COL_LUGAR = 'Libro.Lugar';
+    const COL_FECHADEVOLUCION = 'Prestamo.FechaDevolucion';
 
     /**
      * the column name for the Estado field
      */
-    const COL_ESTADO = 'Libro.Estado';
+    const COL_ESTADO = 'Prestamo.Estado';
+
+    /**
+     * the column name for the Sancion field
+     */
+    const COL_SANCION = 'Prestamo.Sancion';
 
     /**
      * The default string format for model objects of the related table
@@ -128,11 +133,11 @@ class LibroTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Isbn', 'Categoria', 'Nombre', 'Editorial', 'Edicion', 'Fecha', 'Lugar', 'Estado', ),
-        self::TYPE_CAMELNAME     => array('id', 'isbn', 'categoria', 'nombre', 'editorial', 'edicion', 'fecha', 'lugar', 'estado', ),
-        self::TYPE_COLNAME       => array(LibroTableMap::COL_ID, LibroTableMap::COL_ISBN, LibroTableMap::COL_CATEGORIA, LibroTableMap::COL_NOMBRE, LibroTableMap::COL_EDITORIAL, LibroTableMap::COL_EDICION, LibroTableMap::COL_FECHA, LibroTableMap::COL_LUGAR, LibroTableMap::COL_ESTADO, ),
-        self::TYPE_FIELDNAME     => array('Id', 'Isbn', 'Categoria', 'Nombre', 'Editorial', 'Edicion', 'Fecha', 'Lugar', 'Estado', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id', 'UsuarioId', 'LibroId', 'VideoBeanId', 'TablaDibujoId', 'FechaReserva', 'FechaPrestamo', 'FechaDevolucion', 'Estado', 'Sancion', ),
+        self::TYPE_CAMELNAME     => array('id', 'usuarioId', 'libroId', 'videoBeanId', 'tablaDibujoId', 'fechaReserva', 'fechaPrestamo', 'fechaDevolucion', 'estado', 'sancion', ),
+        self::TYPE_COLNAME       => array(PrestamoTableMap::COL_ID, PrestamoTableMap::COL_USUARIOID, PrestamoTableMap::COL_LIBROID, PrestamoTableMap::COL_VIDEOBEANID, PrestamoTableMap::COL_TABLADIBUJOID, PrestamoTableMap::COL_FECHARESERVA, PrestamoTableMap::COL_FECHAPRESTAMO, PrestamoTableMap::COL_FECHADEVOLUCION, PrestamoTableMap::COL_ESTADO, PrestamoTableMap::COL_SANCION, ),
+        self::TYPE_FIELDNAME     => array('Id', 'UsuarioId', 'LibroId', 'VideoBeanId', 'TablaDibujoId', 'FechaReserva', 'FechaPrestamo', 'FechaDevolucion', 'Estado', 'Sancion', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -142,11 +147,11 @@ class LibroTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Isbn' => 1, 'Categoria' => 2, 'Nombre' => 3, 'Editorial' => 4, 'Edicion' => 5, 'Fecha' => 6, 'Lugar' => 7, 'Estado' => 8, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'isbn' => 1, 'categoria' => 2, 'nombre' => 3, 'editorial' => 4, 'edicion' => 5, 'fecha' => 6, 'lugar' => 7, 'estado' => 8, ),
-        self::TYPE_COLNAME       => array(LibroTableMap::COL_ID => 0, LibroTableMap::COL_ISBN => 1, LibroTableMap::COL_CATEGORIA => 2, LibroTableMap::COL_NOMBRE => 3, LibroTableMap::COL_EDITORIAL => 4, LibroTableMap::COL_EDICION => 5, LibroTableMap::COL_FECHA => 6, LibroTableMap::COL_LUGAR => 7, LibroTableMap::COL_ESTADO => 8, ),
-        self::TYPE_FIELDNAME     => array('Id' => 0, 'Isbn' => 1, 'Categoria' => 2, 'Nombre' => 3, 'Editorial' => 4, 'Edicion' => 5, 'Fecha' => 6, 'Lugar' => 7, 'Estado' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'UsuarioId' => 1, 'LibroId' => 2, 'VideoBeanId' => 3, 'TablaDibujoId' => 4, 'FechaReserva' => 5, 'FechaPrestamo' => 6, 'FechaDevolucion' => 7, 'Estado' => 8, 'Sancion' => 9, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'usuarioId' => 1, 'libroId' => 2, 'videoBeanId' => 3, 'tablaDibujoId' => 4, 'fechaReserva' => 5, 'fechaPrestamo' => 6, 'fechaDevolucion' => 7, 'estado' => 8, 'sancion' => 9, ),
+        self::TYPE_COLNAME       => array(PrestamoTableMap::COL_ID => 0, PrestamoTableMap::COL_USUARIOID => 1, PrestamoTableMap::COL_LIBROID => 2, PrestamoTableMap::COL_VIDEOBEANID => 3, PrestamoTableMap::COL_TABLADIBUJOID => 4, PrestamoTableMap::COL_FECHARESERVA => 5, PrestamoTableMap::COL_FECHAPRESTAMO => 6, PrestamoTableMap::COL_FECHADEVOLUCION => 7, PrestamoTableMap::COL_ESTADO => 8, PrestamoTableMap::COL_SANCION => 9, ),
+        self::TYPE_FIELDNAME     => array('Id' => 0, 'UsuarioId' => 1, 'LibroId' => 2, 'VideoBeanId' => 3, 'TablaDibujoId' => 4, 'FechaReserva' => 5, 'FechaPrestamo' => 6, 'FechaDevolucion' => 7, 'Estado' => 8, 'Sancion' => 9, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -159,22 +164,23 @@ class LibroTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('Libro');
-        $this->setPhpName('Libro');
+        $this->setName('Prestamo');
+        $this->setPhpName('Prestamo');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Libro');
+        $this->setClassName('\\Prestamo');
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('Isbn', 'Isbn', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Categoria', 'Categoria', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Nombre', 'Nombre', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Editorial', 'Editorial', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Edicion', 'Edicion', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('Fecha', 'Fecha', 'DATE', false, null, null);
-        $this->addColumn('Lugar', 'Lugar', 'LONGVARCHAR', false, null, null);
+        $this->addForeignKey('UsuarioId', 'UsuarioId', 'INTEGER', 'Usuario', 'Id', false, null, null);
+        $this->addForeignKey('LibroId', 'LibroId', 'INTEGER', 'Libro', 'Id', false, null, null);
+        $this->addForeignKey('VideoBeanId', 'VideoBeanId', 'INTEGER', 'VideoBean', 'Id', false, null, null);
+        $this->addForeignKey('TablaDibujoId', 'TablaDibujoId', 'INTEGER', 'TablaDibujo', 'Id', false, null, null);
+        $this->addColumn('FechaReserva', 'FechaReserva', 'DATE', false, null, null);
+        $this->addColumn('FechaPrestamo', 'FechaPrestamo', 'DATE', false, null, null);
+        $this->addColumn('FechaDevolucion', 'FechaDevolucion', 'DATE', false, null, null);
         $this->addColumn('Estado', 'Estado', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('Sancion', 'Sancion', 'DECIMAL', false, null, null);
     } // initialize()
 
     /**
@@ -182,23 +188,35 @@ class LibroTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Prestamo', '\\Prestamo', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('TablaDibujo', '\\TablaDibujo', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':TablaDibujoId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
+        $this->addRelation('VideoBean', '\\VideoBean', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':VideoBeanId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
+        $this->addRelation('Libro', '\\Libro', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':LibroId',
     1 => ':Id',
   ),
-), 'CASCADE', 'CASCADE', 'Prestamos', false);
+), 'CASCADE', 'CASCADE', null, false);
+        $this->addRelation('Usuario', '\\Usuario', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':UsuarioId',
+    1 => ':Id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
     } // buildRelations()
-    /**
-     * Method to invalidate the instance pool of all tables related to Libro     * by a foreign key with ON DELETE CASCADE
-     */
-    public static function clearRelatedInstancePool()
-    {
-        // Invalidate objects in related instance pools,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        PrestamoTableMap::clearInstancePool();
-    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -257,7 +275,7 @@ class LibroTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? LibroTableMap::CLASS_DEFAULT : LibroTableMap::OM_CLASS;
+        return $withPrefix ? PrestamoTableMap::CLASS_DEFAULT : PrestamoTableMap::OM_CLASS;
     }
 
     /**
@@ -271,22 +289,22 @@ class LibroTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Libro object, last column rank)
+     * @return array           (Prestamo object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = LibroTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = LibroTableMap::getInstanceFromPool($key))) {
+        $key = PrestamoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = PrestamoTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + LibroTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + PrestamoTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = LibroTableMap::OM_CLASS;
-            /** @var Libro $obj */
+            $cls = PrestamoTableMap::OM_CLASS;
+            /** @var Prestamo $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            LibroTableMap::addInstanceToPool($obj, $key);
+            PrestamoTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -309,18 +327,18 @@ class LibroTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = LibroTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = LibroTableMap::getInstanceFromPool($key))) {
+            $key = PrestamoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = PrestamoTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Libro $obj */
+                /** @var Prestamo $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                LibroTableMap::addInstanceToPool($obj, $key);
+                PrestamoTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -341,25 +359,27 @@ class LibroTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(LibroTableMap::COL_ID);
-            $criteria->addSelectColumn(LibroTableMap::COL_ISBN);
-            $criteria->addSelectColumn(LibroTableMap::COL_CATEGORIA);
-            $criteria->addSelectColumn(LibroTableMap::COL_NOMBRE);
-            $criteria->addSelectColumn(LibroTableMap::COL_EDITORIAL);
-            $criteria->addSelectColumn(LibroTableMap::COL_EDICION);
-            $criteria->addSelectColumn(LibroTableMap::COL_FECHA);
-            $criteria->addSelectColumn(LibroTableMap::COL_LUGAR);
-            $criteria->addSelectColumn(LibroTableMap::COL_ESTADO);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_ID);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_USUARIOID);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_LIBROID);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_VIDEOBEANID);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_TABLADIBUJOID);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_FECHARESERVA);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_FECHAPRESTAMO);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_FECHADEVOLUCION);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_ESTADO);
+            $criteria->addSelectColumn(PrestamoTableMap::COL_SANCION);
         } else {
             $criteria->addSelectColumn($alias . '.Id');
-            $criteria->addSelectColumn($alias . '.Isbn');
-            $criteria->addSelectColumn($alias . '.Categoria');
-            $criteria->addSelectColumn($alias . '.Nombre');
-            $criteria->addSelectColumn($alias . '.Editorial');
-            $criteria->addSelectColumn($alias . '.Edicion');
-            $criteria->addSelectColumn($alias . '.Fecha');
-            $criteria->addSelectColumn($alias . '.Lugar');
+            $criteria->addSelectColumn($alias . '.UsuarioId');
+            $criteria->addSelectColumn($alias . '.LibroId');
+            $criteria->addSelectColumn($alias . '.VideoBeanId');
+            $criteria->addSelectColumn($alias . '.TablaDibujoId');
+            $criteria->addSelectColumn($alias . '.FechaReserva');
+            $criteria->addSelectColumn($alias . '.FechaPrestamo');
+            $criteria->addSelectColumn($alias . '.FechaDevolucion');
             $criteria->addSelectColumn($alias . '.Estado');
+            $criteria->addSelectColumn($alias . '.Sancion');
         }
     }
 
@@ -372,7 +392,7 @@ class LibroTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(LibroTableMap::DATABASE_NAME)->getTable(LibroTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(PrestamoTableMap::DATABASE_NAME)->getTable(PrestamoTableMap::TABLE_NAME);
     }
 
     /**
@@ -380,16 +400,16 @@ class LibroTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(LibroTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(LibroTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new LibroTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(PrestamoTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(PrestamoTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new PrestamoTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Libro or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Prestamo or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Libro object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Prestamo object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -400,27 +420,27 @@ class LibroTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(LibroTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PrestamoTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Libro) { // it's a model object
+        } elseif ($values instanceof \Prestamo) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(LibroTableMap::DATABASE_NAME);
-            $criteria->add(LibroTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(PrestamoTableMap::DATABASE_NAME);
+            $criteria->add(PrestamoTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = LibroQuery::create()->mergeWith($criteria);
+        $query = PrestamoQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            LibroTableMap::clearInstancePool();
+            PrestamoTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                LibroTableMap::removeInstanceFromPool($singleval);
+                PrestamoTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -428,20 +448,20 @@ class LibroTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the Libro table.
+     * Deletes all rows from the Prestamo table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return LibroQuery::create()->doDeleteAll($con);
+        return PrestamoQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Libro or Criteria object.
+     * Performs an INSERT on the database, given a Prestamo or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Libro object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Prestamo object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -450,18 +470,18 @@ class LibroTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(LibroTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PrestamoTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Libro object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Prestamo object
         }
 
 
         // Set the correct dbName
-        $query = LibroQuery::create()->mergeWith($criteria);
+        $query = PrestamoQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -470,7 +490,7 @@ class LibroTableMap extends TableMap
         });
     }
 
-} // LibroTableMap
+} // PrestamoTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-LibroTableMap::buildTableMap();
+PrestamoTableMap::buildTableMap();

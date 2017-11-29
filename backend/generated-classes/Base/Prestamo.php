@@ -2,40 +2,45 @@
 
 namespace Base;
 
-use \Prestamo as ChildPrestamo;
+use \Libro as ChildLibro;
+use \LibroQuery as ChildLibroQuery;
 use \PrestamoQuery as ChildPrestamoQuery;
 use \TablaDibujo as ChildTablaDibujo;
 use \TablaDibujoQuery as ChildTablaDibujoQuery;
+use \Usuario as ChildUsuario;
+use \UsuarioQuery as ChildUsuarioQuery;
+use \VideoBean as ChildVideoBean;
+use \VideoBeanQuery as ChildVideoBeanQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
 use Map\PrestamoTableMap;
-use Map\TablaDibujoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'TablaDibujo' table.
+ * Base class that represents a row from the 'Prestamo' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class TablaDibujo implements ActiveRecordInterface
+abstract class Prestamo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\TablaDibujoTableMap';
+    const TABLE_MAP = '\\Map\\PrestamoTableMap';
 
 
     /**
@@ -72,25 +77,53 @@ abstract class TablaDibujo implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the codigo field.
+     * The value for the usuarioid field.
      *
-     * @var        string
+     * @var        int
      */
-    protected $codigo;
+    protected $usuarioid;
 
     /**
-     * The value for the marca field.
+     * The value for the libroid field.
      *
-     * @var        string
+     * @var        int
      */
-    protected $marca;
+    protected $libroid;
 
     /**
-     * The value for the especificaciones field.
+     * The value for the videobeanid field.
      *
-     * @var        string
+     * @var        int
      */
-    protected $especificaciones;
+    protected $videobeanid;
+
+    /**
+     * The value for the tabladibujoid field.
+     *
+     * @var        int
+     */
+    protected $tabladibujoid;
+
+    /**
+     * The value for the fechareserva field.
+     *
+     * @var        DateTime
+     */
+    protected $fechareserva;
+
+    /**
+     * The value for the fechaprestamo field.
+     *
+     * @var        DateTime
+     */
+    protected $fechaprestamo;
+
+    /**
+     * The value for the fechadevolucion field.
+     *
+     * @var        DateTime
+     */
+    protected $fechadevolucion;
 
     /**
      * The value for the estado field.
@@ -100,10 +133,31 @@ abstract class TablaDibujo implements ActiveRecordInterface
     protected $estado;
 
     /**
-     * @var        ObjectCollection|ChildPrestamo[] Collection to store aggregation of ChildPrestamo objects.
+     * The value for the sancion field.
+     *
+     * @var        string
      */
-    protected $collPrestamos;
-    protected $collPrestamosPartial;
+    protected $sancion;
+
+    /**
+     * @var        ChildTablaDibujo
+     */
+    protected $aTablaDibujo;
+
+    /**
+     * @var        ChildVideoBean
+     */
+    protected $aVideoBean;
+
+    /**
+     * @var        ChildLibro
+     */
+    protected $aLibro;
+
+    /**
+     * @var        ChildUsuario
+     */
+    protected $aUsuario;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -114,13 +168,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildPrestamo[]
-     */
-    protected $prestamosScheduledForDeletion = null;
-
-    /**
-     * Initializes internal state of Base\TablaDibujo object.
+     * Initializes internal state of Base\Prestamo object.
      */
     public function __construct()
     {
@@ -215,9 +263,9 @@ abstract class TablaDibujo implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>TablaDibujo</code> instance.  If
-     * <code>obj</code> is an instance of <code>TablaDibujo</code>, delegates to
-     * <code>equals(TablaDibujo)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Prestamo</code> instance.  If
+     * <code>obj</code> is an instance of <code>Prestamo</code>, delegates to
+     * <code>equals(Prestamo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -283,7 +331,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|TablaDibujo The current object, for fluid interface
+     * @return $this|Prestamo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -355,33 +403,103 @@ abstract class TablaDibujo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [codigo] column value.
+     * Get the [usuarioid] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getCodigo()
+    public function getUsuarioId()
     {
-        return $this->codigo;
+        return $this->usuarioid;
     }
 
     /**
-     * Get the [marca] column value.
+     * Get the [libroid] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getMarca()
+    public function getLibroId()
     {
-        return $this->marca;
+        return $this->libroid;
     }
 
     /**
-     * Get the [especificaciones] column value.
+     * Get the [videobeanid] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getEspecificaciones()
+    public function getVideoBeanId()
     {
-        return $this->especificaciones;
+        return $this->videobeanid;
+    }
+
+    /**
+     * Get the [tabladibujoid] column value.
+     *
+     * @return int
+     */
+    public function getTablaDibujoId()
+    {
+        return $this->tabladibujoid;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [fechareserva] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getFechaReserva($format = NULL)
+    {
+        if ($format === null) {
+            return $this->fechareserva;
+        } else {
+            return $this->fechareserva instanceof \DateTimeInterface ? $this->fechareserva->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [fechaprestamo] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getFechaPrestamo($format = NULL)
+    {
+        if ($format === null) {
+            return $this->fechaprestamo;
+        } else {
+            return $this->fechaprestamo instanceof \DateTimeInterface ? $this->fechaprestamo->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [fechadevolucion] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getFechaDevolucion($format = NULL)
+    {
+        if ($format === null) {
+            return $this->fechadevolucion;
+        } else {
+            return $this->fechadevolucion instanceof \DateTimeInterface ? $this->fechadevolucion->format($format) : null;
+        }
     }
 
     /**
@@ -395,10 +513,20 @@ abstract class TablaDibujo implements ActiveRecordInterface
     }
 
     /**
+     * Get the [sancion] column value.
+     *
+     * @return string
+     */
+    public function getSancion()
+    {
+        return $this->sancion;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @return $this|\Prestamo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -408,77 +536,173 @@ abstract class TablaDibujo implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[TablaDibujoTableMap::COL_ID] = true;
+            $this->modifiedColumns[PrestamoTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [codigo] column.
+     * Set the value of [usuarioid] column.
      *
-     * @param string $v new value
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @param int $v new value
+     * @return $this|\Prestamo The current object (for fluent API support)
      */
-    public function setCodigo($v)
+    public function setUsuarioId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->codigo !== $v) {
-            $this->codigo = $v;
-            $this->modifiedColumns[TablaDibujoTableMap::COL_CODIGO] = true;
+        if ($this->usuarioid !== $v) {
+            $this->usuarioid = $v;
+            $this->modifiedColumns[PrestamoTableMap::COL_USUARIOID] = true;
+        }
+
+        if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+            $this->aUsuario = null;
         }
 
         return $this;
-    } // setCodigo()
+    } // setUsuarioId()
 
     /**
-     * Set the value of [marca] column.
+     * Set the value of [libroid] column.
      *
-     * @param string $v new value
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @param int $v new value
+     * @return $this|\Prestamo The current object (for fluent API support)
      */
-    public function setMarca($v)
+    public function setLibroId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->marca !== $v) {
-            $this->marca = $v;
-            $this->modifiedColumns[TablaDibujoTableMap::COL_MARCA] = true;
+        if ($this->libroid !== $v) {
+            $this->libroid = $v;
+            $this->modifiedColumns[PrestamoTableMap::COL_LIBROID] = true;
+        }
+
+        if ($this->aLibro !== null && $this->aLibro->getId() !== $v) {
+            $this->aLibro = null;
         }
 
         return $this;
-    } // setMarca()
+    } // setLibroId()
 
     /**
-     * Set the value of [especificaciones] column.
+     * Set the value of [videobeanid] column.
      *
-     * @param string $v new value
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @param int $v new value
+     * @return $this|\Prestamo The current object (for fluent API support)
      */
-    public function setEspecificaciones($v)
+    public function setVideoBeanId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->especificaciones !== $v) {
-            $this->especificaciones = $v;
-            $this->modifiedColumns[TablaDibujoTableMap::COL_ESPECIFICACIONES] = true;
+        if ($this->videobeanid !== $v) {
+            $this->videobeanid = $v;
+            $this->modifiedColumns[PrestamoTableMap::COL_VIDEOBEANID] = true;
+        }
+
+        if ($this->aVideoBean !== null && $this->aVideoBean->getId() !== $v) {
+            $this->aVideoBean = null;
         }
 
         return $this;
-    } // setEspecificaciones()
+    } // setVideoBeanId()
+
+    /**
+     * Set the value of [tabladibujoid] column.
+     *
+     * @param int $v new value
+     * @return $this|\Prestamo The current object (for fluent API support)
+     */
+    public function setTablaDibujoId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->tabladibujoid !== $v) {
+            $this->tabladibujoid = $v;
+            $this->modifiedColumns[PrestamoTableMap::COL_TABLADIBUJOID] = true;
+        }
+
+        if ($this->aTablaDibujo !== null && $this->aTablaDibujo->getId() !== $v) {
+            $this->aTablaDibujo = null;
+        }
+
+        return $this;
+    } // setTablaDibujoId()
+
+    /**
+     * Sets the value of [fechareserva] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Prestamo The current object (for fluent API support)
+     */
+    public function setFechaReserva($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->fechareserva !== null || $dt !== null) {
+            if ($this->fechareserva === null || $dt === null || $dt->format("Y-m-d") !== $this->fechareserva->format("Y-m-d")) {
+                $this->fechareserva = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[PrestamoTableMap::COL_FECHARESERVA] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setFechaReserva()
+
+    /**
+     * Sets the value of [fechaprestamo] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Prestamo The current object (for fluent API support)
+     */
+    public function setFechaPrestamo($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->fechaprestamo !== null || $dt !== null) {
+            if ($this->fechaprestamo === null || $dt === null || $dt->format("Y-m-d") !== $this->fechaprestamo->format("Y-m-d")) {
+                $this->fechaprestamo = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[PrestamoTableMap::COL_FECHAPRESTAMO] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setFechaPrestamo()
+
+    /**
+     * Sets the value of [fechadevolucion] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Prestamo The current object (for fluent API support)
+     */
+    public function setFechaDevolucion($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->fechadevolucion !== null || $dt !== null) {
+            if ($this->fechadevolucion === null || $dt === null || $dt->format("Y-m-d") !== $this->fechadevolucion->format("Y-m-d")) {
+                $this->fechadevolucion = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[PrestamoTableMap::COL_FECHADEVOLUCION] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setFechaDevolucion()
 
     /**
      * Set the value of [estado] column.
      *
      * @param string $v new value
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @return $this|\Prestamo The current object (for fluent API support)
      */
     public function setEstado($v)
     {
@@ -488,11 +712,31 @@ abstract class TablaDibujo implements ActiveRecordInterface
 
         if ($this->estado !== $v) {
             $this->estado = $v;
-            $this->modifiedColumns[TablaDibujoTableMap::COL_ESTADO] = true;
+            $this->modifiedColumns[PrestamoTableMap::COL_ESTADO] = true;
         }
 
         return $this;
     } // setEstado()
+
+    /**
+     * Set the value of [sancion] column.
+     *
+     * @param string $v new value
+     * @return $this|\Prestamo The current object (for fluent API support)
+     */
+    public function setSancion($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->sancion !== $v) {
+            $this->sancion = $v;
+            $this->modifiedColumns[PrestamoTableMap::COL_SANCION] = true;
+        }
+
+        return $this;
+    } // setSancion()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -530,20 +774,35 @@ abstract class TablaDibujo implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TablaDibujoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PrestamoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TablaDibujoTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->codigo = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PrestamoTableMap::translateFieldName('UsuarioId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->usuarioid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TablaDibujoTableMap::translateFieldName('Marca', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->marca = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PrestamoTableMap::translateFieldName('LibroId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->libroid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TablaDibujoTableMap::translateFieldName('Especificaciones', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->especificaciones = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PrestamoTableMap::translateFieldName('VideoBeanId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->videobeanid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TablaDibujoTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PrestamoTableMap::translateFieldName('TablaDibujoId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->tabladibujoid = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : PrestamoTableMap::translateFieldName('FechaReserva', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->fechareserva = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : PrestamoTableMap::translateFieldName('FechaPrestamo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->fechaprestamo = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : PrestamoTableMap::translateFieldName('FechaDevolucion', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->fechadevolucion = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : PrestamoTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
             $this->estado = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : PrestamoTableMap::translateFieldName('Sancion', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->sancion = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -552,10 +811,10 @@ abstract class TablaDibujo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = TablaDibujoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = PrestamoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\TablaDibujo'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Prestamo'), 0, $e);
         }
     }
 
@@ -574,6 +833,18 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aUsuario !== null && $this->usuarioid !== $this->aUsuario->getId()) {
+            $this->aUsuario = null;
+        }
+        if ($this->aLibro !== null && $this->libroid !== $this->aLibro->getId()) {
+            $this->aLibro = null;
+        }
+        if ($this->aVideoBean !== null && $this->videobeanid !== $this->aVideoBean->getId()) {
+            $this->aVideoBean = null;
+        }
+        if ($this->aTablaDibujo !== null && $this->tabladibujoid !== $this->aTablaDibujo->getId()) {
+            $this->aTablaDibujo = null;
+        }
     } // ensureConsistency
 
     /**
@@ -597,13 +868,13 @@ abstract class TablaDibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(TablaDibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(PrestamoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildTablaDibujoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildPrestamoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -613,8 +884,10 @@ abstract class TablaDibujo implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collPrestamos = null;
-
+            $this->aTablaDibujo = null;
+            $this->aVideoBean = null;
+            $this->aLibro = null;
+            $this->aUsuario = null;
         } // if (deep)
     }
 
@@ -624,8 +897,8 @@ abstract class TablaDibujo implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see TablaDibujo::setDeleted()
-     * @see TablaDibujo::isDeleted()
+     * @see Prestamo::setDeleted()
+     * @see Prestamo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -634,11 +907,11 @@ abstract class TablaDibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PrestamoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildTablaDibujoQuery::create()
+            $deleteQuery = ChildPrestamoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -673,7 +946,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TablaDibujoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PrestamoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -692,7 +965,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                TablaDibujoTableMap::addInstanceToPool($this);
+                PrestamoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -718,6 +991,39 @@ abstract class TablaDibujo implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aTablaDibujo !== null) {
+                if ($this->aTablaDibujo->isModified() || $this->aTablaDibujo->isNew()) {
+                    $affectedRows += $this->aTablaDibujo->save($con);
+                }
+                $this->setTablaDibujo($this->aTablaDibujo);
+            }
+
+            if ($this->aVideoBean !== null) {
+                if ($this->aVideoBean->isModified() || $this->aVideoBean->isNew()) {
+                    $affectedRows += $this->aVideoBean->save($con);
+                }
+                $this->setVideoBean($this->aVideoBean);
+            }
+
+            if ($this->aLibro !== null) {
+                if ($this->aLibro->isModified() || $this->aLibro->isNew()) {
+                    $affectedRows += $this->aLibro->save($con);
+                }
+                $this->setLibro($this->aLibro);
+            }
+
+            if ($this->aUsuario !== null) {
+                if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+                    $affectedRows += $this->aUsuario->save($con);
+                }
+                $this->setUsuario($this->aUsuario);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -727,23 +1033,6 @@ abstract class TablaDibujo implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->prestamosScheduledForDeletion !== null) {
-                if (!$this->prestamosScheduledForDeletion->isEmpty()) {
-                    \PrestamoQuery::create()
-                        ->filterByPrimaryKeys($this->prestamosScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->prestamosScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collPrestamos !== null) {
-                foreach ($this->collPrestamos as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -768,24 +1057,39 @@ abstract class TablaDibujo implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ID)) {
+        if ($this->isColumnModified(PrestamoTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'Id';
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_CODIGO)) {
-            $modifiedColumns[':p' . $index++]  = 'Codigo';
+        if ($this->isColumnModified(PrestamoTableMap::COL_USUARIOID)) {
+            $modifiedColumns[':p' . $index++]  = 'UsuarioId';
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_MARCA)) {
-            $modifiedColumns[':p' . $index++]  = 'Marca';
+        if ($this->isColumnModified(PrestamoTableMap::COL_LIBROID)) {
+            $modifiedColumns[':p' . $index++]  = 'LibroId';
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESPECIFICACIONES)) {
-            $modifiedColumns[':p' . $index++]  = 'Especificaciones';
+        if ($this->isColumnModified(PrestamoTableMap::COL_VIDEOBEANID)) {
+            $modifiedColumns[':p' . $index++]  = 'VideoBeanId';
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESTADO)) {
+        if ($this->isColumnModified(PrestamoTableMap::COL_TABLADIBUJOID)) {
+            $modifiedColumns[':p' . $index++]  = 'TablaDibujoId';
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHARESERVA)) {
+            $modifiedColumns[':p' . $index++]  = 'FechaReserva';
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHAPRESTAMO)) {
+            $modifiedColumns[':p' . $index++]  = 'FechaPrestamo';
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHADEVOLUCION)) {
+            $modifiedColumns[':p' . $index++]  = 'FechaDevolucion';
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_ESTADO)) {
             $modifiedColumns[':p' . $index++]  = 'Estado';
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_SANCION)) {
+            $modifiedColumns[':p' . $index++]  = 'Sancion';
         }
 
         $sql = sprintf(
-            'INSERT INTO TablaDibujo (%s) VALUES (%s)',
+            'INSERT INTO Prestamo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -797,17 +1101,32 @@ abstract class TablaDibujo implements ActiveRecordInterface
                     case 'Id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'Codigo':
-                        $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
+                    case 'UsuarioId':
+                        $stmt->bindValue($identifier, $this->usuarioid, PDO::PARAM_INT);
                         break;
-                    case 'Marca':
-                        $stmt->bindValue($identifier, $this->marca, PDO::PARAM_STR);
+                    case 'LibroId':
+                        $stmt->bindValue($identifier, $this->libroid, PDO::PARAM_INT);
                         break;
-                    case 'Especificaciones':
-                        $stmt->bindValue($identifier, $this->especificaciones, PDO::PARAM_STR);
+                    case 'VideoBeanId':
+                        $stmt->bindValue($identifier, $this->videobeanid, PDO::PARAM_INT);
+                        break;
+                    case 'TablaDibujoId':
+                        $stmt->bindValue($identifier, $this->tabladibujoid, PDO::PARAM_INT);
+                        break;
+                    case 'FechaReserva':
+                        $stmt->bindValue($identifier, $this->fechareserva ? $this->fechareserva->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'FechaPrestamo':
+                        $stmt->bindValue($identifier, $this->fechaprestamo ? $this->fechaprestamo->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'FechaDevolucion':
+                        $stmt->bindValue($identifier, $this->fechadevolucion ? $this->fechadevolucion->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'Estado':
                         $stmt->bindValue($identifier, $this->estado, PDO::PARAM_STR);
+                        break;
+                    case 'Sancion':
+                        $stmt->bindValue($identifier, $this->sancion, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -848,7 +1167,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TablaDibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = PrestamoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -868,16 +1187,31 @@ abstract class TablaDibujo implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCodigo();
+                return $this->getUsuarioId();
                 break;
             case 2:
-                return $this->getMarca();
+                return $this->getLibroId();
                 break;
             case 3:
-                return $this->getEspecificaciones();
+                return $this->getVideoBeanId();
                 break;
             case 4:
+                return $this->getTablaDibujoId();
+                break;
+            case 5:
+                return $this->getFechaReserva();
+                break;
+            case 6:
+                return $this->getFechaPrestamo();
+                break;
+            case 7:
+                return $this->getFechaDevolucion();
+                break;
+            case 8:
                 return $this->getEstado();
+                break;
+            case 9:
+                return $this->getSancion();
                 break;
             default:
                 return null;
@@ -903,38 +1237,100 @@ abstract class TablaDibujo implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['TablaDibujo'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Prestamo'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['TablaDibujo'][$this->hashCode()] = true;
-        $keys = TablaDibujoTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Prestamo'][$this->hashCode()] = true;
+        $keys = PrestamoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCodigo(),
-            $keys[2] => $this->getMarca(),
-            $keys[3] => $this->getEspecificaciones(),
-            $keys[4] => $this->getEstado(),
+            $keys[1] => $this->getUsuarioId(),
+            $keys[2] => $this->getLibroId(),
+            $keys[3] => $this->getVideoBeanId(),
+            $keys[4] => $this->getTablaDibujoId(),
+            $keys[5] => $this->getFechaReserva(),
+            $keys[6] => $this->getFechaPrestamo(),
+            $keys[7] => $this->getFechaDevolucion(),
+            $keys[8] => $this->getEstado(),
+            $keys[9] => $this->getSancion(),
         );
+        if ($result[$keys[5]] instanceof \DateTimeInterface) {
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
+        }
+
+        if ($result[$keys[6]] instanceof \DateTimeInterface) {
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
+        }
+
+        if ($result[$keys[7]] instanceof \DateTimeInterface) {
+            $result[$keys[7]] = $result[$keys[7]]->format('c');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collPrestamos) {
+            if (null !== $this->aTablaDibujo) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'prestamos';
+                        $key = 'tablaDibujo';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'Prestamos';
+                        $key = 'TablaDibujo';
                         break;
                     default:
-                        $key = 'Prestamos';
+                        $key = 'TablaDibujo';
                 }
 
-                $result[$key] = $this->collPrestamos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->aTablaDibujo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aVideoBean) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'videoBean';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'VideoBean';
+                        break;
+                    default:
+                        $key = 'VideoBean';
+                }
+
+                $result[$key] = $this->aVideoBean->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aLibro) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'libro';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'Libro';
+                        break;
+                    default:
+                        $key = 'Libro';
+                }
+
+                $result[$key] = $this->aLibro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aUsuario) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'usuario';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'Usuario';
+                        break;
+                    default:
+                        $key = 'Usuario';
+                }
+
+                $result[$key] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -950,11 +1346,11 @@ abstract class TablaDibujo implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\TablaDibujo
+     * @return $this|\Prestamo
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TablaDibujoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = PrestamoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -965,7 +1361,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\TablaDibujo
+     * @return $this|\Prestamo
      */
     public function setByPosition($pos, $value)
     {
@@ -974,16 +1370,31 @@ abstract class TablaDibujo implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCodigo($value);
+                $this->setUsuarioId($value);
                 break;
             case 2:
-                $this->setMarca($value);
+                $this->setLibroId($value);
                 break;
             case 3:
-                $this->setEspecificaciones($value);
+                $this->setVideoBeanId($value);
                 break;
             case 4:
+                $this->setTablaDibujoId($value);
+                break;
+            case 5:
+                $this->setFechaReserva($value);
+                break;
+            case 6:
+                $this->setFechaPrestamo($value);
+                break;
+            case 7:
+                $this->setFechaDevolucion($value);
+                break;
+            case 8:
                 $this->setEstado($value);
+                break;
+            case 9:
+                $this->setSancion($value);
                 break;
         } // switch()
 
@@ -1009,22 +1420,37 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = TablaDibujoTableMap::getFieldNames($keyType);
+        $keys = PrestamoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCodigo($arr[$keys[1]]);
+            $this->setUsuarioId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setMarca($arr[$keys[2]]);
+            $this->setLibroId($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setEspecificaciones($arr[$keys[3]]);
+            $this->setVideoBeanId($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setEstado($arr[$keys[4]]);
+            $this->setTablaDibujoId($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setFechaReserva($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setFechaPrestamo($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setFechaDevolucion($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setEstado($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setSancion($arr[$keys[9]]);
         }
     }
 
@@ -1045,7 +1471,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\TablaDibujo The current object, for fluid interface
+     * @return $this|\Prestamo The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1065,22 +1491,37 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(TablaDibujoTableMap::DATABASE_NAME);
+        $criteria = new Criteria(PrestamoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ID)) {
-            $criteria->add(TablaDibujoTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(PrestamoTableMap::COL_ID)) {
+            $criteria->add(PrestamoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_CODIGO)) {
-            $criteria->add(TablaDibujoTableMap::COL_CODIGO, $this->codigo);
+        if ($this->isColumnModified(PrestamoTableMap::COL_USUARIOID)) {
+            $criteria->add(PrestamoTableMap::COL_USUARIOID, $this->usuarioid);
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_MARCA)) {
-            $criteria->add(TablaDibujoTableMap::COL_MARCA, $this->marca);
+        if ($this->isColumnModified(PrestamoTableMap::COL_LIBROID)) {
+            $criteria->add(PrestamoTableMap::COL_LIBROID, $this->libroid);
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESPECIFICACIONES)) {
-            $criteria->add(TablaDibujoTableMap::COL_ESPECIFICACIONES, $this->especificaciones);
+        if ($this->isColumnModified(PrestamoTableMap::COL_VIDEOBEANID)) {
+            $criteria->add(PrestamoTableMap::COL_VIDEOBEANID, $this->videobeanid);
         }
-        if ($this->isColumnModified(TablaDibujoTableMap::COL_ESTADO)) {
-            $criteria->add(TablaDibujoTableMap::COL_ESTADO, $this->estado);
+        if ($this->isColumnModified(PrestamoTableMap::COL_TABLADIBUJOID)) {
+            $criteria->add(PrestamoTableMap::COL_TABLADIBUJOID, $this->tabladibujoid);
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHARESERVA)) {
+            $criteria->add(PrestamoTableMap::COL_FECHARESERVA, $this->fechareserva);
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHAPRESTAMO)) {
+            $criteria->add(PrestamoTableMap::COL_FECHAPRESTAMO, $this->fechaprestamo);
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_FECHADEVOLUCION)) {
+            $criteria->add(PrestamoTableMap::COL_FECHADEVOLUCION, $this->fechadevolucion);
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_ESTADO)) {
+            $criteria->add(PrestamoTableMap::COL_ESTADO, $this->estado);
+        }
+        if ($this->isColumnModified(PrestamoTableMap::COL_SANCION)) {
+            $criteria->add(PrestamoTableMap::COL_SANCION, $this->sancion);
         }
 
         return $criteria;
@@ -1098,8 +1539,8 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildTablaDibujoQuery::create();
-        $criteria->add(TablaDibujoTableMap::COL_ID, $this->id);
+        $criteria = ChildPrestamoQuery::create();
+        $criteria->add(PrestamoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1161,7 +1602,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \TablaDibujo (or compatible) type.
+     * @param      object $copyObj An object of \Prestamo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1169,24 +1610,15 @@ abstract class TablaDibujo implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
-        $copyObj->setCodigo($this->getCodigo());
-        $copyObj->setMarca($this->getMarca());
-        $copyObj->setEspecificaciones($this->getEspecificaciones());
+        $copyObj->setUsuarioId($this->getUsuarioId());
+        $copyObj->setLibroId($this->getLibroId());
+        $copyObj->setVideoBeanId($this->getVideoBeanId());
+        $copyObj->setTablaDibujoId($this->getTablaDibujoId());
+        $copyObj->setFechaReserva($this->getFechaReserva());
+        $copyObj->setFechaPrestamo($this->getFechaPrestamo());
+        $copyObj->setFechaDevolucion($this->getFechaDevolucion());
         $copyObj->setEstado($this->getEstado());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getPrestamos() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addPrestamo($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
+        $copyObj->setSancion($this->getSancion());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1201,7 +1633,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \TablaDibujo Clone of current object.
+     * @return \Prestamo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1214,321 +1646,208 @@ abstract class TablaDibujo implements ActiveRecordInterface
         return $copyObj;
     }
 
-
     /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
+     * Declares an association between this object and a ChildTablaDibujo object.
      *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('Prestamo' == $relationName) {
-            $this->initPrestamos();
-            return;
-        }
-    }
-
-    /**
-     * Clears out the collPrestamos collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addPrestamos()
-     */
-    public function clearPrestamos()
-    {
-        $this->collPrestamos = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collPrestamos collection loaded partially.
-     */
-    public function resetPartialPrestamos($v = true)
-    {
-        $this->collPrestamosPartial = $v;
-    }
-
-    /**
-     * Initializes the collPrestamos collection.
-     *
-     * By default this just sets the collPrestamos collection to an empty array (like clearcollPrestamos());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initPrestamos($overrideExisting = true)
-    {
-        if (null !== $this->collPrestamos && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = PrestamoTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collPrestamos = new $collectionClassName;
-        $this->collPrestamos->setModel('\Prestamo');
-    }
-
-    /**
-     * Gets an array of ChildPrestamo objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildTablaDibujo is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     * @param  ChildTablaDibujo $v
+     * @return $this|\Prestamo The current object (for fluent API support)
      * @throws PropelException
      */
-    public function getPrestamos(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function setTablaDibujo(ChildTablaDibujo $v = null)
     {
-        $partial = $this->collPrestamosPartial && !$this->isNew();
-        if (null === $this->collPrestamos || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collPrestamos) {
-                // return empty collection
-                $this->initPrestamos();
-            } else {
-                $collPrestamos = ChildPrestamoQuery::create(null, $criteria)
-                    ->filterByTablaDibujo($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collPrestamosPartial && count($collPrestamos)) {
-                        $this->initPrestamos(false);
-
-                        foreach ($collPrestamos as $obj) {
-                            if (false == $this->collPrestamos->contains($obj)) {
-                                $this->collPrestamos->append($obj);
-                            }
-                        }
-
-                        $this->collPrestamosPartial = true;
-                    }
-
-                    return $collPrestamos;
-                }
-
-                if ($partial && $this->collPrestamos) {
-                    foreach ($this->collPrestamos as $obj) {
-                        if ($obj->isNew()) {
-                            $collPrestamos[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collPrestamos = $collPrestamos;
-                $this->collPrestamosPartial = false;
-            }
+        if ($v === null) {
+            $this->setTablaDibujoId(NULL);
+        } else {
+            $this->setTablaDibujoId($v->getId());
         }
 
-        return $this->collPrestamos;
-    }
+        $this->aTablaDibujo = $v;
 
-    /**
-     * Sets a collection of ChildPrestamo objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $prestamos A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildTablaDibujo The current object (for fluent API support)
-     */
-    public function setPrestamos(Collection $prestamos, ConnectionInterface $con = null)
-    {
-        /** @var ChildPrestamo[] $prestamosToDelete */
-        $prestamosToDelete = $this->getPrestamos(new Criteria(), $con)->diff($prestamos);
-
-
-        $this->prestamosScheduledForDeletion = $prestamosToDelete;
-
-        foreach ($prestamosToDelete as $prestamoRemoved) {
-            $prestamoRemoved->setTablaDibujo(null);
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildTablaDibujo object, it will not be re-added.
+        if ($v !== null) {
+            $v->addPrestamo($this);
         }
 
-        $this->collPrestamos = null;
-        foreach ($prestamos as $prestamo) {
-            $this->addPrestamo($prestamo);
-        }
-
-        $this->collPrestamos = $prestamos;
-        $this->collPrestamosPartial = false;
 
         return $this;
     }
 
+
     /**
-     * Returns the number of related Prestamo objects.
+     * Get the associated ChildTablaDibujo object
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related Prestamo objects.
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildTablaDibujo The associated ChildTablaDibujo object.
      * @throws PropelException
      */
-    public function countPrestamos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function getTablaDibujo(ConnectionInterface $con = null)
     {
-        $partial = $this->collPrestamosPartial && !$this->isNew();
-        if (null === $this->collPrestamos || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collPrestamos) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getPrestamos());
-            }
-
-            $query = ChildPrestamoQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByTablaDibujo($this)
-                ->count($con);
+        if ($this->aTablaDibujo === null && ($this->tabladibujoid != 0)) {
+            $this->aTablaDibujo = ChildTablaDibujoQuery::create()->findPk($this->tabladibujoid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aTablaDibujo->addPrestamos($this);
+             */
         }
 
-        return count($this->collPrestamos);
+        return $this->aTablaDibujo;
     }
 
     /**
-     * Method called to associate a ChildPrestamo object to this object
-     * through the ChildPrestamo foreign key attribute.
+     * Declares an association between this object and a ChildVideoBean object.
      *
-     * @param  ChildPrestamo $l ChildPrestamo
-     * @return $this|\TablaDibujo The current object (for fluent API support)
+     * @param  ChildVideoBean $v
+     * @return $this|\Prestamo The current object (for fluent API support)
+     * @throws PropelException
      */
-    public function addPrestamo(ChildPrestamo $l)
+    public function setVideoBean(ChildVideoBean $v = null)
     {
-        if ($this->collPrestamos === null) {
-            $this->initPrestamos();
-            $this->collPrestamosPartial = true;
+        if ($v === null) {
+            $this->setVideoBeanId(NULL);
+        } else {
+            $this->setVideoBeanId($v->getId());
         }
 
-        if (!$this->collPrestamos->contains($l)) {
-            $this->doAddPrestamo($l);
+        $this->aVideoBean = $v;
 
-            if ($this->prestamosScheduledForDeletion and $this->prestamosScheduledForDeletion->contains($l)) {
-                $this->prestamosScheduledForDeletion->remove($this->prestamosScheduledForDeletion->search($l));
-            }
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildVideoBean object, it will not be re-added.
+        if ($v !== null) {
+            $v->addPrestamo($this);
         }
 
-        return $this;
-    }
-
-    /**
-     * @param ChildPrestamo $prestamo The ChildPrestamo object to add.
-     */
-    protected function doAddPrestamo(ChildPrestamo $prestamo)
-    {
-        $this->collPrestamos[]= $prestamo;
-        $prestamo->setTablaDibujo($this);
-    }
-
-    /**
-     * @param  ChildPrestamo $prestamo The ChildPrestamo object to remove.
-     * @return $this|ChildTablaDibujo The current object (for fluent API support)
-     */
-    public function removePrestamo(ChildPrestamo $prestamo)
-    {
-        if ($this->getPrestamos()->contains($prestamo)) {
-            $pos = $this->collPrestamos->search($prestamo);
-            $this->collPrestamos->remove($pos);
-            if (null === $this->prestamosScheduledForDeletion) {
-                $this->prestamosScheduledForDeletion = clone $this->collPrestamos;
-                $this->prestamosScheduledForDeletion->clear();
-            }
-            $this->prestamosScheduledForDeletion[]= $prestamo;
-            $prestamo->setTablaDibujo(null);
-        }
 
         return $this;
     }
 
 
     /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this TablaDibujo is new, it will return
-     * an empty collection; or if this TablaDibujo has previously
-     * been saved, it will retrieve related Prestamos from storage.
+     * Get the associated ChildVideoBean object
      *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in TablaDibujo.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildVideoBean The associated ChildVideoBean object.
+     * @throws PropelException
      */
-    public function getPrestamosJoinVideoBean(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getVideoBean(ConnectionInterface $con = null)
     {
-        $query = ChildPrestamoQuery::create(null, $criteria);
-        $query->joinWith('VideoBean', $joinBehavior);
+        if ($this->aVideoBean === null && ($this->videobeanid != 0)) {
+            $this->aVideoBean = ChildVideoBeanQuery::create()->findPk($this->videobeanid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aVideoBean->addPrestamos($this);
+             */
+        }
 
-        return $this->getPrestamos($query, $con);
+        return $this->aVideoBean;
+    }
+
+    /**
+     * Declares an association between this object and a ChildLibro object.
+     *
+     * @param  ChildLibro $v
+     * @return $this|\Prestamo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setLibro(ChildLibro $v = null)
+    {
+        if ($v === null) {
+            $this->setLibroId(NULL);
+        } else {
+            $this->setLibroId($v->getId());
+        }
+
+        $this->aLibro = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildLibro object, it will not be re-added.
+        if ($v !== null) {
+            $v->addPrestamo($this);
+        }
+
+
+        return $this;
     }
 
 
     /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this TablaDibujo is new, it will return
-     * an empty collection; or if this TablaDibujo has previously
-     * been saved, it will retrieve related Prestamos from storage.
+     * Get the associated ChildLibro object
      *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in TablaDibujo.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildLibro The associated ChildLibro object.
+     * @throws PropelException
      */
-    public function getPrestamosJoinLibro(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getLibro(ConnectionInterface $con = null)
     {
-        $query = ChildPrestamoQuery::create(null, $criteria);
-        $query->joinWith('Libro', $joinBehavior);
+        if ($this->aLibro === null && ($this->libroid != 0)) {
+            $this->aLibro = ChildLibroQuery::create()->findPk($this->libroid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aLibro->addPrestamos($this);
+             */
+        }
 
-        return $this->getPrestamos($query, $con);
+        return $this->aLibro;
+    }
+
+    /**
+     * Declares an association between this object and a ChildUsuario object.
+     *
+     * @param  ChildUsuario $v
+     * @return $this|\Prestamo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUsuario(ChildUsuario $v = null)
+    {
+        if ($v === null) {
+            $this->setUsuarioId(NULL);
+        } else {
+            $this->setUsuarioId($v->getId());
+        }
+
+        $this->aUsuario = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUsuario object, it will not be re-added.
+        if ($v !== null) {
+            $v->addPrestamo($this);
+        }
+
+
+        return $this;
     }
 
 
     /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this TablaDibujo is new, it will return
-     * an empty collection; or if this TablaDibujo has previously
-     * been saved, it will retrieve related Prestamos from storage.
+     * Get the associated ChildUsuario object
      *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in TablaDibujo.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildPrestamo[] List of ChildPrestamo objects
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUsuario The associated ChildUsuario object.
+     * @throws PropelException
      */
-    public function getPrestamosJoinUsuario(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getUsuario(ConnectionInterface $con = null)
     {
-        $query = ChildPrestamoQuery::create(null, $criteria);
-        $query->joinWith('Usuario', $joinBehavior);
+        if ($this->aUsuario === null && ($this->usuarioid != 0)) {
+            $this->aUsuario = ChildUsuarioQuery::create()->findPk($this->usuarioid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUsuario->addPrestamos($this);
+             */
+        }
 
-        return $this->getPrestamos($query, $con);
+        return $this->aUsuario;
     }
 
     /**
@@ -1538,11 +1857,28 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function clear()
     {
+        if (null !== $this->aTablaDibujo) {
+            $this->aTablaDibujo->removePrestamo($this);
+        }
+        if (null !== $this->aVideoBean) {
+            $this->aVideoBean->removePrestamo($this);
+        }
+        if (null !== $this->aLibro) {
+            $this->aLibro->removePrestamo($this);
+        }
+        if (null !== $this->aUsuario) {
+            $this->aUsuario->removePrestamo($this);
+        }
         $this->id = null;
-        $this->codigo = null;
-        $this->marca = null;
-        $this->especificaciones = null;
+        $this->usuarioid = null;
+        $this->libroid = null;
+        $this->videobeanid = null;
+        $this->tabladibujoid = null;
+        $this->fechareserva = null;
+        $this->fechaprestamo = null;
+        $this->fechadevolucion = null;
         $this->estado = null;
+        $this->sancion = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1561,14 +1897,12 @@ abstract class TablaDibujo implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collPrestamos) {
-                foreach ($this->collPrestamos as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        $this->collPrestamos = null;
+        $this->aTablaDibujo = null;
+        $this->aVideoBean = null;
+        $this->aLibro = null;
+        $this->aUsuario = null;
     }
 
     /**
@@ -1578,7 +1912,7 @@ abstract class TablaDibujo implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(TablaDibujoTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(PrestamoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

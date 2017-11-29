@@ -119,3 +119,37 @@ CREATE TABLE [VideoBean]
     UNIQUE ([Codigo]),
     UNIQUE ([Id])
 );
+
+-----------------------------------------------------------------------
+-- Prestamo
+-----------------------------------------------------------------------
+
+DROP TABLE IF EXISTS [Prestamo];
+
+CREATE TABLE [Prestamo]
+(
+    [Id] INTEGER NOT NULL,
+    [UsuarioId] INTEGER,
+    [LibroId] INTEGER,
+    [VideoBeanId] INTEGER,
+    [TablaDibujoId] INTEGER,
+    [FechaReserva] DATETIME,
+    [FechaPrestamo] DATETIME,
+    [FechaDevolucion] DATETIME,
+    [Estado] MEDIUMTEXT,
+    [Sancion] DECIMAL,
+    PRIMARY KEY ([Id]),
+    UNIQUE ([Id]),
+    FOREIGN KEY ([TablaDibujoId]) REFERENCES [TablaDibujo] ([Id])
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY ([VideoBeanId]) REFERENCES [VideoBean] ([Id])
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY ([LibroId]) REFERENCES [Libro] ([Id])
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY ([UsuarioId]) REFERENCES [Usuario] ([Id])
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
