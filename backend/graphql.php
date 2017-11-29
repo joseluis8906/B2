@@ -1033,65 +1033,35 @@ try {
               'Sancion' => ['type' => Type::float()]
             ],
             'resolve' => function ($root, $args) {
-              $prestamo = PrestamoQuery::create();
-              $prestamo->filterByUsuarioId($args['UsuarioId']);
-              if(isset($args['LibroId'])) {$prestamo->filterByLibroId($args['LibroId']);}
-              if(isset($args['VideoBeanId'])) {$prestamo->filterByVideoBeanId($args['VideoBeanId']);}
-              if(isset($args['TablaDibujoId'])) {$prestamo->filterByTablaDibujoId($args['TablaDibujoId']);}
-              $prestamo->filterByFechaReserva($args['FechaReserva']);
-              $prestamo->findOne();
 
-              if(is_null($prestamo)) {
-                $prestamo = new Prestamo();
-                $prestamo->setUsuarioId($args['UsuarioId']);
-                if(isset($args['LibroId'])) {$prestamo->setLibroId($args['LibroId']);}
-                if(isset($args['VideoBeanId'])) {$prestamo->setVideoBeanId($args['VideoBeanId']);}
-                if(isset($args['TablaDibujoId'])) {$prestamo->setTablaDibujoId($args['TablaDibujoId']);}
-                $prestamo->setFechaReserva($args['FechaReserva']);
-                $prestamo->setEstado('Reservado');
-                $prestamo->save();
+              $prestamo = new Prestamo();
+              $prestamo->setUsuarioId($args['UsuarioId']);
+              if(isset($args['LibroId'])) {$prestamo->setLibroId($args['LibroId']);}
+              if(isset($args['VideoBeanId'])) {$prestamo->setVideoBeanId($args['VideoBeanId']);}
+              if(isset($args['TablaDibujoId'])) {$prestamo->setTablaDibujoId($args['TablaDibujoId']);}
+              $prestamo->setFechaReserva($args['FechaReserva']);
+              $prestamo->setEstado('Reservado');
+              $prestamo->save();
+              $prestamo->reload();
 
-                $prestamo = PrestamoQuery::create();
-                $prestamo->filterByUsuarioId($args['UsuarioId']);
-                if(isset($args['LibroId'])) {$prestamo->filterByLibroId($args['LibroId']);}
-                if(isset($args['VideoBeanId'])) {$prestamo->filterByVideoBeanId($args['VideoBeanId']);}
-                if(isset($args['TablaDibujoId'])) {$prestamo->filterByTablaDibujoId($args['TablaDibujoId']);}
-                $prestamo->filterByFechaReserva($args['FechaReserva']);
-                $prestamo->findOne();
+              $R = new GQPrestamo([
+                'Id' => $prestamo->getId(),
+                "UsuarioId" => $prestamo->getUsuarioId(),
+                "LibroId" => $prestamo->getLibroId(),
+                "VideoBeanId" => $prestamo->getVideoBeanId(),
+                "TablaDibujoId" => $prestamo->getTablaDibujoId(),
+                "FechaReserva" => ($prestamo->getFechaReserva()) ? $prestamo->getFechaReserva()->format('Y-m-d') : null,
+                "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
+                "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
+                "Estado" => $prestamo->getEstado(),
+                "Sancion" => $prestamo->getSancion()
+              ]);
 
-                $R = new GQPrestamo([
-                  'Id' => $prestamo->getId(),
-                  "UsuarioId" => $prestamo->getUsuarioId(),
-                  "LibroId" => $prestamo->getLibroId(),
-                  "VideoBeanId" => $prestamo->getVideoBeanId(),
-                  "TablaDibujoId" => $prestamo->getTablaDibujoId(),
-                  "FechaReserva" => $prestamo->getFechaReserva(),
-                  "FechaPrestamo" => $prestamo->getFechaPrestamo(),
-                  "FechaDevolucion" => $prestamo->getFechaDevolucion(),
-                  "Estado" => $prestamo->getEstado(),
-                  "Sancion" => $prestamo->getSancion()
-                ]);
-                return $R;
-
-              } else {
-                $R = new GQPrestamo([
-                  'Id' => null,
-                  "UsuarioId" => null,
-                  "LibroId" => null,
-                  "VideoBeanId" => null,
-                  "TablaDibujoId" => null,
-                  "FechaReserva" => null,
-                  "FechaPrestamo" => null,
-                  "FechaDevolucion" => null,
-                  "Estado" => null,
-                  "Sancion" => null
-                ]);
-                return $R;
-              }
+              return $R;
             }
           ],
           'UpdatePrestamo' => [
-            'type' => $TablaDibujoHQL,
+            'type' => $PrestamoHQL,
             'args' => [
               'Id' => ['type' => Type::int()],
               'UsuarioId' => ['type' => Type::int()],
@@ -1109,9 +1079,9 @@ try {
 
               if($prestamo){
                 if(isset($args['FechaPrestamo'])) {$prestamo->setFechaPrestamo($args['FechaPrestamo']);}
-                if(isset($args['FechaDevolucion'])) {$tabladibujo->setFechaDevolucion($args['FechaDevolucion']);}
-                if(isset($args['Estado'])) {$tabladibujo->setEstado($args['Estado']);}
-                if(isset($args['Sancion'])) {$tabladibujo->setEstado($args['Sancion']);}
+                if(isset($args['FechaDevolucion'])) {$prestamo->setFechaDevolucion($args['FechaDevolucion']);}
+                if(isset($args['Estado'])) {$prestamo->setEstado($args['Estado']);}
+                if(isset($args['Sancion'])) {$prestamo->setSancion($args['Sancion']);}
                 $prestamo->save();
 
                 $R = new GQPrestamo([
@@ -1120,9 +1090,9 @@ try {
                   "LibroId" => $prestamo->getLibroId(),
                   "VideoBeanId" => $prestamo->getVideoBeanId(),
                   "TablaDibujoId" => $prestamo->getTablaDibujoId(),
-                  "FechaReserva" => $prestamo->getFechaReserva(),
-                  "FechaPrestamo" => $prestamo->getFechaPrestamo(),
-                  "FechaDevolucion" => $prestamo->getFechaDevolucion(),
+                  "FechaReserva" => ($prestamo->getFechaReserva()) ? $prestamo->getFechaReserva()->format('Y-m-d') : null,
+                  "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
+                  "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
                   "Estado" => $prestamo->getEstado(),
                   "Sancion" => $prestamo->getSancion()
                 ]);
@@ -1157,14 +1127,11 @@ try {
   $server = new StandardServer([
     'queryBatching' => true,
     'schema' => $schema
-
   ]);
 
   $server->handleRequest();
 
 } catch (\Exception $e) {
-
   print $e->getMessage();
   StandardServer::send500Error($e);
-
 }

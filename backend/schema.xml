@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="nochange">
   <table name="Grupo" idMethod="native" phpName="Grupo">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoincrement="true" required="true"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
     <unique name="Grupo_u_296ca2">
       <unique-column name="Nombre"/>
     </unique>
   </table>
   <table name="Libro" idMethod="native" phpName="Libro">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoincrement="true" required="true"/>
     <column name="Isbn" phpName="Isbn" type="LONGVARCHAR"/>
     <column name="Categoria" phpName="Categoria" type="LONGVARCHAR"/>
     <column name="Nombre" phpName="Nombre" type="LONGVARCHAR"/>
@@ -22,7 +22,7 @@
     </unique>
   </table>
   <table name="TablaDibujo" idMethod="native" phpName="TablaDibujo">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoincrement="true" required="true"/>
     <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
     <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
     <column name="Especificaciones" phpName="Especificaciones" type="LONGVARCHAR"/>
@@ -31,7 +31,7 @@
       <unique-column name="Codigo"/>
     </unique>
   </table>
-  <table name="Usuario" idMethod="native" phpName="Usuario">
+  <table name="Usuario" idMethod="native" phpName="Usuario" autoincrement="true" required="true">
     <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="UserName" phpName="Username" type="LONGVARCHAR"/>
     <column name="Password" phpName="Password" type="LONGVARCHAR"/>
@@ -68,7 +68,7 @@
     </unique>
   </table>
   <table name="VideoBean" idMethod="native" phpName="VideoBean">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoincrement="true" required="true"/>
     <column name="Codigo" phpName="Codigo" type="LONGVARCHAR"/>
     <column name="Marca" phpName="Marca" type="LONGVARCHAR"/>
     <column name="Modelo" phpName="Modelo" type="LONGVARCHAR"/>
@@ -80,7 +80,7 @@
     </unique>
   </table>
   <table name="Prestamo" idMethod="native" phpName="Prestamo">
-    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="Id" phpName="Id" type="INTEGER" primaryKey="true" autoincrement="true" required="true"/>
     <column name="UsuarioId" phpName="UsuarioId" type="INTEGER"/>
     <column name="LibroId" phpName="LibroId" type="INTEGER"/>
     <column name="VideoBeanId" phpName="VideoBeanId" type="INTEGER"/>

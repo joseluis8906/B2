@@ -128,7 +128,7 @@ DROP TABLE IF EXISTS [Prestamo];
 
 CREATE TABLE [Prestamo]
 (
-    [Id] INTEGER NOT NULL,
+    [Id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     [UsuarioId] INTEGER,
     [LibroId] INTEGER,
     [VideoBeanId] INTEGER,
@@ -138,7 +138,6 @@ CREATE TABLE [Prestamo]
     [FechaDevolucion] DATETIME,
     [Estado] MEDIUMTEXT,
     [Sancion] DECIMAL,
-    PRIMARY KEY ([Id]),
     UNIQUE ([Id]),
     FOREIGN KEY ([TablaDibujoId]) REFERENCES [TablaDibujo] ([Id])
         ON UPDATE CASCADE

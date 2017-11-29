@@ -1,0 +1,36 @@
+mutation UpdatePrestamo(
+  $Id: Int
+  $UsuarioId: Int
+  $LibroId: Int
+  $VideoBeanId: Int
+  $TablaDibujoId: Int
+	$FechaReserva: String
+	$FechaPrestamo: String
+	$FechaDevolucion: String
+	$Estado: String
+	$Sancion: Float
+){
+  UpdatePrestamo(
+		Id: $Id
+    UsuarioId: $UsuarioId
+		LibroId: $LibroId
+		VideoBeanId: $VideoBeanId
+		TablaDibujoId: $TablaDibujoId
+		FechaReserva: $FechaReserva
+		FechaPrestamo: $FechaPrestamo
+		FechaDevolucion: $FechaDevolucion
+		Estado: $Estado
+		Sancion: $Sancion
+  ) {
+    Id
+    UsuarioId
+    LibroId
+    VideoBeanId
+    TablaDibujoId
+    FechaReserva
+    FechaPrestamo
+    FechaDevolucion
+    Estado
+    Sancion
+  }
+}

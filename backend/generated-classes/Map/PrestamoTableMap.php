@@ -169,7 +169,7 @@ class PrestamoTableMap extends TableMap
         $this->setIdentifierQuoting(false);
         $this->setClassName('\\Prestamo');
         $this->setPackage('');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('UsuarioId', 'UsuarioId', 'INTEGER', 'Usuario', 'Id', false, null, null);
@@ -477,6 +477,10 @@ class PrestamoTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from Prestamo object
+        }
+
+        if ($criteria->containsKey(PrestamoTableMap::COL_ID) && $criteria->keyContainsValue(PrestamoTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.PrestamoTableMap::COL_ID.')');
         }
 
 
