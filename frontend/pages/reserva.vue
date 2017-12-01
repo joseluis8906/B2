@@ -110,6 +110,8 @@ import LIBROS from '~/queries/Libros.gql'
 import VIDEOBEANS from '~/queries/VideoBeans.gql'
 import TABLADIBUJOS from '~/queries/TablaDibujos.gql'
 
+import USUARIOS from '~/queries/Usuarios.gql'
+
 export default {
   data: () => ({
     snackbar: {
@@ -174,6 +176,10 @@ export default {
       Especificaciones: null,
       Estado: null,
     },
+    Usuario: {
+      Id: null,
+      UserName: null,
+    },
     rules: {
       required: (value) => !!value || 'Obligatorio.',
       email: (value) => {
@@ -189,6 +195,8 @@ export default {
     } else {
       var Roles = JSON.parse(sessionStorage.getItem('x-access-roles'))
       this.$store.commit('security/AddRoles', Roles);
+
+      this.$store.commit('security/SetUserName', sessionStorage.getItem('x-access-username'));
     }
   },
   mounted () {
@@ -265,6 +273,20 @@ export default {
         }
       }
     },
+    QUsuario: {
+      query: USUARIOS,
+      variables () {
+        return {
+          UserName: this.$store.state.security.UserName,
+        }
+      },
+      update (data) {
+        if(data.Usuarios.length > 0){
+          this.Usuario.Id = data.Usuarios[0].Id;
+          this.Usuario.UserName = data.Usuarios[0].UserName;
+        }
+      }
+    }
   },
   methods: {
     Reset () {
@@ -300,9 +322,20 @@ export default {
         Estado: null,
       }
     },
-    Reservar () {
-      this.Notificaciones('Error', 'Error en apartado')
-      this.Reset()
+    Reservar (Item) {
+      var Hoy = new Date(Date.now()).toISOString().split('T')[0];
+
+      const NewReserva = {
+        UsuarioId: this.Usuario.Id,
+        LibroId: this.Tipo === 'Libro' ? Item.Id : null,
+        VideoBeanId: this.Tipo === 'VideoBean' ? Item.Id : null,
+        TablaDibujoId: this.Tipo === 'Tabla de Dibujo' ? Item.Id : null,
+        FechaReserva: Hoy,
+        Estado: 'Reservado'
+      };
+      console.log(NewReserva);
+      this.Notificaciones('Error', 'Error en apartado');
+      this.Reset();
     },
     Notificaciones (Tipo, Message) {
       if(Tipo === 'Success'){
