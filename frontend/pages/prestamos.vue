@@ -61,6 +61,7 @@ v-layout( align-center justify-center )
 
               template(slot="items" scope="props")
                 td(class="text-xs-center") {{ props.index + 1 }}
+                td(class="text-xs-center") {{ props.item.Usuario.Nombre }} {{ props.item.Usuario.Apellido }}
                 td(class="text-xs-center") {{ props.item.Material }}
                 td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*16)+'px'}") {{ props.item.Codigo }}
                 td(class="text-xs-center" ) {{ props.item.FechaReserva }}
@@ -136,6 +137,7 @@ export default {
       ],
       Headers: [
         {text: 'N°', value: ''},
+        {text: 'Usuario', value: 'Usuario'},
         {text: 'Material', value: 'Material'},
         {text: 'Código', value: 'Codigo'},
         {text: 'F. de Reserva', value: 'FechaReserva'},
@@ -209,6 +211,7 @@ export default {
             let tmp = {};
             tmp.Id = res.data.Prestamos[i].Id;
             tmp.UsuarioId = res.data.Prestamos[i].UsuarioId;
+            tmp.Usuario = res.data.Prestamos[i].Usuario;
 
             if(res.data.Prestamos[i].LibroId !== null){
               tmp.Material = 'Libro';
@@ -255,6 +258,7 @@ export default {
 
             tmp.Id = res.data.Prestamos[i].Id;
             tmp.UsuarioId = res.data.Prestamos[i].UsuarioId;
+            tmp.Usuario = res.data.Prestamos[i].Usuario;
 
             if(res.data.Prestamos[i].LibroId !== null){
               tmp.Material = 'Libro';

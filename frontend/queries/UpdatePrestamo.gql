@@ -32,6 +32,11 @@ mutation UpdatePrestamo(
     FechaDevolucion
     Estado
     Sancion
+    Usuario{
+      Id
+      Nombre
+      Apellido
+    }
     Libro {
       Id
       Categoria
