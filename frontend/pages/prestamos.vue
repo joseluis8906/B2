@@ -258,14 +258,17 @@ export default {
             if(res.data.Prestamos[i].LibroId !== null){
               tmp.Material = 'Libro';
               tmp.Codigo = res.data.Prestamos[i].Libro.Isbn;
+              tmp.LibroId = res.data.Prestamos[i].Libro.Id;
             }
             else if(res.data.Prestamos[i].VideoBeanId !== null){
               tmp.Material = 'VideoBean';
               tmp.Codigo = res.data.Prestamos[i].VideoBean.Codigo;
+              tmp.VideoBeanId = res.data.Prestamos[i].VideoBean.Id;
             }
             else if(res.data.Prestamos[i].TablaDibujoId !== null){
               tmp.Material = 'Tabla de Dibujo';
               tmp.Codigo = res.data.Prestamos[i].TablaDibujo.Codigo;
+              tmp.TablaDibujoId = res.data.Prestamos[i].TablaDibujo.Id;
             }
 
             tmp.FechaReserva =  res.data.Prestamos[i].FechaReserva;
