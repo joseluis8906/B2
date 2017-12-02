@@ -111,7 +111,7 @@ app.get('/backup/', (req, res, next) => {
 
   exec(comando, (err, stdout, stderr) => {
     if (err) {
-      console.log(`stderr: ${stderr}`);
+      //console.log(`stderr: ${stderr}`);
       res.json({ Result: 0, Err: `Error generando backup.` });
     }
 
