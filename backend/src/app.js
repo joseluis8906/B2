@@ -41,9 +41,9 @@ app.post('/login/', (req, res, next) => {
           method: req.method,
           contentType: req.headers['content-type'],
           contentLength: req.headers['content-length'],
-          //referer : req.get('Referer') || '',
+          referer : req.get('Referer') || '',
           url: 'login.php',
-          //debug: true,
+          debug: true,
           queryString: req.originalUrl,
           body: req.body
       },
