@@ -92,6 +92,7 @@ h5.bold
 
 <script>
 import USUARIOS from '~/queries/Usuarios.gql';
+import PRESTAMOS from '~/queries/Prestamos.gql';
 
 export default {
   data () {
