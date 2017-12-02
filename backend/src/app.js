@@ -52,7 +52,6 @@ app.post('/login/', (req, res, next) => {
           //if(err){console.log(phpErrors)}
           var Data = JSON.parse(output);
           //console.log(output)
-          return;
           if(Data.Result === 1){
             Bcrypt.compare(Data.PlainPassword, Data.Password, (Err, Res) => {
               if(Res) {
