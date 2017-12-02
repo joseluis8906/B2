@@ -429,22 +429,22 @@ try {
                 $R = [];
 
                 foreach ($prestamos as $prestamo) {
-                    $R[] = new GQPrestamo([
-                      "Id" => $prestamo->getId(),
-                      "UsuarioId" => $prestamo->getUsuarioId(),
-                      "LibroId" => $prestamo->getLibroId(),
-                      "VideoBeanId" => $prestamo->getVideoBeanId(),
-                      "TablaDibujoId" => $prestamo->getTablaDibujoId(),
-                      "FechaReserva" => ($prestamo->getFechaReserva()) ? $prestamo->getFechaReserva()->format('Y-m-d') : null,
-                      "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
-                      "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
-                      "Estado" => $prestamo->getEstado(),
-                      "Sancion" => $prestamo->getSancion(),
-                      "Usuario" => ($prestamo->getUsuario()) ? $prestamo->getUsuario()->toArray() : null,
-                      "Libro" => ($prestamo->getLibro()) ? $prestamo->getLibro()->toArray() : null,
-                      "VideoBean" => ($prestamo->getVideoBean()) ? $prestamo->getVideoBean()->toArray() : null,
-                      "TablaDibujo" => ($prestamo->getTablaDibujo()) ? $prestamo->getTablaDibujo()->toArray() : null
-                    ]);
+                  $R[] = new GQPrestamo([
+                    "Id" => $prestamo->getId(),
+                    "UsuarioId" => $prestamo->getUsuarioId(),
+                    "LibroId" => $prestamo->getLibroId(),
+                    "VideoBeanId" => $prestamo->getVideoBeanId(),
+                    "TablaDibujoId" => $prestamo->getTablaDibujoId(),
+                    "FechaReserva" => ($prestamo->getFechaReserva()) ? $prestamo->getFechaReserva()->format('Y-m-d') : null,
+                    "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
+                    "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
+                    "Estado" => $prestamo->getEstado(),
+                    "Sancion" => $prestamo->getSancion(),
+                    "Usuario" => ($prestamo->getUsuario()) ? $prestamo->getUsuario()->toArray() : null,
+                    "Libro" => ($prestamo->getLibro()) ? $prestamo->getLibro()->toArray() : null,
+                    "VideoBean" => ($prestamo->getVideoBean()) ? $prestamo->getVideoBean()->toArray() : null,
+                    "TablaDibujo" => ($prestamo->getTablaDibujo()) ? $prestamo->getTablaDibujo()->toArray() : null
+                  ]);
                 }
                 return $R;
               }
@@ -806,7 +806,7 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $libro = LibroQuery::create()->filterByIsbn($args['Isbn'])->findOne();
+              $libro = LibroQuery::create()->filterById($args['Id'])->findOne();
 
               if($libro){
                 if(isset($args['Categoria'])) {$libro->setCategoria($args['Categoria']);}
@@ -910,7 +910,7 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $videobean = VideoBeanQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $videobean = VideoBeanQuery::create()->filterById($args['Id'])->findOne();
 
               if($videobean){
                 if(isset($args['Marca'])) {$videobean->setMarca($args['Marca']);}
@@ -998,7 +998,7 @@ try {
               'Estado' => ['type' => Type::string()]
             ],
             'resolve' => function ($root, $args) {
-              $tabladibujo = TablaDibujoQuery::create()->filterByCodigo($args['Codigo'])->findOne();
+              $tabladibujo = TablaDibujoQuery::create()->filterById($args['Id'])->findOne();
 
               if($tabladibujo){
                 if(isset($args['Marca'])) {$tabladibujo->setMarca($args['Marca']);}
@@ -1062,7 +1062,11 @@ try {
                 "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
                 "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
                 "Estado" => $prestamo->getEstado(),
-                "Sancion" => $prestamo->getSancion()
+                "Sancion" => $prestamo->getSancion(),
+                "Usuario" => ($prestamo->getUsuario()) ? $prestamo->getUsuario()->toArray() : null,
+                "Libro" => ($prestamo->getLibro()) ? $prestamo->getLibro()->toArray() : null,
+                "VideoBean" => ($prestamo->getVideoBean()) ? $prestamo->getVideoBean()->toArray() : null,
+                "TablaDibujo" => ($prestamo->getTablaDibujo()) ? $prestamo->getTablaDibujo()->toArray() : null
               ]);
 
               return $R;
@@ -1102,7 +1106,11 @@ try {
                   "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
                   "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
                   "Estado" => $prestamo->getEstado(),
-                  "Sancion" => $prestamo->getSancion()
+                  "Sancion" => $prestamo->getSancion(),
+                  "Usuario" => ($prestamo->getUsuario()) ? $prestamo->getUsuario()->toArray() : null,
+                  "Libro" => ($prestamo->getLibro()) ? $prestamo->getLibro()->toArray() : null,
+                  "VideoBean" => ($prestamo->getVideoBean()) ? $prestamo->getVideoBean()->toArray() : null,
+                  "TablaDibujo" => ($prestamo->getTablaDibujo()) ? $prestamo->getTablaDibujo()->toArray() : null
                 ]);
                 return $R;
 

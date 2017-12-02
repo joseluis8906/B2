@@ -30,5 +30,21 @@ mutation CreatePrestamo(
     FechaDevolucion
     Estado
     Sancion
+    Libro {
+      Id
+      Categoria
+      Isbn
+      Nombre
+    }
+    VideoBean {
+      Id
+      Codigo
+      Marca
+    }
+    TablaDibujo {
+      Id
+      Codigo
+      Marca
+    }
   }
 }

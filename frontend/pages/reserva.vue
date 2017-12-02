@@ -107,8 +107,13 @@ v-layout( align-center justify-center )
 
 //Queries
 import LIBROS from '~/queries/Libros.gql';
+import UPDATE_LIBRO from '~/queries/UpdateLibro.gql';
+
 import VIDEOBEANS from '~/queries/VideoBeans.gql';
+import UPDATE_VIDEOBEAN from '~/queries/UpdateVideoBean.gql';
+
 import TABLADIBUJOS from '~/queries/TablaDibujos.gql';
+import UPDATE_TABLA_DIBUJO from '~/queries/UpdateTablaDibujo.gql';
 
 import USUARIOS from '~/queries/Usuarios.gql';
 
@@ -347,11 +352,104 @@ export default {
           Estado: NewReserva.Estado
         },
         update: (store, {data: res}) => {
-          console.log(res.CreatePrestamo);
+          console.log('crear el mqtt');
         }
       });
 
-      this.Notificaciones('Error', 'Error en apartado');
+      var Id = null;
+      var Mutation = null;
+
+      if(NewReserva.LibroId !== null){
+        Id = NewReserva.LibroId;
+        Mutation = UPDATE_LIBRO;
+      }
+      else if(NewReserva.VideoBeanId !== null){
+        Id = NewReserva.VideoBeanId;
+        Mutation = UPDATE_VIDEOBEAN;
+      }
+      else if(NewReserva.TablaDibujoId !== null){
+        Id = NewReserva.TablaDibujoId;
+        Mutation = UPDATE_TABLA_DIBUJO;
+      }
+
+      this.$apollo.mutate({
+        mutation: Mutation,
+        variables: {
+          Id: Id,
+          Estado: 'No Disponible'
+        },
+        update: (store, {data: res}) => {
+          console.log(res);
+          if(res.UpdateLibro){
+
+            try{
+              var data = store.readQuery({
+                query: LIBROS
+              });
+
+              for(let i=0; i < data.Libros.length; i++){
+                if(data.Libros[i].Id === res.UpdateLibro.Id){
+                  data.Libros[i] = res.UpdateLibro;
+                }
+              }
+
+              store.writeQuery({
+                query: LIBROS,
+                data
+              });
+            }
+            catch (Err){console.log(Err);}
+
+          }
+          else if(res.UpdateVideoBean){
+
+            try{
+              var data = store.readQuery({
+                query: VIDEOBEANS
+              });
+
+              for(let i=0; i < data.VideoBeans.length; i++){
+                if(data.VideoBeans[i].Id === res.UpdateVideoBean.Id){
+                  data.VideoBeans[i] = res.UpdateVideoBean;
+                }
+              }
+
+              store.writeQuery({
+                query: VIDEOBEANS,
+                data
+              });
+            }
+
+            catch (Err){console.log(Err);}
+
+          }
+          else if(res.UpdateTablaDibujo){
+
+            try{
+              var data = store.readQuery({
+                query: TABLADIBUJOS
+              });
+
+              for(let i=0; i < data.TablaDibujos.length; i++){
+                if(data.TablaDibujos[i].Id === res.UpdateTablaDibujo.Id){
+                  data.TablaDibujos[i] = res.UpdateTablaDibujo;
+                }
+              }
+
+              store.writeQuery({
+                query: TABLADIBUJOS,
+                data
+              });
+            }
+
+            catch (Err){console.log(Err);}
+
+          }
+
+        }
+      });
+
+      this.Notificaciones('Success', 'Apartado exitoso.');
       this.Reset();
     },
     Notificaciones (Tipo, Message) {

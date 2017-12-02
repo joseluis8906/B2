@@ -46,13 +46,10 @@ v-layout( align-center justify-center )
             v-select( label="Usuario"
                       :items="Usuarios"
                       v-show="Tipo==='Por Usuario'"
-                      v-model="Usuario"
+                      v-model="UsuarioId"
                       item-text="Busqueda"
                       item-value="Id"
                       autocomplete )
-
-            v-select( label="Mes"
-                      :items="Meses" )
 
             v-data-table(v-bind:headers="Headers"
                       :items="Items"
@@ -63,23 +60,25 @@ v-layout( align-center justify-center )
                   class="text-xs-center") {{ header.text }}
 
               template(slot="items" scope="props")
-                td(class="text-xs-center" :style="{minWidth: ''+(props.index.toString().length*12)+'px'}") {{ props.index + 1 }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Material.length*12)+'px'}") {{ props.item.Material }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*12)+'px'}") {{ props.item.Codigo }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.FechaReserva.length*12)+'px'}") {{ props.item.FechaReserva }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.FechaPrestamo.length*12)+'px'}") {{ props.item.FechaPrestamo }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.FechaDevolucion.length*12)+'px'}") {{ props.item.FechaDevolucion }}
-                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Sancion.length*12)+'px'}") {{ props.item.Sancion }}
+                td(class="text-xs-center") {{ props.index + 1 }}
+                td(class="text-xs-center") {{ props.item.Material }}
+                td(class="text-xs-center" :style="{minWidth: ''+(props.item.Codigo.length*16)+'px'}") {{ props.item.Codigo }}
+                td(class="text-xs-center" ) {{ props.item.FechaReserva }}
+                td(class="text-xs-center") {{ props.item.FechaPrestamo }}
+                td(class="text-xs-center") {{ props.item.FechaDevolucion }}
+                td(class="text-xs-center") {{ props.item.Sancion }}
                 td(class="text-xs-center")
-                  v-btn(small icon class="teal" dark @click.native="Prestar(props.item)")
+                  v-btn(small icon class="teal" dark @click.native="Prestar(props.item)" :disabled="DisablePrestar(props.item.Estado)")
                     v-icon compare_arrows
                 td(class="text-xs-center")
-                  v-btn(small icon class="teal" dark @click.native="Devolver(props.item)")
-                    v-icon compare_arrows
+                  v-btn(small icon class="teal" dark @click.native="Devolver(props.item)" :disabled="DisableDevolver(props.item.Estado)")
+                    v-icon autorenew
+
       v-card-actions
         v-spacer
         v-btn( dark @click.native="Reset" ) Cancelar
         v-btn( dark primary @click.native="Buscar" ) Buscar
+
 </template>
 
 <style lang="stylus" scoped>
@@ -94,6 +93,17 @@ h5.bold
 import USUARIOS from '~/queries/Usuarios.gql';
 import PRESTAMOS from '~/queries/Prestamos.gql';
 
+import UPDATE_PRESTAMO from '~/queries/UpdatePrestamo.gql';
+
+import LIBROS from '~/queries/Libros.gql';
+import UPDATE_LIBRO from '~/queries/UpdateLibro.gql';
+
+import VIDEOBEANS from '~/queries/VideoBeans.gql';
+import UPDATE_VIDEOBEAN from '~/queries/UpdateVideoBean.gql';
+
+import TABLADIBUJOS from '~/queries/TablaDibujos.gql';
+import UPDATE_TABLA_DIBUJO from '~/queries/UpdateTablaDibujo.gql';
+
 export default {
   data () {
     return {
@@ -104,7 +114,7 @@ export default {
         text: 'Cargando'
       },
       Tipo: null,
-      Usuario: null,
+      UsuarioId: null,
       Usuarios: [],
       Tipos: [
         'Todos',
@@ -182,7 +192,9 @@ export default {
   },
   methods: {
     Reset () {
-
+      this.Items = [];
+      this.Tipo = null;
+      this.UsuarioId = null;
     },
     Buscar () {
       if(this.Tipo === 'Todos'){
@@ -190,28 +202,263 @@ export default {
         this.$apollo.query({
           query: PRESTAMOS
         }).then(res => {
-          console.log(res.data.Prestamos);
+
+          this.Items = [];
+
+          for(let i=0; i<res.data.Prestamos.length; i++){
+            let tmp = {};
+            tmp.Id = res.data.Prestamos[i].Id;
+            tmp.UsuarioId = res.data.Prestamos[i].UsuarioId;
+
+            if(res.data.Prestamos[i].LibroId !== null){
+              tmp.Material = 'Libro';
+              tmp.Codigo = res.data.Prestamos[i].Libro.Isbn;
+              tmp.LibroId = res.data.Prestamos[i].Libro.Id;
+            }
+            else if(res.data.Prestamos[i].VideoBeanId !== null){
+              tmp.Material = 'VideoBean';
+              tmp.Codigo = res.data.Prestamos[i].VideoBean.Codigo;
+              tmp.VideoBeanId = res.data.Prestamos[i].VideoBean.Id;
+            }
+            else if(res.data.Prestamos[i].TablaDibujoId !== null){
+              tmp.Material = 'Tabla de Dibujo';
+              tmp.Codigo = res.data.Prestamos[i].TablaDibujo.Codigo;
+              tmp.TablaDibujoId = res.data.Prestamos[i].TablaDibujo.Id;
+            }
+
+            tmp.FechaReserva =  res.data.Prestamos[i].FechaReserva;
+            tmp.FechaPrestamo = res.data.Prestamos[i].FechaPrestamo;
+            tmp.FechaDevolucion = res.data.Prestamos[i].FechaDevolucion;
+
+            tmp.Estado = res.data.Prestamos[i].Estado;
+            tmp.Sancion = res.data.Prestamos[i].Sancion;
+
+            this.Items.push(tmp);
+          }
+
         });
 
       }else{
 
         this.$apollo.query({
           query: PRESTAMOS,
-          variables:{
-            UsuarioId: this.Usuario.Id
+          variables: {
+            UsuarioId: this.UsuarioId
           }
         }).then(res => {
-          console.log(res.data.Prestamos);
+
+          this.Items = [];
+
+          for(let i=0; i<res.data.Prestamos.length; i++){
+            let tmp = {};
+
+            tmp.Id = res.data.Prestamos[i].Id;
+            tmp.UsuarioId = res.data.Prestamos[i].UsuarioId;
+
+            if(res.data.Prestamos[i].LibroId !== null){
+              tmp.Material = 'Libro';
+              tmp.Codigo = res.data.Prestamos[i].Libro.Isbn;
+            }
+            else if(res.data.Prestamos[i].VideoBeanId !== null){
+              tmp.Material = 'VideoBean';
+              tmp.Codigo = res.data.Prestamos[i].VideoBean.Codigo;
+            }
+            else if(res.data.Prestamos[i].TablaDibujoId !== null){
+              tmp.Material = 'Tabla de Dibujo';
+              tmp.Codigo = res.data.Prestamos[i].TablaDibujo.Codigo;
+            }
+
+            tmp.FechaReserva =  res.data.Prestamos[i].FechaReserva;
+            tmp.FechaPrestamo = res.data.Prestamos[i].FechaPrestamo;
+            tmp.FechaDevolucion = res.data.Prestamos[i].FechaDevolucion;
+
+            tmp.Estado = res.data.Prestamos[i].Estado;
+            tmp.Sancion = res.data.Prestamos[i].Sancion;
+
+            this.Items.push(tmp);
+          }
+
         });
 
       }
     },
-    Prestar () {
+    Prestar (Item) {
+
+      var Hoy = new Date(Date.now()).toISOString().split('T')[0];
+
+      this.$apollo.mutate({
+        mutation: UPDATE_PRESTAMO,
+        variables: {
+          Id: Item.Id,
+          Estado: "Prestado",
+          FechaPrestamo: Hoy
+        },
+        update: (store, {data: res}) => {
+
+          try{
+            var data = store.readQuery({
+              query: PRESTAMOS
+            });
+
+            for(let i=0; i < data.Prestamos.length; i++){
+              if(data.Prestamos[i].Id === res.UpdatePrestamo.Id){
+                data.Prestamos[i] = res.UpdatePrestamo;
+              }
+            }
+
+            store.writeQuery({
+              query: PRESTAMOS,
+              data
+            });
+          }
+          catch (Err){console.log(Err);}
+
+          try{
+            var data = store.readQuery({
+              query: PRESTAMOS,
+              variables: {
+                UsuarioId: this.UsuarioId
+              }
+            });
+
+            for(let i=0; i < data.Prestamos.length; i++){
+              if(data.Prestamos[i].Id === res.UpdatePrestamo.Id){
+                data.Prestamos[i] = res.UpdatePrestamo;
+              }
+            }
+
+            store.writeQuery({
+              query: PRESTAMOS,
+              variables: {
+                UsuarioId: this.UsuarioId
+              },
+              data
+            });
+          }
+          catch (Err){console.log(Err);}
+
+        }
+      }).then(() => {
+        this.Buscar();
+      });
 
     },
-    Devolver () {
+    Devolver (Item) {
+
+      var Hoy = new Date(Date.now()).toISOString().split('T')[0];
+
+      var FechaPrestamo = Item.FechaPrestamo;
+
+      var Dias = (new Date(Hoy+'T00:00:00') - new Date(FechaPrestamo+'T00:00:00'))/24/60/60/1000;
+
+      var Sancion = null;
+
+      if(Dias > 3){
+        Sancion = 25000;
+      }
+
+      this.$apollo.mutate({
+        mutation: UPDATE_PRESTAMO,
+        variables: {
+          Id: Item.Id,
+          Estado: "Devuelto",
+          FechaDevolucion: Hoy,
+          Sancion: Sancion
+        },
+        update: (store, {data: res}) => {
+
+          try{
+            var data = store.readQuery({
+              query: PRESTAMOS
+            });
+
+            for(let i=0; i < data.Prestamos.length; i++){
+              if(data.Prestamos[i].Id === res.UpdatePrestamo.Id){
+                data.Prestamos[i] = res.UpdatePrestamo;
+              }
+            }
+
+            store.writeQuery({
+              query: PRESTAMOS,
+              data
+            });
+          }
+          catch (Err){console.log(Err);}
+
+          try{
+            var data = store.readQuery({
+              query: PRESTAMOS,
+              variables: {
+                UsuarioId: this.UsuarioId
+              }
+            });
+
+            for(let i=0; i < data.Prestamos.length; i++){
+              if(data.Prestamos[i].Id === res.UpdatePrestamo.Id){
+                data.Prestamos[i] = res.UpdatePrestamo;
+              }
+            }
+
+            store.writeQuery({
+              query: PRESTAMOS,
+              variables: {
+                UsuarioId: this.UsuarioId
+              },
+              data
+            });
+          }
+          catch (Err){console.log(Err);}
+
+        }
+      }).then(() => {
+        this.Buscar();
+
+        var Id = null;
+        var Mutation = null;
+
+        if(Item.LibroId !== null){
+          Id = Item.LibroId;
+          Mutation = UPDATE_LIBRO;
+        }
+        else if(Item.VideoBeanId !== null){
+          Id = Item.VideoBeanId;
+          Mutation = UPDATE_VIDEOBEAN;
+        }
+        else if(Item.TablaDibujoId !== null){
+          Id = Item.TablaDibujoId;
+          Mutation = UPDATE_TABLA_DIBUJO;
+        }
+
+        this.$apollo.mutate({
+          mutation: Mutation,
+          variables: {
+            Id: Id,
+            Estado: 'Disponible'
+          },
+          update: (store, {data: res}) => {
+            console.log(res);
+          }
+        });
+
+      });
 
     },
+    DisablePrestar(Estado){
+      if(Estado === 'Prestado' || Estado === 'Devuelto'){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
+    DisableDevolver(Estado){
+      if(Estado === 'Reservado' || Estado === 'Devuelto'){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
   },
   components: {
   }
