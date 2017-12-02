@@ -106,11 +106,13 @@ v-layout( align-center justify-center )
 <script>
 
 //Queries
-import LIBROS from '~/queries/Libros.gql'
-import VIDEOBEANS from '~/queries/VideoBeans.gql'
-import TABLADIBUJOS from '~/queries/TablaDibujos.gql'
+import LIBROS from '~/queries/Libros.gql';
+import VIDEOBEANS from '~/queries/VideoBeans.gql';
+import TABLADIBUJOS from '~/queries/TablaDibujos.gql';
 
-import USUARIOS from '~/queries/Usuarios.gql'
+import USUARIOS from '~/queries/Usuarios.gql';
+
+import CREATE_PRESTAMO from '~/queries/CreatePrestamo.gql';
 
 export default {
   data: () => ({
@@ -333,7 +335,22 @@ export default {
         FechaReserva: Hoy,
         Estado: 'Reservado'
       };
-      console.log(NewReserva);
+
+      this.$apollo.mutate({
+        mutation: CREATE_PRESTAMO,
+        variables: {
+          UsuarioId: NewReserva.UsuarioId,
+          LibroId: NewReserva.LibroId,
+          VideoBeanId: NewReserva.VideoBeanId,
+          TablaDibujoId: NewReserva.TablaDibujoId,
+          FechaReserva: NewReserva.FechaReserva,
+          Estado: NewReserva.Estado
+        },
+        update: (store, {data: res}) => {
+          console.log(res.CreatePrestamo);
+        }
+      });
+
       this.Notificaciones('Error', 'Error en apartado');
       this.Reset();
     },

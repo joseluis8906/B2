@@ -186,7 +186,11 @@ try {
       'FechaPrestamo' => ['type' => Type::string()],
       'FechaDevolucion' => ['type' => Type::string()],
       'Estado' => ['type' => Type::string()],
-      'Sancion' => ['type' => Type::float()]
+      'Sancion' => ['type' => Type::float()],
+      'Usuario' => ['type' => $UsuarioHQL],
+      'Libro' => ['type' => $LibroHQL],
+      'VideoBean' => ['type' => $VideoBeanHQL],
+      'TablaDibujo' => ['type' => $TablaDibujoHQL]
     ]
   ]);
 
@@ -431,11 +435,15 @@ try {
                       "LibroId" => $prestamo->getLibroId(),
                       "VideoBeanId" => $prestamo->getVideoBeanId(),
                       "TablaDibujoId" => $prestamo->getTablaDibujoId(),
-                      "FechaReserva" => $prestamo->getFechaReserva()->format('Y-m-d'),
-                      "FechaPrestamo" => $prestamo->getFechaPrestamo()->format('Y-m-d'),
-                      "FechaDevolucion" => $prestamo->getFechaDevolucion()->format('Y-m-d'),
+                      "FechaReserva" => ($prestamo->getFechaReserva()) ? $prestamo->getFechaReserva()->format('Y-m-d') : null,
+                      "FechaPrestamo" => ($prestamo->getFechaPrestamo()) ? $prestamo->getFechaPrestamo()->format('Y-m-d') : null,
+                      "FechaDevolucion" => ($prestamo->getFechaDevolucion()) ? $prestamo->getFechaDevolucion()->format('Y-m-d') : null,
                       "Estado" => $prestamo->getEstado(),
-                      "Sancion" => $prestamo->getSancion()
+                      "Sancion" => $prestamo->getSancion(),
+                      "Usuario" => ($prestamo->getUsuario()) ? $prestamo->getUsuario()->toArray() : null,
+                      "Libro" => ($prestamo->getLibro()) ? $prestamo->getLibro()->toArray() : null,
+                      "VideoBean" => ($prestamo->getVideoBean()) ? $prestamo->getVideoBean()->toArray() : null,
+                      "TablaDibujo" => ($prestamo->getTablaDibujo()) ? $prestamo->getTablaDibujo()->toArray() : null
                     ]);
                 }
                 return $R;
@@ -1118,7 +1126,7 @@ try {
       ],
   ]);
 
-  
+
   // See docs on schema options:
   // http://webonyx.github.io/graphql-php/type-system/schema/#configuration-options
   $schema = new Schema([
