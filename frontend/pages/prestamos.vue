@@ -91,8 +91,8 @@ h5.bold
 
 <script>
 import USUARIOS from '~/queries/Usuarios.gql';
-import PRESTAMOS from '~/queries/Prestamos.gql';
 
+import PRESTAMOS from '~/queries/Prestamos.gql';
 import UPDATE_PRESTAMO from '~/queries/UpdatePrestamo.gql';
 
 import LIBROS from '~/queries/Libros.gql';
@@ -233,6 +233,7 @@ export default {
             tmp.Estado = res.data.Prestamos[i].Estado;
             tmp.Sancion = res.data.Prestamos[i].Sancion;
 
+
             this.Items.push(tmp);
           }
 
@@ -277,6 +278,7 @@ export default {
 
             tmp.Estado = res.data.Prestamos[i].Estado;
             tmp.Sancion = res.data.Prestamos[i].Sancion;
+
 
             this.Items.push(tmp);
           }
@@ -413,36 +415,35 @@ export default {
           catch (Err){console.log(Err);}
 
         }
+      });
+
+      var Id = null;
+      var Mutation = null;
+
+      if(Item.LibroId !== undefined){
+        Id = Item.LibroId;
+        Mutation = UPDATE_LIBRO;
+      }
+      else if(Item.VideoBeanId !== undefined){
+        Id = Item.VideoBeanId;
+        Mutation = UPDATE_VIDEOBEAN;
+      }
+      else if(Item.TablaDibujoId !== undefined){
+        Id = Item.TablaDibujoId;
+        Mutation = UPDATE_TABLA_DIBUJO;
+      }
+
+      this.$apollo.mutate({
+        mutation: Mutation,
+        variables: {
+          Id: Id,
+          Estado: 'Disponible'
+        },
+        update: (store, {data: res}) => {
+          console.log(res);
+        }
       }).then(() => {
         this.Buscar();
-
-        var Id = null;
-        var Mutation = null;
-
-        if(Item.LibroId !== null){
-          Id = Item.LibroId;
-          Mutation = UPDATE_LIBRO;
-        }
-        else if(Item.VideoBeanId !== null){
-          Id = Item.VideoBeanId;
-          Mutation = UPDATE_VIDEOBEAN;
-        }
-        else if(Item.TablaDibujoId !== null){
-          Id = Item.TablaDibujoId;
-          Mutation = UPDATE_TABLA_DIBUJO;
-        }
-
-        this.$apollo.mutate({
-          mutation: Mutation,
-          variables: {
-            Id: Id,
-            Estado: 'Disponible'
-          },
-          update: (store, {data: res}) => {
-            console.log(res);
-          }
-        });
-
       });
 
     },
