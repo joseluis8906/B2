@@ -78,6 +78,7 @@ v-layout( align-center justify-center )
       v-card-actions
         v-spacer
         v-btn( dark @click.native="Reset" ) Cancelar
+        v-btn( dark @click.native="Generar" class="mt-0 blue" ) Informe
         v-btn( dark primary @click.native="Buscar" ) Buscar
 
 </template>
@@ -193,6 +194,9 @@ export default {
     }
   },
   methods: {
+    Generar() {
+      this.$router.push('/reporte/prestamos')
+    },
     Reset () {
       this.Items = [];
       this.Tipo = null;

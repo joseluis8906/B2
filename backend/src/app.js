@@ -1,10 +1,12 @@
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser')
-import path from 'path'
+import path from 'path';
+import fs from 'fs';
 import bodyParser from 'body-parser';
 import Bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
+const { exec } = require('child_process');
 
 var rootDir = path.resolve('.') + '/'
 var PHPFPM = require('node-phpfpm-framework');
@@ -100,6 +102,34 @@ app.use('/graphql', function(req, res, next) {
             next();
     });
 
+});
+
+app.get('/backup/', (req, res, next) => {
+
+  var filePath = (path.resolve('.') + '/')+'db/';
+  var comando = 'sqlite3 '+filePath+'Db.sqlite .dump > ' + filePath + 'backup.sql';
+
+  exec(comando, (err, stdout, stderr) => {
+    if (err) {
+      console.log(`stderr: ${stderr}`);
+      res.json({ Result: 0, Err: `Error generando backup.` });
+    }
+
+    // the *entire* stdout and stderr (buffered)
+    //console.log(`stdout: ${stdout}`);
+    //console.log(`stderr: ${stderr}`);
+
+    var stat = fs.statSync(filePath+'backup.sql');
+    //var file = fs.readFile(filePath+'backup.sql', 'binary');
+
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/sql');
+    res.setHeader('Content-Disposition', 'attachment; filename=backup.sql');
+    /*res.write(file, 'binary');
+    res.end();*/
+    res.sendFile(filePath+'backup.sql');
+
+  });
 });
 
 app.listen(3002, function (Err) {
