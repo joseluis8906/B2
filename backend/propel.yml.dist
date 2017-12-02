@@ -9,16 +9,16 @@
 propel:
     paths:
         # The directory where Propel expects to find your `schema.xml` file.
-        schemaDir: /home/jose/Developments/b2/backend
+        schemaDir: /home/unixjs/B2/backend
 
         # The directory where Propel should output generated object model classes.
-        phpDir: /home/jose/Developments/b2/backend/generated-classes
+        phpDir: /home/unixjs/B2/backend/generated-classes
 
 #   database:
 #       connections:
 #           default:
 #               adapter: sqlite
-#               dsn: sqlite:/home/jose/Developments/b2/backend/db/Db.sqlite
+#               dsn: sqlite:/home/unixjs/B2/backend/db/Db.sqlite
 #               user: jose
 #               password:
 #               settings:
